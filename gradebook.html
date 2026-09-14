@@ -196,6 +196,9 @@
       border: 2px solid var(--border); border-radius: 8px;
       font-family: var(--font-body); font-size: 0.9rem;
     }
+    .form-group input:focus, .form-group select:focus {
+      outline: none; border-color: var(--secondary);
+    }
     .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; }
     .toast {
       position: fixed; bottom: 1.5rem; right: 1.5rem;
@@ -301,6 +304,17 @@ function loadData() {
       }
     } catch (e) { }
   }
+}
+
+function saveInstructorSettings() {
+  try {
+    const raw = localStorage.getItem(GB.instructorKey);
+    let stored = {};
+    if (raw) stored = JSON.parse(raw);
+    stored.settings = { ...(stored.settings || {}), ...GB.state.settings };
+    stored.students = GB.state.students;
+    localStorage.setItem(GB.instructorKey, JSON.stringify(stored));
+  } catch (e) { console.warn('Save failed', e); }
 }
 
 function toast(msg, type = '') {
@@ -437,6 +451,7 @@ function render() {
         <div class="toolbar-right">
           <button class="btn btn-outline btn-sm" onclick="openStudentApp()">🩺 Student App</button>
           <button class="btn btn-outline btn-sm" onclick="window.location.href='instructor-dashboard.html'">👨‍🏫 Dashboard</button>
+          <button class="btn btn-outline btn-sm" onclick="openInstructorModal()">✏️ Edit Instructor</button>
         </div>
       </div>
       <div class="empty-state">
@@ -478,6 +493,8 @@ function renderToolbar() {
       <div class="toolbar-right">
         <button class="btn btn-outline btn-sm" onclick="openStudentApp()">🩺 Student App</button>
         <button class="btn btn-outline btn-sm" onclick="window.location.href='instructor-dashboard.html'">👨‍🏫 Dashboard</button>
+        <button class="btn btn-outline btn-sm" onclick="openInstructorModal()">✏️ Edit Instructor</button>
+        <button class="btn btn-outline btn-sm" onclick="openCourseModal()">📚 Edit Course</button>
         <button class="btn btn-outline btn-sm" onclick="openWeightsModal()">⚖️ Weights</button>
         <button class="btn btn-secondary btn-sm" onclick="exportCSV()">📤 Export CSV</button>
         <button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ Print</button>
@@ -712,6 +729,66 @@ function exportCSV() {
   toast('CSV exported successfully.', 'success');
 }
 
+function openInstructorModal() {
+  const s = GB.state.settings;
+  document.getElementById('modalTitle').textContent = '✏️ Edit Instructor Information';
+  document.getElementById('modalBody').innerHTML = `
+    <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1rem;">
+      Change the Clinical Instructor name that appears on the class record and signature block.
+    </p>
+    <div class="form-group">
+      <label>Clinical Instructor Name</label>
+      <input type="text" id="editInstructorName" value="${escapeHtml(s.instructorName)}" placeholder="JEMUEL C. MARI, MAN, RN, LPT" />
+      <p style="font-size:0.75rem;color:var(--gray);margin-top:0.35rem;">Include credentials (e.g., MAN, RN, LPT)</p>
+    </div>
+    <div class="form-group">
+      <label>Course Name</label>
+      <input type="text" id="editCourseName" value="${escapeHtml(s.courseName)}" placeholder="NCM 101B Lab — Renal (KUB) Assessment" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>School Year</label>
+        <input type="text" id="editSchoolYear" value="${escapeHtml(s.schoolYear)}" placeholder="2025–2026" />
+      </div>
+      <div class="form-group">
+        <label>Semester</label>
+        <input type="text" id="editSemester" value="${escapeHtml(s.semester)}" placeholder="1st Semester" />
+      </div>
+    </div>
+    <div class="flex gap-1" style="margin-top:1rem;">
+      <button class="btn btn-primary" onclick="saveInstructorSettingsFromModal()">💾 Save Changes</button>
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function openCourseModal() {
+  openInstructorModal();
+}
+
+function saveInstructorSettingsFromModal() {
+  const name = document.getElementById('editInstructorName').value.trim();
+  const course = document.getElementById('editCourseName').value.trim();
+  const sy = document.getElementById('editSchoolYear').value.trim();
+  const sem = document.getElementById('editSemester').value.trim();
+
+  if (!name) {
+    toast('Instructor name cannot be empty.', 'error');
+    return;
+  }
+
+  GB.state.settings.instructorName = name;
+  GB.state.settings.courseName = course || GB.state.settings.courseName;
+  GB.state.settings.schoolYear = sy || GB.state.settings.schoolYear;
+  GB.state.settings.semester = sem || GB.state.settings.semester;
+
+  saveInstructorSettings();
+  closeModal();
+  toast('✅ Instructor information updated.', 'success');
+  render();
+}
+
 function openWeightsModal() {
   const w = GB.state.settings;
   document.getElementById('modalTitle').textContent = '⚖️ Adjust Grade Weights';
@@ -755,6 +832,7 @@ function saveWeights() {
   GB.state.settings.unitQuizWeight = parseInt(document.getElementById('w_unitavg').value, 10) || 0;
   GB.state.settings.gamesWeight = parseInt(document.getElementById('w_games').value, 10) || 0;
   GB.state.settings.capstoneWeight = parseInt(document.getElementById('w_capstone').value, 10) || 0;
+  saveInstructorSettings();
   closeModal();
   toast('Weights saved.', 'success');
   render();
