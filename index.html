@@ -1,0 +1,2490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0D7377" />
+  <meta name="description" content="Renal (KUB) Assessment Mastery App for 3rd Year BS Nursing Students. Developed by JEMUEL C. MARI, MAN, RN, LPT — Tarlac State University." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <title>🩺 Renal (KUB) Assessment Mastery</title>
+  <style>
+    :root {
+      --primary: #0D7377;
+      --primary-dark: #095456;
+      --secondary: #1E88E5;
+      --accent: #E53935;
+      --success: #43A047;
+      --warning: #FB8C00;
+      --dark: #263238;
+      --light: #ECEFF1;
+      --white: #FFFFFF;
+      --gray: #607D8B;
+      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+      --font-head: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 700; line-height: 1.3; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.6rem; color: var(--primary); margin-bottom: 0.5rem; }
+    h3 { font-size: 1.25rem; color: var(--secondary); margin: 1rem 0 0.5rem; }
+    h4 { font-size: 1.1rem; color: var(--dark); margin: 0.75rem 0 0.4rem; }
+    p { margin-bottom: 0.75rem; }
+    a { color: var(--secondary); text-decoration: none; }
+    .app-container { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 280px;
+      background: var(--primary);
+      color: var(--white);
+      padding: 1.5rem 1rem;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      overflow-y: auto;
+      z-index: 100;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-header {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 1rem;
+    }
+    .sidebar-header .logo { font-size: 2rem; }
+    .sidebar-header h1 { font-size: 1.1rem; color: var(--white); }
+    .sidebar-header small { display: block; font-size: 0.7rem; opacity: 0.8; font-weight: 400; }
+    .student-chip {
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+    .student-chip .name {
+      font-weight: 700; font-size: 0.9rem; color: var(--white);
+      margin-bottom: 0.2rem;
+    }
+    .student-chip .meta { opacity: 0.85; font-size: 0.75rem; }
+    .student-chip .chip-actions {
+      display: flex; gap: 0.35rem; margin-top: 0.6rem;
+    }
+    .student-chip .chip-btn {
+      flex: 1;
+      background: rgba(255,255,255,0.2);
+      border: none; color: var(--white); padding: 0.35rem 0.5rem;
+      border-radius: 6px; cursor: pointer; font-size: 0.7rem;
+      font-family: var(--font-head); font-weight: 600;
+      transition: all 0.2s;
+    }
+    .student-chip .chip-btn:hover { background: rgba(255,255,255,0.3); }
+    .student-chip .chip-btn.danger { background: rgba(229, 57, 53, 0.7); }
+    .student-chip .chip-btn.danger:hover { background: rgba(229, 57, 53, 0.9); }
+    .nav-section { margin-bottom: 1.25rem; }
+    .nav-section-title {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
+      opacity: 0.7; margin-bottom: 0.5rem; padding-left: 0.5rem;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.6rem 0.75rem; border-radius: 8px;
+      color: rgba(255,255,255,0.9); cursor: pointer;
+      font-size: 0.9rem; transition: background 0.2s;
+      border: none; background: none; width: 100%; text-align: left;
+      font-family: var(--font-body);
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.1); }
+    .nav-item.active { background: rgba(255,255,255,0.2); font-weight: 600; }
+    .nav-item .icon { font-size: 1.1rem; width: 1.5rem; text-align: center; }
+    .nav-item.logout { color: #FFCDD2; }
+    .nav-item.logout:hover { background: rgba(229, 57, 53, 0.3); color: #FFFFFF; }
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 1rem 0.5rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.72rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.9);
+    }
+    .sidebar-footer .dev-label {
+      font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px;
+      opacity: 0.7; margin-bottom: 0.3rem;
+    }
+    .sidebar-footer .dev-name {
+      font-weight: 700; color: #FFFFFF; font-size: 0.78rem;
+    }
+    .main-content {
+      margin-left: 280px;
+      flex: 1;
+      padding: 2rem;
+      max-width: 1000px;
+    }
+    .menu-toggle {
+      display: none;
+      position: fixed; top: 1rem; left: 1rem; z-index: 200;
+      background: var(--primary); color: var(--white);
+      border: none; border-radius: 50%; width: 48px; height: 48px;
+      font-size: 1.5rem; cursor: pointer; box-shadow: var(--shadow-lg);
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; padding: 1rem; padding-top: 4rem; }
+      .menu-toggle { display: flex; align-items: center; justify-content: center; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+    }
+    .card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 1.5rem; box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px;
+      border: none; cursor: pointer; font-family: var(--font-head);
+      font-weight: 600; font-size: 0.95rem; transition: all 0.2s;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-secondary { background: var(--secondary); color: var(--white); }
+    .btn-accent { background: var(--accent); color: var(--white); }
+    .btn-success { background: var(--success); color: var(--white); }
+    .btn-outline {
+      background: transparent; color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    .btn-outline:hover { background: var(--primary); color: var(--white); }
+    .btn-danger { background: var(--accent); color: var(--white); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+    .btn-block { width: 100%; justify-content: center; }
+    .progress-bar {
+      height: 12px; background: #CFD8DC; border-radius: 6px;
+      overflow: hidden; margin: 0.5rem 0;
+    }
+    .progress-fill {
+      height: 100%; background: linear-gradient(90deg, var(--success), var(--primary));
+      border-radius: 6px; transition: width 0.5s ease;
+    }
+    .badge-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem; margin: 1rem 0;
+    }
+    .badge {
+      background: var(--light); border-radius: 8px; padding: 0.75rem;
+      text-align: center; border: 2px solid transparent; transition: all 0.3s;
+    }
+    .badge.unlocked { background: #E8F5E9; border-color: var(--success); }
+    .badge.locked { opacity: 0.5; }
+    .badge .badge-icon { font-size: 1.8rem; display: block; }
+    .badge .badge-name { font-size: 0.75rem; font-weight: 600; margin-top: 0.25rem; }
+    .table-wrap { overflow-x: auto; margin: 1rem 0; }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 0.9rem;
+      background: var(--white); border-radius: 8px; overflow: hidden;
+    }
+    th {
+      background: var(--primary); color: var(--white);
+      padding: 0.75rem; text-align: left; font-family: var(--font-head);
+      font-size: 0.85rem;
+    }
+    td { padding: 0.65rem 0.75rem; border-bottom: 1px solid #E0E0E0; }
+    tr:nth-child(even) { background: #F5F7F8; }
+    tr:hover { background: #E0F2F1; }
+    .callout {
+      padding: 1rem 1.25rem; border-radius: 8px; margin: 1rem 0;
+      border-left: 4px solid;
+    }
+    .callout-warning { background: #FFF3E0; border-color: var(--warning); }
+    .callout-danger { background: #FFEBEE; border-color: var(--accent); }
+    .callout-success { background: #E8F5E9; border-color: var(--success); }
+    .callout-info { background: #E3F2FD; border-color: var(--secondary); }
+    .callout strong { font-family: var(--font-head); }
+    .accordion-item {
+      border: 1px solid #CFD8DC; border-radius: 8px;
+      margin-bottom: 0.5rem; overflow: hidden; background: var(--white);
+    }
+    .accordion-header {
+      padding: 0.85rem 1rem; cursor: pointer; display: flex;
+      justify-content: space-between; align-items: center;
+      font-weight: 600; background: var(--light); transition: background 0.2s;
+      border: none; width: 100%; text-align: left; font-family: var(--font-head);
+      font-size: 0.95rem; color: var(--dark);
+    }
+    .accordion-header:hover { background: #CFD8DC; }
+    .accordion-header .arrow { transition: transform 0.3s; }
+    .accordion-item.open .accordion-header .arrow { transform: rotate(180deg); }
+    .accordion-body {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+      padding: 0 1rem;
+    }
+    .accordion-item.open .accordion-body { max-height: 3000px; padding: 1rem; }
+    .flashcard-container {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem; margin: 1rem 0;
+    }
+    .flashcard {
+      perspective: 1000px; height: 140px; cursor: pointer;
+    }
+    .flashcard-inner {
+      position: relative; width: 100%; height: 100%;
+      transition: transform 0.6s; transform-style: preserve-3d;
+    }
+    .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+    .flashcard-front, .flashcard-back {
+      position: absolute; width: 100%; height: 100%;
+      backface-visibility: hidden; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem; text-align: center; font-size: 0.9rem;
+      box-shadow: var(--shadow);
+    }
+    .flashcard-front { background: var(--white); border: 2px solid var(--primary); }
+    .flashcard-back { background: var(--primary); color: var(--white); transform: rotateY(180deg); }
+    .quiz-question { margin-bottom: 1.5rem; }
+    .quiz-question .q-text { font-weight: 600; margin-bottom: 0.75rem; }
+    .quiz-options { display: flex; flex-direction: column; gap: 0.5rem; }
+    .quiz-option {
+      padding: 0.75rem 1rem; border: 2px solid #CFD8DC; border-radius: 8px;
+      cursor: pointer; background: var(--white); transition: all 0.2s;
+      font-family: var(--font-body); font-size: 0.9rem; text-align: left;
+    }
+    .quiz-option:hover { border-color: var(--secondary); background: #E3F2FD; }
+    .quiz-option.selected { border-color: var(--secondary); background: #E3F2FD; }
+    .quiz-option.correct { border-color: var(--success); background: #E8F5E9; }
+    .quiz-option.incorrect { border-color: var(--accent); background: #FFEBEE; }
+    .quiz-feedback {
+      margin-top: 0.75rem; padding: 0.75rem; border-radius: 8px;
+      font-size: 0.9rem; display: none;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { background: #E8F5E9; border-left: 4px solid var(--success); }
+    .quiz-feedback.incorrect { background: #FFEBEE; border-left: 4px solid var(--accent); }
+    .dashboard-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem; margin: 1rem 0;
+    }
+    .stat-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 1.25rem; box-shadow: var(--shadow); text-align: center;
+    }
+    .stat-card .stat-value { font-size: 2rem; font-weight: 700; color: var(--primary); }
+    .stat-card .stat-label { font-size: 0.85rem; color: var(--gray); }
+    .certificate {
+      background: linear-gradient(135deg, #FFF8E1, #FFFFFF);
+      border: 8px double var(--primary); border-radius: var(--radius);
+      padding: 2rem; text-align: center; max-width: 700px; margin: 1rem auto;
+    }
+    .certificate h2 { color: var(--primary); font-size: 1.8rem; }
+    .certificate .name {
+      font-size: 2rem; font-family: var(--font-head); color: var(--dark);
+      border-bottom: 2px solid var(--primary); display: inline-block;
+      padding: 0 2rem 0.5rem; margin: 1rem 0;
+    }
+    .certificate .score { font-size: 1.5rem; color: var(--success); font-weight: 700; }
+    .developer-card {
+      background: linear-gradient(135deg, #E0F2F1, #E3F2FD);
+      border: 2px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .developer-card .dev-label {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--gray); font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .developer-card .dev-name {
+      font-family: var(--font-head); font-weight: 700; font-size: 1.15rem;
+      color: var(--primary); margin-bottom: 0.5rem;
+    }
+    .developer-card .dev-info {
+      font-size: 0.85rem; color: var(--dark); line-height: 1.7;
+    }
+    .loader {
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem; font-size: 1.2rem; color: var(--gray);
+    }
+    .loader::after {
+      content: ''; width: 24px; height: 24px; margin-left: 0.75rem;
+      border: 3px solid var(--light); border-top-color: var(--primary);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--dark); color: var(--white);
+      padding: 0.85rem 1.25rem; border-radius: 8px;
+      box-shadow: var(--shadow-lg); z-index: 999;
+      transform: translateY(200%); transition: transform 0.3s;
+      max-width: 340px; font-size: 0.9rem;
+    }
+    .toast.show { transform: translateY(0); }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--accent); }
+
+    /* ---------- Auth Screen ---------- */
+    .registration-screen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; background: linear-gradient(135deg, #0D7377, #1E88E5);
+    }
+    .registration-card {
+      background: var(--white); border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 600px; width: 100%; padding: 2rem; position: relative;
+    }
+    .registration-card .reg-header { text-align: center; margin-bottom: 1.25rem; }
+    .registration-card .reg-logo { font-size: 3rem; margin-bottom: 0.5rem; }
+    .registration-card h1 { color: var(--primary); font-size: 1.5rem; margin-bottom: 0.25rem; }
+    .registration-card .reg-subtitle { color: var(--gray); font-size: 0.9rem; }
+    .back-btn {
+      position: absolute; top: 1rem; left: 1rem;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.5rem 0.9rem; border-radius: 8px;
+      border: 2px solid var(--primary); background: var(--white);
+      color: var(--primary); cursor: pointer;
+      font-family: var(--font-head); font-weight: 600;
+      font-size: 0.82rem; transition: all 0.2s; z-index: 5;
+    }
+    .back-btn:hover { background: var(--primary); color: var(--white); }
+    .auth-tabs {
+      display: flex; gap: 0.35rem; margin-bottom: 1.25rem;
+      background: var(--light); padding: 0.3rem; border-radius: 10px;
+    }
+    .auth-tab {
+      flex: 1; padding: 0.7rem; border: none; background: transparent;
+      border-radius: 8px; cursor: pointer;
+      font-family: var(--font-head); font-weight: 600;
+      font-size: 0.9rem; color: var(--gray); transition: all 0.2s;
+    }
+    .auth-tab.active { background: var(--white); color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    .saved-students { margin-top: 1rem; }
+    .saved-list {
+      display: flex; flex-direction: column; gap: 0.6rem;
+      max-height: 340px; overflow-y: auto; padding: 0.25rem; margin-bottom: 1rem;
+    }
+    .saved-card {
+      display: flex; align-items: center; gap: 0.85rem;
+      padding: 0.85rem 1rem; border: 2px solid #CFD8DC;
+      border-radius: 10px; cursor: pointer;
+      background: var(--white); transition: all 0.2s; text-align: left; width: 100%;
+      font-family: var(--font-body);
+    }
+    .saved-card:hover { border-color: var(--primary); background: #E0F2F1; }
+    .saved-card .avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white); display: flex; align-items: center;
+      justify-content: center; font-family: var(--font-head);
+      font-weight: 700; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .saved-card .saved-info { flex: 1; min-width: 0; }
+    .saved-card .saved-name {
+      font-family: var(--font-head); font-weight: 700;
+      font-size: 0.95rem; color: var(--dark); margin-bottom: 0.15rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .saved-card .saved-meta {
+      font-size: 0.78rem; color: var(--gray);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .saved-card .saved-progress {
+      font-family: var(--font-head); font-weight: 700;
+      color: var(--primary); font-size: 0.9rem;
+      flex-shrink: 0; text-align: right;
+    }
+    .saved-card .saved-progress small { display: block; font-size: 0.65rem; color: var(--gray); font-weight: 400; }
+    .empty-saved {
+      text-align: center; padding: 2.5rem 1rem;
+      color: var(--gray); font-size: 0.9rem;
+      background: var(--light); border-radius: 10px; margin-bottom: 1rem;
+    }
+    .empty-saved .icon { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+    .reg-form-group { margin-bottom: 1rem; }
+    .reg-form-group label {
+      display: block; font-weight: 600; margin-bottom: 0.35rem;
+      font-size: 0.85rem; font-family: var(--font-head); color: var(--dark);
+    }
+    .reg-form-group input, .reg-form-group select {
+      width: 100%; padding: 0.75rem 0.9rem;
+      border: 2px solid #CFD8DC; border-radius: 8px;
+      font-family: var(--font-body); font-size: 0.95rem;
+      transition: border-color 0.2s; color: var(--dark); background: var(--white);
+    }
+    .reg-form-group input:focus, .reg-form-group select:focus {
+      outline: none; border-color: var(--secondary);
+    }
+    .reg-form-group .hint { font-size: 0.72rem; color: var(--gray); margin-top: 0.25rem; }
+    .reg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    @media (max-width: 480px) { .reg-row { grid-template-columns: 1fr; } }
+    .reg-actions { margin-top: 1.25rem; }
+    .reg-actions .btn { width: 100%; justify-content: center; padding: 0.85rem; font-size: 1rem; }
+    .reg-error {
+      background: #FFEBEE; color: var(--accent);
+      padding: 0.75rem 1rem; border-radius: 8px;
+      font-size: 0.85rem; margin-bottom: 1rem; display: none;
+    }
+    .reg-error.show { display: block; }
+
+    /* Handoff modal */
+    .handoff-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      display: none; align-items: center; justify-content: center;
+      z-index: 2000; padding: 1rem;
+    }
+    .handoff-modal.show { display: flex; }
+    .handoff-content {
+      background: var(--white); border-radius: 12px;
+      max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto;
+      padding: 1.5rem;
+    }
+    .handoff-content .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #E0E0E0;
+    }
+    .handoff-content .modal-close {
+      background: none; border: none; font-size: 1.5rem;
+      cursor: pointer; color: var(--gray); line-height: 1;
+    }
+    .handoff-code {
+      background: var(--light); padding: 1rem; border-radius: 8px;
+      font-family: 'Courier New', monospace; font-size: 0.7rem;
+      word-break: break-all; max-height: 200px; overflow-y: auto;
+      border: 2px dashed var(--primary); margin: 1rem 0;
+    }
+    .qr-container {
+      text-align: center; margin: 1rem 0;
+      padding: 1rem; background: var(--light); border-radius: 8px;
+    }
+    .qr-container img {
+      max-width: 280px; width: 100%;
+      border-radius: 8px; background: var(--white); padding: 0.5rem;
+    }
+    .handoff-tip {
+      font-size: 0.85rem; color: var(--gray);
+      background: #E3F2FD; padding: 0.75rem 1rem;
+      border-radius: 8px; border-left: 4px solid var(--secondary);
+      margin-bottom: 1rem;
+    }
+    .logout-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      display: none; align-items: center; justify-content: center;
+      z-index: 2100; padding: 1rem;
+    }
+    .logout-modal.show { display: flex; }
+    .logout-content {
+      background: var(--white); border-radius: 16px;
+      max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto;
+      padding: 2rem; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .logout-content .logout-icon { font-size: 3.5rem; margin-bottom: 0.75rem; }
+    .logout-content h2 { color: var(--accent); font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .logout-content p { color: var(--gray); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .logout-content .student-info {
+      background: var(--light); padding: 0.85rem 1rem;
+      border-radius: 8px; margin-bottom: 1.5rem;
+      font-size: 0.85rem; text-align: left;
+    }
+    .logout-content .student-info strong {
+      font-family: var(--font-head); color: var(--dark);
+      display: block; font-size: 1rem; margin-bottom: 0.25rem;
+    }
+    .logout-content .student-info small { color: var(--gray); display: block; line-height: 1.6; }
+    .logout-options { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+    .logout-option {
+      display: flex; align-items: flex-start; gap: 0.85rem;
+      padding: 1rem 1.15rem; border: 2px solid #CFD8DC;
+      border-radius: 10px; cursor: pointer; text-align: left;
+      background: var(--white); transition: all 0.2s;
+      font-family: var(--font-body);
+    }
+    .logout-option:hover { border-color: var(--primary); background: #E0F2F1; }
+    .logout-option.option-danger:hover { border-color: var(--accent); background: #FFEBEE; }
+    .logout-option .opt-icon { font-size: 1.75rem; flex-shrink: 0; }
+    .logout-option .opt-body { flex: 1; }
+    .logout-option .opt-title {
+      font-family: var(--font-head); font-weight: 700;
+      font-size: 0.95rem; color: var(--dark); margin-bottom: 0.2rem;
+    }
+    .logout-option .opt-desc { font-size: 0.78rem; color: var(--gray); line-height: 1.5; }
+    .logout-content .btn-cancel {
+      background: transparent; color: var(--gray); border: none;
+      padding: 0.6rem; font-family: var(--font-head); font-weight: 600;
+      cursor: pointer; font-size: 0.9rem; margin-top: 0.5rem;
+    }
+    .hidden { display: none !important; }
+    .text-center { text-align: center; }
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .flex { display: flex; }
+    .flex-wrap { flex-wrap: wrap; }
+    .gap-1 { gap: 0.5rem; }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     AUTH SCREEN (Register / Login / Edit Profile)
+     ============================================================ -->
+<div class="registration-screen" id="registrationScreen">
+  <div class="registration-card">
+    <button class="back-btn hidden" id="backBtn" onclick="closeEditProfile()">← Back</button>
+
+    <div class="reg-header">
+      <div class="reg-logo">🩺</div>
+      <h1>Renal (KUB) Assessment Mastery</h1>
+      <p class="reg-subtitle" id="regSubtitle">NCM 101B Lab — Please register to begin</p>
+    </div>
+
+    <div class="auth-tabs" id="authTabs">
+      <button class="auth-tab active" data-tab="register" onclick="switchAuthTab('register')">📝 Register</button>
+      <button class="auth-tab" data-tab="login" onclick="switchAuthTab('login')">🔓 Login</button>
+    </div>
+
+    <div class="reg-error" id="regError"></div>
+
+    <!-- REGISTER FORM -->
+    <form id="registrationForm" onsubmit="submitRegistration(event)">
+      <div class="reg-row">
+        <div class="reg-form-group">
+          <label>First Name *</label>
+          <input type="text" id="reg_firstName" required placeholder="Juan" autocomplete="given-name" />
+        </div>
+        <div class="reg-form-group">
+          <label>Last Name *</label>
+          <input type="text" id="reg_lastName" required placeholder="Dela Cruz" autocomplete="family-name" />
+        </div>
+      </div>
+
+      <div class="reg-row">
+        <div class="reg-form-group">
+          <label>Student Number *</label>
+          <input type="text" id="reg_studentNo" required placeholder="2024-00123" autocomplete="off" />
+        </div>
+        <div class="reg-form-group">
+          <label>Section *</label>
+          <input type="text" id="reg_section" required placeholder="BSN 3-A" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="reg-form-group">
+        <label>Group Number *</label>
+        <select id="reg_group" required>
+          <option value="">— Select your group —</option>
+          <option value="Group 1">Group 1</option>
+          <option value="Group 2">Group 2</option>
+          <option value="Group 3">Group 3</option>
+          <option value="Group 4">Group 4</option>
+          <option value="Group 5">Group 5</option>
+          <option value="Group 6">Group 6</option>
+          <option value="Group 7">Group 7</option>
+          <option value="Group 8">Group 8</option>
+          <option value="Group 9">Group 9</option>
+          <option value="Group 10">Group 10</option>
+        </select>
+        <div class="hint">Select the group you belong to in your clinical section</div>
+      </div>
+
+      <div class="reg-form-group">
+        <label>TSU Email *</label>
+        <input type="email" id="reg_email" required placeholder="juan.delacruz@tsu.edu.ph" autocomplete="email" />
+        <div class="hint">Use your official TSU email address</div>
+      </div>
+
+      <div class="reg-actions">
+        <button type="submit" class="btn btn-primary" id="regSubmitBtn">✅ Register & Start Learning</button>
+      </div>
+    </form>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm" class="hidden">
+      <div class="saved-students" id="savedStudentsArea"></div>
+      <div style="text-align:center; margin-top:1rem; font-size:0.85rem; color:var(--gray);">
+        Don't see your name? Click <strong>Register</strong> above to create a new account.
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:1.5rem;font-size:0.75rem;color:var(--gray);">
+      Developed by <strong style="color:var(--primary);">JEMUEL C. MARI, MAN, RN, LPT</strong><br>
+      Tarlac State University — College of Science — Nursing Department
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app-container" id="appContainer" style="display:none;">
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">🩺</span>
+      <div>
+        <h1>Renal Mastery</h1>
+        <small>NCM 101B Lab</small>
+      </div>
+    </div>
+
+    <div class="student-chip">
+      <div class="name" id="chipName">—</div>
+      <div class="meta" id="chipMeta">—</div>
+      <div class="chip-actions">
+        <button class="chip-btn" onclick="openEditProfile()">✏️ Edit</button>
+        <button class="chip-btn danger" onclick="openLogoutModal()">🚪 Logout</button>
+      </div>
+    </div>
+
+    <nav id="navMenu">
+      <div class="nav-section">
+        <div class="nav-section-title">Main</div>
+        <button class="nav-item active" data-view="home"><span class="icon">🏠</span> Dashboard</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Learning Units</div>
+        <button class="nav-item" data-view="unit1"><span class="icon">📚</span> 1. Foundation</button>
+        <button class="nav-item" data-view="unit2"><span class="icon">💬</span> 2. Subjective Data</button>
+        <button class="nav-item" data-view="unit3"><span class="icon">👁️</span> 3. Inspection</button>
+        <button class="nav-item" data-view="unit4"><span class="icon">🩺</span> 4. Auscultation</button>
+        <button class="nav-item" data-view="unit5"><span class="icon">✋</span> 5. Palpation</button>
+        <button class="nav-item" data-view="unit6"><span class="icon">👂</span> 6. Percussion</button>
+        <button class="nav-item" data-view="unit7"><span class="icon">🔍</span> 7. Disease Patterns</button>
+        <button class="nav-item" data-view="unit8"><span class="icon">💉</span> 8. Interventions</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Mastery</div>
+        <button class="nav-item" data-view="games"><span class="icon">🎮</span> Mastery Games</button>
+        <button class="nav-item" data-view="exam"><span class="icon">📝</span> Capstone Exam</button>
+        <button class="nav-item" data-view="certificate"><span class="icon">🏆</span> Certificate</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Reference</div>
+        <button class="nav-item" data-view="matrix"><span class="icon">📊</span> DDx Matrix</button>
+        <button class="nav-item" data-view="decision"><span class="icon">🌳</span> Decision Tree</button>
+        <button class="nav-item" data-view="redflags"><span class="icon">🚨</span> Red Flags</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Submit to Instructor</div>
+        <button class="nav-item" data-view="handoff"><span class="icon">📤</span> Send My Progress</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Account</div>
+        <button class="nav-item logout" onclick="openLogoutModal()"><span class="icon">🚪</span> Logout</button>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="dev-label">Developed by</div>
+      <div class="dev-name">JEMUEL C. MARI, MAN, RN, LPT</div>
+      <div>Clinical Instructor</div>
+      <div>Teacher II — DepEd</div>
+      <div>Tarlac State University</div>
+      <div>College of Science — Nursing Dept.</div>
+    </div>
+  </aside>
+
+  <main class="main-content" id="mainContent">
+    <div class="loader">Loading module...</div>
+  </main>
+</div>
+
+<!-- HANDOFF MODAL -->
+<div class="handoff-modal" id="handoffModal">
+  <div class="handoff-content">
+    <div class="modal-header">
+      <h2>📤 Send Progress to Instructor</h2>
+      <button class="modal-close" onclick="closeHandoff()">×</button>
+    </div>
+    <div id="handoffBody"></div>
+  </div>
+</div>
+
+<!-- LOGOUT MODAL -->
+<div class="logout-modal" id="logoutModal">
+  <div class="logout-content">
+    <div class="logout-icon">🚪</div>
+    <h2>Logout Confirmation</h2>
+    <p>Are you sure you want to logout? Choose an option below:</p>
+    <div class="student-info" id="logoutStudentInfo"><strong>—</strong><small>—</small></div>
+    <div class="logout-options">
+      <button class="logout-option" onclick="performLogout('keep')">
+        <span class="opt-icon">🔄</span>
+        <div class="opt-body">
+          <div class="opt-title">Logout — Keep My Data</div>
+          <div class="opt-desc">Your progress stays saved on this device. You can login again later to continue where you left off.</div>
+        </div>
+      </button>
+      <button class="logout-option option-danger" onclick="performLogout('clear')">
+        <span class="opt-icon">🗑️</span>
+        <div class="opt-body">
+          <div class="opt-title">Logout — Clear All My Data</div>
+          <div class="opt-desc">⚠️ Your progress will be permanently deleted from this device. Only do this if you've already sent your data to your instructor.</div>
+        </div>
+      </button>
+    </div>
+    <button class="btn-cancel" onclick="closeLogoutModal()">Cancel</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   RENAL (KUB) ASSESSMENT MASTERY APP
+   Version 1.0.0
+   Developed by JEMUEL C. MARI, MAN, RN, LPT
+   ============================================================ */
+
+const APP = {
+  version: '1.0.0',
+  storageKey: 'renalMastery_v1',
+  savedSessionsKey: 'renalMastery_savedSessions',
+  state: {
+    currentView: 'home',
+    student: null,
+    progress: {},
+    badges: {},
+    quizAttempts: {},
+    games: {},
+  },
+  authMode: 'register',
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(APP.storageKey);
+    if (saved) APP.state = { ...APP.state, ...JSON.parse(saved) };
+  } catch (e) { console.warn('State load failed', e); }
+}
+function saveState() {
+  try { localStorage.setItem(APP.storageKey, JSON.stringify(APP.state)); }
+  catch (e) { console.warn('State save failed', e); }
+}
+function clearState() {
+  try { localStorage.removeItem(APP.storageKey); }
+  catch (e) { console.warn('State clear failed', e); }
+}
+function loadSavedSessions() {
+  try {
+    const raw = localStorage.getItem(APP.savedSessionsKey);
+    if (!raw) return [];
+    return JSON.parse(raw) || [];
+  } catch (e) { return []; }
+}
+function saveSavedSessions(sessions) {
+  try { localStorage.setItem(APP.savedSessionsKey, JSON.stringify(sessions)); }
+  catch (e) { console.warn('Saved sessions save failed', e); }
+}
+function registerSavedSession(studentRecord) {
+  const sessions = loadSavedSessions();
+  const key = studentRecord.student.studentNo || studentRecord.student.email;
+  const existingIdx = sessions.findIndex(s =>
+    (s.student.studentNo && s.student.studentNo === studentRecord.student.studentNo) ||
+    (s.student.email && s.student.email === studentRecord.student.email)
+  );
+  const record = { ...studentRecord, savedAt: new Date().toISOString(), key };
+  if (existingIdx >= 0) sessions[existingIdx] = record;
+  else sessions.push(record);
+  if (sessions.length > 20) sessions.splice(0, sessions.length - 20);
+  saveSavedSessions(sessions);
+}
+function removeSavedSession(key) {
+  const sessions = loadSavedSessions().filter(s => s.key !== key);
+  saveSavedSessions(sessions);
+}
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + type;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3000);
+}
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+function escapeJs(s) {
+  return String(s ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+
+/* ---------- AUTH ---------- */
+function switchAuthTab(tab) {
+  APP.authMode = tab;
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.getElementById('registrationForm').classList.toggle('hidden', tab !== 'register');
+  document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
+  document.getElementById('backBtn').classList.add('hidden');
+  document.getElementById('authTabs').classList.remove('hidden');
+  document.getElementById('regSubtitle').textContent = tab === 'register'
+    ? 'NCM 101B Lab — Please register to begin'
+    : 'Welcome back! Select your profile below';
+  document.getElementById('regError').classList.remove('show');
+  if (tab === 'login') renderSavedStudents();
+}
+
+function submitRegistration(event) {
+  event.preventDefault();
+  const errEl = document.getElementById('regError');
+  errEl.classList.remove('show');
+  const firstName = document.getElementById('reg_firstName').value.trim();
+  const lastName = document.getElementById('reg_lastName').value.trim();
+  const studentNo = document.getElementById('reg_studentNo').value.trim();
+  const section = document.getElementById('reg_section').value.trim();
+  const group = document.getElementById('reg_group').value.trim();
+  const email = document.getElementById('reg_email').value.trim().toLowerCase();
+
+  const errors = [];
+  if (!firstName) errors.push('First Name is required.');
+  if (!lastName) errors.push('Last Name is required.');
+  if (!studentNo) errors.push('Student Number is required.');
+  if (!section) errors.push('Section is required.');
+  if (!group) errors.push('Group Number is required.');
+  if (!email) errors.push('TSU Email is required.');
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('Please enter a valid email address.');
+
+  if (errors.length) {
+    errEl.innerHTML = errors.map(e => '• ' + e).join('<br>');
+    errEl.classList.add('show');
+    return;
+  }
+
+  const sessions = loadSavedSessions();
+  const existing = sessions.find(s =>
+    (s.student.studentNo && s.student.studentNo === studentNo) ||
+    (s.student.email && s.student.email === email)
+  );
+
+  if (existing) {
+    if (confirm(`A profile for "${existing.student.fullName}" already exists on this device.\n\nLogin to their account instead?`)) {
+      loadSession(existing);
+      return;
+    }
+  }
+
+  APP.state.student = {
+    firstName, lastName,
+    fullName: `${firstName} ${lastName}`,
+    studentNo, section, group, email,
+    registeredAt: new Date().toISOString(),
+    lastActive: new Date().toISOString(),
+  };
+  saveState();
+  registerSavedSession(buildStudentRecord());
+  showApp();
+  toast('✅ Welcome, ' + firstName + '!', 'success');
+}
+
+function renderSavedStudents() {
+  const area = document.getElementById('savedStudentsArea');
+  const sessions = loadSavedSessions();
+  if (!sessions.length) {
+    area.innerHTML = `<div class="empty-saved">
+      <span class="icon">📭</span>
+      <strong>No saved profiles yet</strong>
+      <p style="margin-top:0.5rem;">Register first to create your profile.</p>
+    </div>`;
+    return;
+  }
+  const sorted = [...sessions].sort((a,b) => new Date(b.savedAt || 0) - new Date(a.savedAt || 0));
+  area.innerHTML = `
+    <p style="font-size:0.85rem;color:var(--gray);margin-bottom:0.5rem;">
+      Found <strong>${sorted.length}</strong> saved ${sorted.length === 1 ? 'profile' : 'profiles'} on this device:
+    </p>
+    <div class="saved-list">
+      ${sorted.map(s => {
+        const name = s.student.fullName || `${s.student.firstName || ''} ${s.student.lastName || ''}`.trim() || 'Unnamed';
+        const initials = (s.student.firstName?.[0] || '') + (s.student.lastName?.[0] || '');
+        const pct = calcProgressPct(s.progress);
+        const avg = calcAvg(s.quizAttempts);
+        const key = s.key || s.student.studentNo || s.student.email;
+        return `<button class="saved-card" onclick='loadSessionByKey("${escapeJs(key)}")'>
+          <div class="avatar">${initials.toUpperCase() || '👤'}</div>
+          <div class="saved-info">
+            <div class="saved-name">${escapeHtml(name)}</div>
+            <div class="saved-meta">${escapeHtml(s.student.studentNo || '—')} • ${escapeHtml(s.student.section || '—')}${s.student.group ? ' • ' + escapeHtml(s.student.group) : ''}</div>
+          </div>
+          <div class="saved-progress">${pct}%<small>${avg}% avg</small></div>
+        </button>`;
+      }).join('')}
+    </div>
+    <div class="callout callout-info" style="font-size:0.8rem;">
+      <strong>Tip:</strong> Login lets you continue where you left off. Your data is saved on this device.
+    </div>`;
+}
+
+function loadSessionByKey(key) {
+  const sessions = loadSavedSessions();
+  const session = sessions.find(s => (s.key || s.student.studentNo || s.student.email) === key);
+  if (!session) return toast('Profile not found.', 'error');
+  loadSession(session);
+}
+
+function loadSession(session) {
+  APP.state = {
+    currentView: 'home',
+    student: session.student,
+    progress: session.progress || {},
+    quizAttempts: session.quizAttempts || {},
+    games: session.games || {},
+    badges: session.badges || {},
+  };
+  if (APP.state.student) APP.state.student.lastActive = new Date().toISOString();
+  saveState();
+  showApp();
+  toast('👋 Welcome back, ' + (session.student.firstName || 'Student') + '!', 'success');
+}
+
+function calcProgressPct(progress) {
+  const units = ['unit1','unit2','unit3','unit4','unit5','unit6','unit7','unit8'];
+  const done = units.filter(u => progress?.[u]?.completed).length;
+  return Math.round((done / units.length) * 100);
+}
+function calcAvg(quizAttempts) {
+  const all = Object.values(quizAttempts || {}).flat().filter(x => typeof x === 'number');
+  if (!all.length) return 0;
+  return Math.round(all.reduce((a,b)=>a+b,0) / all.length);
+}
+
+function openEditProfile() {
+  if (!APP.state.student) return;
+  const s = APP.state.student;
+  document.getElementById('reg_firstName').value = s.firstName || '';
+  document.getElementById('reg_lastName').value = s.lastName || '';
+  document.getElementById('reg_studentNo').value = s.studentNo || '';
+  document.getElementById('reg_section').value = s.section || '';
+  document.getElementById('reg_group').value = s.group || '';
+  document.getElementById('reg_email').value = s.email || '';
+  const form = document.getElementById('registrationForm');
+  const btn = document.getElementById('regSubmitBtn');
+  btn.textContent = '💾 Save Changes';
+  form.onsubmit = saveProfileEdit;
+  APP.authMode = 'edit';
+  document.getElementById('authTabs').classList.add('hidden');
+  document.getElementById('loginForm').classList.add('hidden');
+  document.getElementById('registrationForm').classList.remove('hidden');
+  document.getElementById('backBtn').classList.remove('hidden');
+  document.getElementById('regSubtitle').textContent = 'Edit your profile information';
+  document.getElementById('regError').classList.remove('show');
+  document.getElementById('registrationScreen').style.display = 'flex';
+  document.getElementById('appContainer').style.display = 'none';
+}
+function closeEditProfile() {
+  document.getElementById('registrationScreen').style.display = 'none';
+  document.getElementById('appContainer').style.display = 'flex';
+  document.getElementById('regError').classList.remove('show');
+  APP.authMode = 'register';
+  toast('↩️ Returned to app. No changes saved.', '');
+}
+function saveProfileEdit(event) {
+  event.preventDefault();
+  const errEl = document.getElementById('regError');
+  errEl.classList.remove('show');
+  const firstName = document.getElementById('reg_firstName').value.trim();
+  const lastName = document.getElementById('reg_lastName').value.trim();
+  const studentNo = document.getElementById('reg_studentNo').value.trim();
+  const section = document.getElementById('reg_section').value.trim();
+  const group = document.getElementById('reg_group').value.trim();
+  const email = document.getElementById('reg_email').value.trim().toLowerCase();
+  const errors = [];
+  if (!firstName) errors.push('First Name is required.');
+  if (!lastName) errors.push('Last Name is required.');
+  if (!studentNo) errors.push('Student Number is required.');
+  if (!section) errors.push('Section is required.');
+  if (!group) errors.push('Group Number is required.');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('Valid email is required.');
+  if (errors.length) {
+    errEl.innerHTML = errors.map(e => '• ' + e).join('<br>');
+    errEl.classList.add('show');
+    return;
+  }
+  APP.state.student = { ...APP.state.student, firstName, lastName, fullName: `${firstName} ${lastName}`, studentNo, section, group, email, updatedAt: new Date().toISOString() };
+  saveState();
+  registerSavedSession(buildStudentRecord());
+  showApp();
+  toast('✅ Profile updated.', 'success');
+}
+
+function showApp() {
+  document.getElementById('registrationScreen').style.display = 'none';
+  document.getElementById('appContainer').style.display = 'flex';
+  const form = document.getElementById('registrationForm');
+  const btn = document.getElementById('regSubmitBtn');
+  btn.textContent = '✅ Register & Start Learning';
+  form.onsubmit = submitRegistration;
+  form.reset();
+  document.getElementById('regError').classList.remove('show');
+  document.getElementById('backBtn').classList.add('hidden');
+  document.getElementById('authTabs').classList.remove('hidden');
+  document.getElementById('loginForm').classList.add('hidden');
+  document.getElementById('registrationForm').classList.remove('hidden');
+  switchAuthTab('register');
+  document.getElementById('regSubtitle').textContent = 'NCM 101B Lab — Please register to begin';
+  updateStudentChip();
+  navigate('home');
+}
+
+function updateStudentChip() {
+  const s = APP.state.student;
+  if (!s) return;
+  document.getElementById('chipName').textContent = s.fullName;
+  document.getElementById('chipMeta').innerHTML = `${s.studentNo} — ${s.section}<br>${s.group || '—'}<br>${s.email}`;
+}
+
+function openLogoutModal() {
+  const s = APP.state.student;
+  if (!s) return;
+  document.getElementById('logoutStudentInfo').innerHTML = `
+    <strong>${escapeHtml(s.fullName)}</strong>
+    <small>${escapeHtml(s.studentNo)} — ${escapeHtml(s.section)}<br>${escapeHtml(s.group || '—')}<br>${escapeHtml(s.email)}<br><em style="color:var(--warning);">Progress: ${getProgressPercent()}% | Average: ${averageScore()}%</em></small>
+  `;
+  document.getElementById('logoutModal').classList.add('show');
+}
+function closeLogoutModal() { document.getElementById('logoutModal').classList.remove('show'); }
+
+function performLogout(mode) {
+  const s = APP.state.student;
+  const studentName = s ? s.fullName : 'Student';
+  if (mode === 'clear') {
+    if (!confirm(`⚠️ FINAL WARNING ⚠️\n\nThis will PERMANENTLY DELETE all data for ${studentName}.\n\nMake sure you have already sent your data to your instructor!\n\nContinue with deletion?`)) return;
+    if (s) removeSavedSession(s.studentNo || s.email);
+    clearState();
+    APP.state = { currentView: 'home', student: null, progress: {}, badges: {}, quizAttempts: {}, games: {} };
+    closeLogoutModal();
+    document.getElementById('appContainer').style.display = 'none';
+    document.getElementById('registrationScreen').style.display = 'flex';
+    switchAuthTab('register');
+    document.getElementById('registrationForm').reset();
+    toast('🗑️ All data cleared. You have been logged out.', 'warning');
+  } else {
+    if (s) registerSavedSession(buildStudentRecord());
+    closeLogoutModal();
+    document.getElementById('appContainer').style.display = 'none';
+    document.getElementById('registrationScreen').style.display = 'flex';
+    switchAuthTab('login');
+    toast('👋 Logged out. Your progress is saved.', 'success');
+  }
+}
+
+/* ---------- NAVIGATION ---------- */
+function navigate(view) {
+  APP.state.currentView = view;
+  if (APP.state.student) APP.state.student.lastActive = new Date().toISOString();
+  saveState();
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === view));
+  renderView(view);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+function renderView(view) {
+  const main = document.getElementById('mainContent');
+  main.innerHTML = '<div class="loader">Loading...</div>';
+  setTimeout(() => {
+    switch (view) {
+      case 'home': return renderHome(main);
+      case 'unit1': return renderUnit1(main);
+      case 'unit2': return renderUnit2(main);
+      case 'unit3': return renderUnit3(main);
+      case 'unit4': return renderUnit4(main);
+      case 'unit5': return renderUnit5(main);
+      case 'unit6': return renderUnit6(main);
+      case 'unit7': return renderUnit7(main);
+      case 'unit8': return renderUnit8(main);
+      case 'games': return renderGames(main);
+      case 'exam': return renderExam(main);
+      case 'certificate': return renderCertificate(main);
+      case 'matrix': return renderMatrix(main);
+      case 'decision': return renderDecision(main);
+      case 'redflags': return renderRedFlags(main);
+      case 'handoff': return renderHandoff(main);
+      default: return renderHome(main);
+    }
+  }, 100);
+}
+
+/* ---------- PROGRESS ---------- */
+function getProgressPercent() {
+  const units = ['unit1','unit2','unit3','unit4','unit5','unit6','unit7','unit8'];
+  const done = units.filter(u => APP.state.progress[u]?.completed).length;
+  return Math.round((done / units.length) * 100);
+}
+function isUnitComplete(id) { return !!APP.state.progress[id]?.completed; }
+function completeUnit(id, score) {
+  APP.state.progress[id] = { completed: true, score, date: new Date().toISOString() };
+  if (!APP.state.quizAttempts[id]) APP.state.quizAttempts[id] = [];
+  APP.state.quizAttempts[id].push(score);
+  updateBadges();
+  saveState();
+  if (APP.state.student) registerSavedSession(buildStudentRecord());
+}
+function updateBadges() {
+  const p = APP.state.progress;
+  APP.state.badges = {
+    foundationBuilder: !!p.unit1?.completed,
+    dataCollector: !!(p.unit2?.completed && p.unit3?.completed),
+    skillMaster: !!(p.unit4?.completed && p.unit5?.completed && p.unit6?.completed),
+    diseaseDetective: !!p.unit7?.completed,
+    interventionExpert: !!p.unit8?.completed,
+    renalMaster: getProgressPercent() === 100,
+  };
+}
+function averageScore() {
+  const all = Object.values(APP.state.quizAttempts).flat();
+  if (!all.length) return 0;
+  return Math.round(all.reduce((a,b)=>a+b,0)/all.length);
+}
+function totalAttempts() { return Object.values(APP.state.quizAttempts).reduce((a,b)=>a+b.length,0); }
+function nextUnit() {
+  for (let i=1;i<=8;i++) if (!isUnitComplete('unit'+i)) return 'unit'+i;
+  return 'exam';
+}
+
+/* ---------- HOME ---------- */
+function renderHome(main) {
+  const pct = getProgressPercent();
+  const b = APP.state.badges;
+  const s = APP.state.student;
+  main.innerHTML = `
+    <div class="card">
+      <h1>🩺 Welcome, ${escapeHtml(s.firstName)}!</h1>
+      <p style="color:var(--gray);margin-bottom:1rem;">NCM 101B Lab — Renal (KUB) Assessment Mastery</p>
+      <div class="callout callout-info">
+        <strong>Expert nurses do not diagnose based on one abnormal finding.</strong> They correlate subjective symptoms, inspection, auscultation, palpation, percussion, urine characteristics, and fluid/electrolyte status to identify the probable underlying condition.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Your Progress</h2>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <p class="text-center" style="font-weight:700;color:var(--primary);">${pct}% Complete</p>
+      <div class="badge-grid">
+        ${badgeHTML('🥉','Foundation Builder', b.foundationBuilder)}
+        ${badgeHTML('🥈','Data Collector', b.dataCollector)}
+        ${badgeHTML('🥇','Skill Master', b.skillMaster)}
+        ${badgeHTML('💎','Disease Detective', b.diseaseDetective)}
+        ${badgeHTML('🏅','Intervention Expert', b.interventionExpert)}
+        ${badgeHTML('🏆','Renal Master', b.renalMaster)}
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <div class="stat-value">${Object.keys(APP.state.progress).length}/8</div>
+        <div class="stat-label">Units Completed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">${averageScore()}%</div>
+        <div class="stat-label">Average Quiz Score</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">${totalAttempts()}</div>
+        <div class="stat-label">Total Quiz Attempts</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Your Profile</h2>
+      <div class="table-wrap"><table>
+        <tbody>
+          <tr><td><strong>Name</strong></td><td>${escapeHtml(s.fullName)}</td></tr>
+          <tr><td><strong>Student No.</strong></td><td>${escapeHtml(s.studentNo)}</td></tr>
+          <tr><td><strong>Section</strong></td><td>${escapeHtml(s.section)}</td></tr>
+          <tr><td><strong>Group Number</strong></td><td>${escapeHtml(s.group || '—')}</td></tr>
+          <tr><td><strong>TSU Email</strong></td><td>${escapeHtml(s.email)}</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h2>Quick Actions</h2>
+      <div class="flex flex-wrap gap-1">
+        <button class="btn btn-primary" onclick="navigate('${nextUnit()}')">📚 Continue Learning</button>
+        <button class="btn btn-secondary" onclick="navigate('games')">🎮 Mastery Games</button>
+        <button class="btn btn-accent" onclick="navigate('exam')">📝 Capstone Exam</button>
+        <button class="btn btn-outline" onclick="navigate('handoff')">📤 Send to Instructor</button>
+      </div>
+    </div>
+
+    <div class="developer-card">
+      <div class="dev-label">Developed by</div>
+      <div class="dev-name">JEMUEL C. MARI, MAN, RN, LPT</div>
+      <div class="dev-info">
+        <strong>Clinical Instructor</strong><br>
+        Teacher II — Department of Education<br>
+        <strong>Tarlac State University</strong><br>
+        College of Science — Nursing Department
+      </div>
+      <p style="margin-top:0.75rem;font-size:0.72rem;color:var(--gray);">© ${new Date().getFullYear()} — All Rights Reserved</p>
+    </div>
+  `;
+}
+function badgeHTML(icon, name, unlocked) {
+  return `<div class="badge ${unlocked?'unlocked':'locked'}">
+    <span class="badge-icon">${icon}</span>
+    <span class="badge-name">${name}</span>
+  </div>`;
+}
+
+/* ---------- UNIT RENDERING ---------- */
+function unitHeader(num, title, subtitle) {
+  return `<div class="card">
+    <h2>Unit ${num}: ${title}</h2>
+    <p style="color:var(--gray);font-style:italic;">${subtitle}</p>
+  </div>`;
+}
+function quizHTML(unitId, questions) {
+  return `<div class="card" id="quiz-${unitId}">
+    <h2>📝 Unit ${unitId.replace('unit','')} Mastery Check</h2>
+    <p>Passing score: <strong>90%</strong>. Unlimited retakes allowed.</p>
+    <div id="quizBody-${unitId}"></div>
+    <button class="btn btn-primary mt-2" onclick="submitQuiz('${unitId}')">Submit Quiz</button>
+    <div id="quizResult-${unitId}" class="mt-2"></div>
+  </div>`;
+}
+function completeButton(unitId) {
+  return `<button class="btn btn-success btn-block mt-2" onclick="navigate('${nextAfter(unitId)}')">✅ Continue to Next Section →</button>`;
+}
+function nextAfter(unitId) {
+  const order = ['unit1','unit2','unit3','unit4','unit5','unit6','unit7','unit8','games'];
+  const i = order.indexOf(unitId);
+  return i >= 0 && i < order.length-1 ? order[i+1] : 'home';
+}
+
+/* UNIT 1: FOUNDATION */
+function renderUnit1(main) {
+  main.innerHTML = `
+    ${unitHeader(1, 'Foundation — Anatomy & Normal KUB Baseline', '"Master Normal Before Recognizing Abnormal"')}
+    <div class="card">
+      <p>The purpose of renal assessment is not merely to perform Inspection, Palpation, Percussion, and Auscultation (IPPA). The goal is to recognize abnormal patterns, identify the most likely renal pathology, prioritize nursing interventions, and prevent renal deterioration.</p>
+      <p><strong>Expert nurses do not diagnose based on one abnormal finding.</strong> They correlate subjective symptoms, inspection, auscultation, palpation, percussion, urine characteristics, and fluid/electrolyte status.</p>
+    </div>
+    <div class="card">
+      <h3>KUB Anatomy</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Structure</th><th>Location</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Kidney</strong></td><td>T12–L3, retroperitoneal</td><td>Filter blood, form urine, regulate BP & electrolytes, RBC production</td></tr>
+          <tr><td><strong>Ureter</strong></td><td>Renal pelvis to bladder</td><td>Transports urine via peristalsis</td></tr>
+          <tr><td><strong>Bladder</strong></td><td>Pelvic cavity, behind symphysis pubis</td><td>Stores urine</td></tr>
+          <tr><td><strong>Urethra</strong></td><td>Bladder to exterior</td><td>Excretes urine</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-info">
+        <strong>Nephron (Functional Unit):</strong> Glomerulus → Bowman's Capsule → Loop of Henle → Collecting Duct
+      </div>
+      <div class="callout callout-success">
+        <strong>Memory Aid:</strong> "Glomerulus Filters, Bowman's Collects, Loop Concentrates, Duct Delivers."
+      </div>
+    </div>
+    <div class="card">
+      <h3>THE NORMAL KUB BASELINE</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Assessment Area</th><th>Normal Findings</th></tr></thead>
+        <tbody>
+          <tr><td>General Appearance</td><td>Comfortable, no distress</td></tr>
+          <tr><td>Skin</td><td>Pink, warm, good turgor</td></tr>
+          <tr><td>Mouth</td><td>No stomatitis, no ammonia breath</td></tr>
+          <tr><td>Face & Extremities</td><td>No edema</td></tr>
+          <tr><td>Abdomen</td><td>Flat, no midline mass</td></tr>
+          <tr><td>Weight</td><td>Stable</td></tr>
+          <tr><td>Urine Color</td><td>Clear to light yellow</td></tr>
+          <tr><td>Urine Output</td><td>1,000–2,000 mL/24 hrs</td></tr>
+          <tr><td>Specific Gravity</td><td>1.010–1.025</td></tr>
+          <tr><td>Bladder</td><td>Nonpalpable, no distention</td></tr>
+          <tr><td>Kidneys</td><td>Nonpalpable, no CVA tenderness</td></tr>
+          <tr><td>Auscultation</td><td>No bruit over renal arteries</td></tr>
+          <tr><td>Percussion</td><td>No CVA tenderness</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-warning">
+        <strong>⚠️ Any deviation from these findings requires further assessment.</strong>
+      </div>
+    </div>
+    ${quizHTML('unit1', QUIZZES.unit1)}
+    ${completeButton('unit1')}
+  `;
+  initQuiz('unit1');
+}
+
+/* UNIT 2: SUBJECTIVE DATA */
+function renderUnit2(main) {
+  main.innerHTML = `
+    ${unitHeader(2, 'Subjective Data — Interviewing & Symptom Recognition', '"The Patient\'s Story Tells the First Clue"')}
+    <div class="card">
+      <h3>Subjective Data Checklist</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Category</th><th>Questions to Ask</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Chief Complaint</strong></td><td>"What brings you in today?"</td></tr>
+          <tr><td><strong>Pain</strong></td><td>Location, quality, radiation, triggers, relief</td></tr>
+          <tr><td><strong>Urination</strong></td><td>Frequency, urgency, hesitancy, nocturia, dysuria</td></tr>
+          <tr><td><strong>Urine</strong></td><td>Color, clarity, odor, volume, blood</td></tr>
+          <tr><td><strong>Fluid Intake</strong></td><td>Type, amount, caffeine, alcohol</td></tr>
+          <tr><td><strong>Past Medical</strong></td><td>DM, HTN, kidney disease, stones, UTIs</td></tr>
+          <tr><td><strong>Past Surgical</strong></td><td>Kidney, bladder, prostate surgery</td></tr>
+          <tr><td><strong>Family History</strong></td><td>PKD, stones, renal failure, HTN, DM</td></tr>
+          <tr><td><strong>Medications</strong></td><td>Diuretics, nephrotoxins, anticoagulants</td></tr>
+          <tr><td><strong>Lifestyle</strong></td><td>Smoking, diet, occupational exposures, sexual history</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Symptom Pattern Recognition</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Symptom</th><th>Definition</th><th>Possible Causes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Dysuria</strong></td><td>Painful urination</td><td>UTI, stones, inflammation</td></tr>
+          <tr><td><strong>Frequency</strong></td><td>Voiding more often than usual</td><td>UTI, bladder irritability</td></tr>
+          <tr><td><strong>Urgency</strong></td><td>Sudden strong urge to void</td><td>UTI, bladder spasms</td></tr>
+          <tr><td><strong>Hesitancy</strong></td><td>Difficulty starting stream</td><td>BPH, obstruction</td></tr>
+          <tr><td><strong>Nocturia</strong></td><td>Waking at night to void</td><td>Chronic renal disease, HF</td></tr>
+          <tr><td><strong>Polyuria</strong></td><td>Output out of proportion to intake</td><td>DM, DI, chronic renal disease, diuretics</td></tr>
+          <tr><td><strong>Oliguria</strong></td><td>100–500 mL/24 hrs</td><td>ARF, shock, dehydration</td></tr>
+          <tr><td><strong>Anuria</strong></td><td>&lt;50 mL/24 hrs</td><td><strong>Emergency</strong></td></tr>
+          <tr><td><strong>Hematuria</strong></td><td>Blood in urine</td><td>Stones, UTI, trauma, tumor</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-success"><strong>Memory Aid:</strong> "OLIGURIA = 100–500, ANURIA = &lt;50 = EMERGENCY"</div>
+    </div>
+    <div class="card">
+      <h3>🚩 Red Flag Symptoms</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Red Flag</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Anuria</td><td>Notify provider immediately</td></tr>
+          <tr><td>Painless hematuria</td><td>Rule out neoplasm</td></tr>
+          <tr><td>Severe flank pain + fever</td><td>Rule out pyelonephritis</td></tr>
+          <tr><td>Rapid weight gain + edema</td><td>Rule out fluid overload</td></tr>
+          <tr><td>Altered LOC + oliguria</td><td>Rule out uremia</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    ${quizHTML('unit2', QUIZZES.unit2)}
+    ${completeButton('unit2')}
+  `;
+  initQuiz('unit2');
+}
+
+/* UNIT 3: INSPECTION */
+function renderUnit3(main) {
+  main.innerHTML = `
+    ${unitHeader(3, 'Inspection — What You Can See', '"The First Look Tells the Story"')}
+    <div class="card">
+      <h3>Skin Inspection</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Finding</th><th>Interpretation</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Pallor</strong></td><td>Anemia of chronic renal disease</td></tr>
+          <tr><td><strong>Yellow-gray</strong></td><td>Uremic pigmentation</td></tr>
+          <tr><td><strong>Excoriations</strong></td><td>Pruritus from uremia</td></tr>
+          <tr><td><strong>Poor turgor</strong></td><td>Dehydration</td></tr>
+          <tr><td><strong>Bruises</strong></td><td>Bleeding tendency</td></tr>
+          <tr><td><strong>Rough, dry skin</strong></td><td>Uremic changes</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Mouth Inspection</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Finding</th><th>Interpretation</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Stomatitis</strong></td><td>Uremic inflammation</td></tr>
+          <tr><td><strong>Ammonia breath</strong></td><td>Uremia</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Face, Extremities & Abdomen</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Finding</th><th>Interpretation</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Generalized edema</strong></td><td>Fluid retention</td></tr>
+          <tr><td><strong>Peripheral edema</strong></td><td>Nephrotic syndrome, HF</td></tr>
+          <tr><td><strong>Bladder distention</strong></td><td>Urinary retention</td></tr>
+          <tr><td><strong>Palpable masses</strong></td><td>Enlarged kidney, tumor</td></tr>
+          <tr><td><strong>Midline mass</strong></td><td>Urinary retention</td></tr>
+          <tr><td><strong>Weight gain</strong></td><td>Edema</td></tr>
+          <tr><td><strong>Weight loss + wasting</strong></td><td>Renal failure</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Inspection of Devices</h3>
+      <p>Note color, odor, and volume of urine in:</p>
+      <ul style="margin-left:1.5rem;">
+        <li>Urethral catheter</li>
+        <li>Ileal conduit</li>
+        <li>Nephrostomy tube</li>
+        <li>Suprapubic catheter</li>
+        <li>Condom catheter</li>
+      </ul>
+    </div>
+    ${quizHTML('unit3', QUIZZES.unit3)}
+    ${completeButton('unit3')}
+  `;
+  initQuiz('unit3');
+}
+
+/* UNIT 4: AUSCULTATION */
+function renderUnit4(main) {
+  main.innerHTML = `
+    ${unitHeader(4, 'Auscultation — Listening for Bruits', '"Listen BEFORE You Palpate"')}
+    <div class="card">
+      <h3>Sequence Rule</h3>
+      <div class="callout callout-warning">
+        <strong>⚠️ Remember the sequence:</strong> Inspection → Auscultation → Palpation → Percussion.
+        Auscultate BEFORE palpation and percussion to avoid altering blood flow and bowel sounds.
+      </div>
+    </div>
+    <div class="card">
+      <h3>Landmarks for Auscultation</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Landmark</th><th>What to Listen For</th><th>Abnormal Finding</th></tr></thead>
+        <tbody>
+          <tr><td>Abdominal Aorta</td><td>Bruit</td><td>Impaired blood flow</td></tr>
+          <tr><td>Renal Arteries</td><td>Bruit</td><td>Renal artery stenosis</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-success"><strong>Memory Aid:</strong> "BRUIT = BLOOD FLOW TROUBLE"</div>
+    </div>
+    <div class="card">
+      <h3>Clinical Significance of Bruit</h3>
+      <p>A <strong>bruit</strong> is a whooshing sound caused by turbulent blood flow. Over the renal arteries, it suggests <strong>renal artery stenosis</strong> — a common cause of secondary hypertension.</p>
+    </div>
+    ${quizHTML('unit4', QUIZZES.unit4)}
+    ${completeButton('unit4')}
+  `;
+  initQuiz('unit4');
+}
+
+/* UNIT 5: PALPATION */
+function renderUnit5(main) {
+  main.innerHTML = `
+    ${unitHeader(5, 'Palpation — Feeling for Masses & Tenderness', '"Light First, Deep Second"')}
+    <div class="card">
+      <h3>Palpation Depths</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Type</th><th>Depth</th><th>Assess For</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Light Palpation</strong></td><td>1–2 cm</td><td>Consistency, guarding, tenderness</td></tr>
+          <tr><td><strong>Deep Palpation</strong></td><td>4 cm</td><td>Masses, tenderness, bladder distention</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Suprapubic Palpation</h3>
+      <p>Palpate above the symphysis pubis to assess for pain and urinary retention. A palpable, firm, rounded mass suggests a distended bladder.</p>
+    </div>
+    <div class="card">
+      <h3>Kidney Palpation Technique</h3>
+      <h4>Left Kidney:</h4>
+      <ol style="margin-left:1.5rem;">
+        <li>Reach across the patient and place your left hand under the left flank with your palm upward.</li>
+        <li>Elevate the flank with your fingers, displacing the kidney upward.</li>
+        <li>Ask the patient to take a deep breath.</li>
+        <li>Use the palmar surface of your right hand to palpate the kidney as the patient exhales.</li>
+      </ol>
+      <h4>Right Kidney:</h4>
+      <p>Repeat the technique on the right side.</p>
+      <div class="callout callout-info">
+        <strong>Expected Findings:</strong> Kidneys are normally NOT palpable. If palpable, this is an abnormal finding.
+      </div>
+    </div>
+    <div class="card">
+      <h3>Abnormal Palpation Findings</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Finding</th><th>Interpretation</th></tr></thead>
+        <tbody>
+          <tr><td>Palpable kidney</td><td>Enlarged kidney, tumor, cyst</td></tr>
+          <tr><td>Palpable bladder</td><td>Urinary retention</td></tr>
+          <tr><td>Palpable masses</td><td>Tumor, polycystic disease</td></tr>
+          <tr><td>CVA tenderness</td><td>Infection, inflammation</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    ${quizHTML('unit5', QUIZZES.unit5)}
+    ${completeButton('unit5')}
+  `;
+  initQuiz('unit5');
+}
+
+/* UNIT 6: PERCUSSION */
+function renderUnit6(main) {
+  main.innerHTML = `
+    ${unitHeader(6, 'Percussion — CVA Tenderness & Bladder Dullness', '"The Fist That Tells the Truth"')}
+    <div class="card">
+      <h3>CVA Tenderness (Fist Percussion)</h3>
+      <h4>Indirect Method:</h4>
+      <ol style="margin-left:1.5rem;">
+        <li>Place the palm of your non-dominant hand over the CVA.</li>
+        <li>Strike it with the ulnar surface of your dominant hand, curled into a fist.</li>
+      </ol>
+      <h4>Direct Method:</h4>
+      <ol style="margin-left:1.5rem;">
+        <li>Strike the CVA directly with the ulnar surface of your dominant hand, curled into a fist.</li>
+      </ol>
+      <div class="callout callout-success"><strong>Memory Aid:</strong> "CVA TENDERNESS = KIDNEY INFECTION"</div>
+    </div>
+    <div class="card">
+      <h3>Interpretation</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Finding</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>No tenderness</td><td>Normal</td></tr>
+          <tr><td>CVA tenderness</td><td>Kidney infection, PKD</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Bladder Percussion</h3>
+      <p>Percuss above the symphysis pubis. A dull sound suggests a full bladder.</p>
+    </div>
+    ${quizHTML('unit6', QUIZZES.unit6)}
+    ${completeButton('unit6')}
+  `;
+  initQuiz('unit6');
+}
+
+/* UNIT 7: DISEASE PATTERNS */
+function renderUnit7(main) {
+  main.innerHTML = `
+    ${unitHeader(7, 'Disease-Based Pattern Recognition', '"The Signature Patterns of 9 Renal Conditions"')}
+    <div class="card">
+      <h3>9 Renal Conditions</h3>
+      <div id="diseaseAccordion">${DISEASES.map(renderDisease).join('')}</div>
+    </div>
+    <div class="card">
+      <h3>📊 Master Differential Diagnosis Matrix</h3>
+      <div class="table-wrap">${matrixTable()}</div>
+    </div>
+    <div class="card">
+      <h3>🌳 The Renal Assessment Decision Tree</h3>
+      ${decisionTreeHTML()}
+    </div>
+    ${quizHTML('unit7', QUIZZES.unit7)}
+    ${completeButton('unit7')}
+  `;
+  initQuiz('unit7');
+}
+
+function renderDisease(d, idx) {
+  return `<div class="accordion-item">
+    <button class="accordion-header" onclick="toggleAccordion(this)">
+      ${idx+1}. ${d.name} <span class="arrow">▼</span>
+    </button>
+    <div class="accordion-body">
+      <p><strong>Pathophysiology:</strong> ${d.patho}</p>
+      <p><strong>Symptoms:</strong> ${d.symptoms}</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Assessment</th><th>Findings</th></tr></thead>
+        <tbody>${d.pattern.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</tbody>
+      </table></div>
+      <div class="callout callout-success"><strong>Signature Pattern:</strong> ${d.signature}</div>
+      ${d.redflag ? `<div class="callout callout-danger"><strong>⚠️ Red Flag:</strong> ${d.redflag}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function matrixTable() {
+  const rows = [
+    ['Normal','Clear yellow','Nonpalpable kidneys','Healthy'],
+    ['UTI','Cloudy, foul, hematuria','Suprapubic tenderness','Frequency + Burning'],
+    ['Urolithiasis','Hematuria','Renal tenderness','Colicky flank pain'],
+    ['PKD','Hematuria, proteinuria','Bilateral palpable kidneys','HTN + Masses'],
+    ['Nephrotic Syndrome','Proteinuria','Generalized edema','Waxy pallor'],
+    ['Nephrosclerosis','Proteinuria','—','Severe HTN'],
+    ['Renal Tumor','Painless hematuria','Palpable mass','Dull flank pain'],
+    ['ARF','Oliguria/anuria','—','Azotemia'],
+    ['CRF','Variable','—','Dialysis required'],
+  ];
+  return `<table>
+    <thead><tr><th>Condition</th><th>Urine</th><th>Palpation</th><th>Key Identifier</th></tr></thead>
+    <tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function decisionTreeHTML() {
+  return `
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">If urine is cloudy & foul-smelling <span class="arrow">▼</span></button>
+      <div class="accordion-body">
+        <ul style="margin-left:1.5rem;">
+          <li>Fever? → <strong>UTI</strong></li>
+          <li>Catheter? → <strong>Catheter-associated UTI</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">If hematuria is present <span class="arrow">▼</span></button>
+      <div class="accordion-body">
+        <ul style="margin-left:1.5rem;">
+          <li>Painless? → <strong>Renal tumor</strong></li>
+          <li>Colicky flank pain? → <strong>Urolithiasis</strong></li>
+          <li>Fever + chills? → <strong>Pyelonephritis</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">If output is low <span class="arrow">▼</span></button>
+      <div class="accordion-body">
+        <ul style="margin-left:1.5rem;">
+          <li>100–500 mL/24 hrs? → <strong>Oliguria</strong> (ARF, shock, dehydration)</li>
+          <li>&lt;50 mL/24 hrs? → <strong>Anuria</strong> (emergency)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">If bilateral palpable kidneys <span class="arrow">▼</span></button>
+      <div class="accordion-body"><p>Think: <strong>Polycystic Kidney Disease</strong></p></div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">If proteinuria + edema <span class="arrow">▼</span></button>
+      <div class="accordion-body"><p>Think: <strong>Nephrotic Syndrome</strong></p></div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">If severe HTN + renal failure <span class="arrow">▼</span></button>
+      <div class="accordion-body"><p>Think: <strong>Nephrosclerosis</strong></p></div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">If post-op patient with decreased output <span class="arrow">▼</span></button>
+      <div class="accordion-body"><p>Think: <strong>Acute Renal Failure</strong></p></div>
+    </div>
+  `;
+}
+
+/* UNIT 8: NURSING INTERVENTIONS */
+function renderUnit8(main) {
+  main.innerHTML = `
+    ${unitHeader(8, 'Renal Nursing Interventions Masterclass', '"From Assessment to Action"')}
+    <div class="card">
+      <h3>Goals of Renal Nursing Interventions</h3>
+      <ul style="margin-left:1.5rem;">
+        <li>Maintain adequate urine output</li>
+        <li>Promote fluid & electrolyte balance</li>
+        <li>Prevent renal deterioration</li>
+        <li>Detect emergencies early</li>
+        <li>Reduce complications</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Why Early Recognition Matters</h3>
+      <p>Renal failure rarely occurs suddenly. Patients progress through predictable stages:</p>
+      <ol style="margin-left:1.5rem;">
+        <li>Changes in urine output</li>
+        <li>Fluid imbalance</li>
+        <li>Electrolyte abnormalities</li>
+        <li>Azotemia</li>
+        <li>Altered mental status</li>
+        <li>Renal failure</li>
+      </ol>
+      <p><strong>Early intervention prevents:</strong> Dialysis, Cardiac arrest, Multi-organ dysfunction, Death</p>
+    </div>
+    <div class="card">
+      <h3>ABC Priority (Renal Focus)</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Priority</th><th>Focus</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A: Airway</strong></td><td>Ensure patent airway</td></tr>
+          <tr><td><strong>B: Breathing</strong></td><td>Assess ventilation</td></tr>
+          <tr><td><strong>C: Circulation</strong></td><td>Assess perfusion & fluid status</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-danger"><strong>Clinical Rule:</strong> Life-threatening fluid & electrolyte imbalances take priority over other assessments.</div>
+    </div>
+    <div class="card">
+      <h3>Disease-Specific Interventions</h3>
+      <div id="interventionAccordion">${INTERVENTIONS.map(renderIntervention).join('')}</div>
+    </div>
+    <div class="card">
+      <h3>🚨 Emergency Renal Red Flags</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Red Flag</th><th>Priority</th><th>Escalation</th></tr></thead>
+        <tbody>
+          <tr><td>Anuria (&lt;50 mL/24 hrs)</td><td>Renal function</td><td>Notify provider immediately</td></tr>
+          <tr><td>Severe hyperkalemia</td><td>Cardiac</td><td>Emergency ECG, notify provider</td></tr>
+          <tr><td>Pulmonary edema</td><td>Oxygenation</td><td>Rapid response</td></tr>
+          <tr><td>Malignant HTN (diastolic &gt;130)</td><td>BP control</td><td>Rapid response</td></tr>
+          <tr><td>Graft rejection</td><td>Transplant survival</td><td>Notify transplant team</td></tr>
+          <tr><td>Sepsis from UTI</td><td>Infection</td><td>Rapid response</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Clinical Pearl</h3>
+      <p>Whenever you choose a renal nursing intervention, ask:</p>
+      <ol style="margin-left:1.5rem;">
+        <li>Does it improve urine output?</li>
+        <li>Does it improve fluid & electrolyte balance?</li>
+        <li>Does it reduce the work of the kidneys?</li>
+        <li>Does it prevent renal deterioration?</li>
+        <li>Does it detect complications early?</li>
+      </ol>
+    </div>
+    ${quizHTML('unit8', QUIZZES.unit8)}
+    ${completeButton('unit8')}
+  `;
+  initQuiz('unit8');
+}
+
+function renderIntervention(i) {
+  return `<div class="accordion-item">
+    <button class="accordion-header" onclick="toggleAccordion(this)">${i.title} <span class="arrow">▼</span></button>
+    <div class="accordion-body">
+      ${i.indicates ? `<p><strong>Indicates:</strong> ${i.indicates}</p>` : ''}
+      ${i.interventions ? `<p><strong>Nursing Interventions:</strong></p><ul style="margin-left:1.5rem;">${i.interventions.map(x=>`<li>${x}</li>`).join('')}</ul>` : ''}
+      ${i.rationale ? `<p><strong>Rationale:</strong> ${i.rationale}</p>` : ''}
+      ${i.redflag ? `<div class="callout callout-danger"><strong>⚠️ Red Flag:</strong> ${i.redflag}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ---------- GAMES ---------- */
+function renderGames(main) {
+  main.innerHTML = `
+    <div class="card">
+      <h2>🎮 Mastery Games</h2>
+      <p>Test your skills under pressure. Each game requires 90–100% to earn credit.</p>
+    </div>
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <div style="font-size:2.5rem;">⚡</div>
+        <h3>Pattern Recognition Blitz</h3>
+        <p style="font-size:0.85rem;color:var(--gray);">Timed challenge</p>
+        <button class="btn btn-primary btn-sm mt-1" onclick="startGame('blitz')">Play</button>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:2.5rem;">🌳</div>
+        <h3>Decision Tree Navigator</h3>
+        <p style="font-size:0.85rem;color:var(--gray);">Branching scenarios</p>
+        <button class="btn btn-primary btn-sm mt-1" onclick="startGame('tree')">Play</button>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:2.5rem;">💧</div>
+        <h3>Urine Pattern ID</h3>
+        <p style="font-size:0.85rem;color:var(--gray);">Identify urine patterns</p>
+        <button class="btn btn-primary btn-sm mt-1" onclick="startGame('urine')">Play</button>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:2.5rem;">🚨</div>
+        <h3>Red Flag Simulator</h3>
+        <p style="font-size:0.85rem;color:var(--gray);">Emergency decision-making</p>
+        <button class="btn btn-primary btn-sm mt-1" onclick="startGame('redflag')">Play</button>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:2.5rem;">📊</div>
+        <h3>Matrix Challenge</h3>
+        <p style="font-size:0.85rem;color:var(--gray);">Complete the DDx matrix</p>
+        <button class="btn btn-primary btn-sm mt-1" onclick="startGame('matrix')">Play</button>
+      </div>
+    </div>
+    <div id="gameArea" class="card hidden"></div>
+  `;
+}
+
+function startGame(type) {
+  const area = document.getElementById('gameArea');
+  area.classList.remove('hidden');
+  if (type === 'blitz') return gameBlitz(area);
+  if (type === 'tree') return gameTree(area);
+  if (type === 'urine') return gameUrine(area);
+  if (type === 'redflag') return gameRedFlag(area);
+  if (type === 'matrix') return gameMatrix(area);
+}
+
+function recordGameScore(game, score, total) {
+  const pct = Math.round((score/total)*100);
+  if (!APP.state.games) APP.state.games = {};
+  if (!APP.state.games[game]) APP.state.games[game] = [];
+  APP.state.games[game].push(pct);
+  saveState();
+  if (APP.state.student) registerSavedSession(buildStudentRecord());
+}
+
+function gameBlitz(area) {
+  const scenarios = [
+    ['Frequency + Burning + Cloudy Urine','UTI'],
+    ['Colicky Flank Pain + Hematuria','Urolithiasis'],
+    ['Bilateral Palpable Kidneys + HTN + Hematuria','PKD'],
+    ['Proteinuria + Edema + Waxy Pallor','Nephrotic Syndrome'],
+    ['Severe HTN + Progressive Renal Failure','Nephrosclerosis'],
+    ['Painless Hematuria + Palpable Mass','Renal Tumor'],
+    ['Rapid ↓ Renal Function + Azotemia','Acute Renal Failure'],
+    ['Progressive Renal Decline + Dialysis','Chronic Renal Failure'],
+    ['Post-Transplant + Graft Tenderness','Kidney Transplant Rejection'],
+  ];
+  const options = ['UTI','Urolithiasis','PKD','Nephrotic Syndrome','Nephrosclerosis','Renal Tumor','Acute Renal Failure','Chronic Renal Failure','Kidney Transplant Rejection'];
+  let idx = 0, score = 0;
+  function next() {
+    if (idx >= scenarios.length) return endGame(area, 'Pattern Recognition Blitz', score, scenarios.length, 'blitz');
+    const [clues, answer] = scenarios[idx];
+    area.innerHTML = `
+      <h2>⚡ Pattern Recognition Blitz</h2>
+      <p>Question ${idx+1} of ${scenarios.length} | Score: ${score}</p>
+      <div class="quiz-question">
+        <p class="q-text">${clues}</p>
+        <div class="quiz-options">
+          ${options.map(o=>`<button class="quiz-option" onclick="checkBlitz(this,'${o}','${answer}')">${o}</button>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  window.checkBlitz = (btn, choice, answer) => {
+    if (choice === answer) { btn.classList.add('correct'); score++; toast('✅ Correct!','success'); }
+    else { btn.classList.add('incorrect'); toast('❌ Incorrect. Answer: '+answer,'error'); }
+    document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+    setTimeout(() => { idx++; next(); }, 800);
+  };
+  next();
+}
+
+function gameTree(area) {
+  const scenarios = [
+    { q: 'Urine is cloudy and foul-smelling. Patient has fever.', options: ['UTI','Urolithiasis','PKD'], answer: 'UTI' },
+    { q: 'Painless hematuria with palpable mass.', options: ['UTI','Renal Tumor','PKD'], answer: 'Renal Tumor' },
+    { q: 'Colicky flank pain with hematuria.', options: ['Urolithiasis','UTI','Nephrotic Syndrome'], answer: 'Urolithiasis' },
+    { q: 'Bilateral palpable kidneys + HTN + hematuria.', options: ['Nephrosclerosis','PKD','Renal Tumor'], answer: 'PKD' },
+    { q: 'Proteinuria + edema + waxy pallor.', options: ['Nephrotic Syndrome','UTI','ARF'], answer: 'Nephrotic Syndrome' },
+    { q: 'Severe HTN + progressive renal failure.', options: ['Nephrosclerosis','PKD','CRF'], answer: 'Nephrosclerosis' },
+    { q: 'Post-op patient with decreased output and rising BUN.', options: ['ARF','CRF','UTI'], answer: 'ARF' },
+    { q: 'Dialysis required, progressive decline.', options: ['ARF','CRF','Nephrotic Syndrome'], answer: 'CRF' },
+  ];
+  let idx = 0, score = 0;
+  function next() {
+    if (idx >= scenarios.length) return endGame(area, 'Decision Tree Navigator', score, scenarios.length, 'tree');
+    const s = scenarios[idx];
+    area.innerHTML = `
+      <h2>🌳 Decision Tree Navigator</h2>
+      <p>Question ${idx+1} of ${scenarios.length} | Score: ${score}</p>
+      <div class="quiz-question">
+        <p class="q-text">${s.q}</p>
+        <div class="quiz-options">
+          ${s.options.map(o=>`<button class="quiz-option" onclick="checkTree(this,'${o}','${s.answer}')">${o}</button>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  window.checkTree = (btn, choice, answer) => {
+    if (choice === answer) { btn.classList.add('correct'); score++; toast('✅ Correct!','success'); }
+    else { btn.classList.add('incorrect'); toast('❌ Incorrect. Answer: '+answer,'error'); }
+    document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+    setTimeout(() => { idx++; next(); }, 800);
+  };
+  next();
+}
+
+function gameUrine(area) {
+  const items = [
+    { q: 'Clear', a: 'Very good hydration' },
+    { q: 'Light Yellow', a: 'Good hydration' },
+    { q: 'Dark Yellow', a: 'Light dehydration' },
+    { q: 'Amber', a: 'Dehydrated' },
+    { q: 'Red', a: 'Hematuria — severe' },
+    { q: 'Cloudy + Foul', a: 'UTI' },
+  ];
+  const options = ['Very good hydration','Good hydration','Light dehydration','Dehydrated','Hematuria — severe','UTI'];
+  let idx = 0, score = 0;
+  function next() {
+    if (idx >= items.length) return endGame(area, 'Urine Pattern ID', score, items.length, 'urine');
+    const s = items[idx];
+    area.innerHTML = `
+      <h2>💧 Urine Pattern ID</h2>
+      <p>Question ${idx+1} of ${items.length} | Score: ${score}</p>
+      <div class="quiz-question">
+        <p class="q-text">What does "<strong>${s.q}</strong>" indicate?</p>
+        <div class="quiz-options">
+          ${options.map(o=>`<button class="quiz-option" onclick="checkUrine(this,'${o}','${s.a}')">${o}</button>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  window.checkUrine = (btn, choice, answer) => {
+    if (choice === answer) { btn.classList.add('correct'); score++; toast('✅ Correct!','success'); }
+    else { btn.classList.add('incorrect'); toast('❌ Incorrect. Answer: '+answer,'error'); }
+    document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+    setTimeout(() => { idx++; next(); }, 800);
+  };
+  next();
+}
+
+function gameRedFlag(area) {
+  const scenarios = [
+    { q: 'Anuria (&lt;50 mL/24 hrs)', options: ['Notify provider immediately','Wait and reassess','Document only'], answer: 'Notify provider immediately' },
+    { q: 'Painless hematuria', options: ['Rule out neoplasm','Reassure patient','Send home'], answer: 'Rule out neoplasm' },
+    { q: 'Severe flank pain + fever', options: ['Rule out pyelonephritis','Give antacid','Encourage fluids'], answer: 'Rule out pyelonephritis' },
+    { q: 'Rapid weight gain + edema', options: ['Rule out fluid overload','Restrict fluids','Reassure patient'], answer: 'Rule out fluid overload' },
+    { q: 'Altered LOC + oliguria', options: ['Rule out uremia','Wait for labs','Sedate patient'], answer: 'Rule out uremia' },
+    { q: 'Malignant HTN (diastolic >130)', options: ['Rapid response','Document and monitor','Give PO meds'], answer: 'Rapid response' },
+  ];
+  let idx = 0, score = 0;
+  function next() {
+    if (idx >= scenarios.length) return endGame(area, 'Red Flag Simulator', score, scenarios.length, 'redflag');
+    const s = scenarios[idx];
+    area.innerHTML = `
+      <h2>🚨 Red Flag Simulator</h2>
+      <p>Question ${idx+1} of ${scenarios.length} | Score: ${score}</p>
+      <div class="quiz-question">
+        <p class="q-text">${s.q}</p>
+        <div class="quiz-options">
+          ${s.options.map(o=>`<button class="quiz-option" onclick="checkRF(this,'${o}','${s.answer}')">${o}</button>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  window.checkRF = (btn, choice, answer) => {
+    if (choice === answer) { btn.classList.add('correct'); score++; toast('✅ Correct!','success'); }
+    else { btn.classList.add('incorrect'); toast('❌ Incorrect. Answer: '+answer,'error'); }
+    document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+    setTimeout(() => { idx++; next(); }, 800);
+  };
+  next();
+}
+
+function gameMatrix(area) {
+  const conditions = ['UTI','Urolithiasis','PKD','Nephrotic Syndrome','Renal Tumor'];
+  const answers = {
+    'UTI': 'Frequency + Burning + Cloudy Urine',
+    'Urolithiasis': 'Colicky Flank Pain + Hematuria',
+    'PKD': 'Bilateral Palpable Kidneys + HTN',
+    'Nephrotic Syndrome': 'Proteinuria + Edema + Waxy Pallor',
+    'Renal Tumor': 'Painless Hematuria + Palpable Mass',
+  };
+  let idx = 0, score = 0;
+  function next() {
+    if (idx >= conditions.length) return endGame(area, 'Matrix Challenge', score, conditions.length, 'matrix');
+    const c = conditions[idx];
+    area.innerHTML = `
+      <h2>📊 Matrix Challenge</h2>
+      <p>Question ${idx+1} of ${conditions.length} | Score: ${score}</p>
+      <div class="quiz-question">
+        <p class="q-text">What is the signature pattern of <strong>${c}</strong>?</p>
+        <div class="quiz-options">
+          ${Object.values(answers).map(a=>`<button class="quiz-option" onclick="checkMX(this,'${a}','${answers[c]}')">${a}</button>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  window.checkMX = (btn, choice, answer) => {
+    if (choice === answer) { btn.classList.add('correct'); score++; toast('✅ Correct!','success'); }
+    else { btn.classList.add('incorrect'); toast('❌ Incorrect. Answer: '+answer,'error'); }
+    document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+    setTimeout(() => { idx++; next(); }, 800);
+  };
+  next();
+}
+
+function endGame(area, name, score, total, gameKey) {
+  const pct = Math.round((score/total)*100);
+  const pass = pct >= 90;
+  if (gameKey) recordGameScore(gameKey, score, total);
+  area.innerHTML = `
+    <h2>${pass ? '🏆' : '📚'} ${name} Complete</h2>
+    <p style="font-size:1.2rem;">Score: <strong>${score}/${total}</strong> (${pct}%)</p>
+    ${pass
+      ? '<div class="callout callout-success"><strong>✅ Mastery Achieved!</strong> You have passed this game.</div>'
+      : '<div class="callout callout-warning"><strong>⚠️ Review needed.</strong> You need 90% to master this game. Try again!</div>'}
+    <button class="btn btn-primary mt-2" onclick="startGame('${gameKey}')">🔄 Play Again</button>
+  `;
+}
+
+/* ---------- EXAM ---------- */
+function renderExam(main) {
+  const allQ = [
+    ...QUIZZES.unit1, ...QUIZZES.unit2, ...QUIZZES.unit3,
+    ...QUIZZES.unit4, ...QUIZZES.unit5, ...QUIZZES.unit6,
+    ...QUIZZES.unit7, ...QUIZZES.unit8
+  ];
+  const examQ = shuffleArray(allQ).slice(0, 50);
+  APP._examQ = examQ;
+  main.innerHTML = `
+    <div class="card">
+      <h2>📝 Capstone Comprehensive Exam</h2>
+      <p><strong>50 items</strong> | Passing: <strong>90% (45/50)</strong></p>
+      <div class="callout callout-warning">This is a summative assessment. No immediate feedback. You may retake the exam.</div>
+    </div>
+    ${quizHTML('exam', examQ)}
+  `;
+  initQuiz('exam');
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ---------- CERTIFICATE ---------- */
+function renderCertificate(main) {
+  const pct = getProgressPercent();
+  const avg = averageScore();
+  const eligible = pct === 100 && avg >= 90;
+  const s = APP.state.student;
+  main.innerHTML = `
+    <div class="card">
+      <h2>🏆 Certificate of Mastery</h2>
+      ${eligible
+        ? `<div class="certificate">
+            <h2>🏆 CERTIFICATE OF MASTERY 🏆</h2>
+            <p>This certifies that</p>
+            <div class="name">${escapeHtml(s.fullName)}</div>
+            <p style="font-size:0.85rem;color:var(--gray);">${escapeHtml(s.studentNo)} — ${escapeHtml(s.section)} — ${escapeHtml(s.group || '')}</p>
+            <p>has demonstrated mastery of</p>
+            <h3 style="color:var(--primary);">RENAL (KUB) HEALTH ASSESSMENT</h3>
+            <p>including Inspection, Auscultation, Palpation, Percussion, Urine Pattern Recognition, and Evidence-Based Nursing Interventions</p>
+            <p class="score">Comprehensive Score: ${avg}%</p>
+            <p style="margin-top:1rem;">Date: ${new Date().toLocaleDateString()}</p>
+            <p style="margin-top:2rem;"><strong>JEMUEL C. MARI, MAN, RN, LPT</strong></p>
+            <p style="font-size:0.85rem;color:var(--gray);">Clinical Instructor | Tarlac State University</p>
+          </div>
+          <button class="btn btn-primary mt-2" onclick="window.print()">📥 Print / Save as PDF</button>`
+        : `<div class="callout callout-warning">
+            <strong>⚠️ Not yet eligible.</strong> Complete all 8 units with an average score of 90% or higher to unlock your certificate.
+            <br><br>Progress: ${pct}% | Average Score: ${avg}%
+          </div>`}
+    </div>
+  `;
+}
+
+/* ---------- REFERENCE ---------- */
+function renderMatrix(main) {
+  main.innerHTML = `
+    <div class="card">
+      <h2>📊 Master Differential Diagnosis Matrix</h2>
+      <div class="table-wrap">${matrixTable()}</div>
+    </div>
+  `;
+}
+function renderDecision(main) {
+  main.innerHTML = `
+    <div class="card">
+      <h2>🌳 Renal Assessment Decision Tree</h2>
+      ${decisionTreeHTML()}
+    </div>
+  `;
+}
+function renderRedFlags(main) {
+  main.innerHTML = `
+    <div class="card">
+      <h2>🚨 Emergency Renal Red Flags</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Red Flag</th><th>Priority</th><th>Escalation</th></tr></thead>
+        <tbody>
+          <tr><td>Anuria (&lt;50 mL/24 hrs)</td><td>Renal function</td><td>Notify provider immediately</td></tr>
+          <tr><td>Severe hyperkalemia</td><td>Cardiac</td><td>Emergency ECG, notify provider</td></tr>
+          <tr><td>Pulmonary edema</td><td>Oxygenation</td><td>Rapid response</td></tr>
+          <tr><td>Malignant HTN (diastolic &gt;130)</td><td>BP control</td><td>Rapid response</td></tr>
+          <tr><td>Graft rejection</td><td>Transplant survival</td><td>Notify transplant team</td></tr>
+          <tr><td>Sepsis from UTI</td><td>Infection</td><td>Rapid response</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  `;
+}
+
+/* ---------- HANDOFF ---------- */
+function renderHandoff(main) {
+  const s = APP.state.student;
+  const pct = getProgressPercent();
+  const avg = averageScore();
+  main.innerHTML = `
+    <div class="card">
+      <h2>📤 Send My Progress to Instructor</h2>
+      <p>Use this to submit your complete record to your Clinical Instructor.</p>
+    </div>
+
+    <div class="card">
+      <h3>Your Profile</h3>
+      <table>
+        <tr><td><strong>Name</strong></td><td>${escapeHtml(s.fullName)}</td></tr>
+        <tr><td><strong>Student No.</strong></td><td>${escapeHtml(s.studentNo)}</td></tr>
+        <tr><td><strong>Section</strong></td><td>${escapeHtml(s.section)}</td></tr>
+        <tr><td><strong>Group Number</strong></td><td>${escapeHtml(s.group || '—')}</td></tr>
+        <tr><td><strong>TSU Email</strong></td><td>${escapeHtml(s.email)}</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Your Progress Summary</h3>
+      <div class="dashboard-grid">
+        <div class="stat-card"><div class="stat-value">${pct}%</div><div class="stat-label">Completion</div></div>
+        <div class="stat-card"><div class="stat-value">${avg}%</div><div class="stat-label">Average Score</div></div>
+        <div class="stat-card"><div class="stat-value">${Object.keys(APP.state.progress).length}/8</div><div class="stat-label">Units Done</div></div>
+      </div>
+      <div class="flex flex-wrap gap-1 mt-2">
+        <button class="btn btn-primary" onclick="showHandoffModal()">📋 Generate Send Code</button>
+        <button class="btn btn-outline" onclick="downloadMyData()">💾 Download JSON</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>How to Submit</h3>
+      <ol style="margin-left:1.5rem;line-height:1.8;">
+        <li>Click <strong>"Generate Send Code"</strong> above.</li>
+        <li>A code and QR will appear.</li>
+        <li>Choose ONE method:
+          <ul style="margin-left:1.5rem;margin-top:0.5rem;">
+            <li><strong>Same computer as instructor:</strong> They can use "Auto (Same Device)" import.</li>
+            <li><strong>Your own device:</strong> Copy the code and send via email/Messenger. OR screenshot the QR.</li>
+            <li><strong>Download JSON:</strong> Send the file to your instructor.</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="callout callout-info">
+        <strong>Why this step?</strong> This app runs entirely in your browser with no server, so your instructor cannot automatically see your data from another device. The code/QR/JSON lets you share your progress securely.
+      </div>
+    </div>
+  `;
+}
+
+function buildStudentRecord() {
+  const s = APP.state.student;
+  return {
+    schema: 'renal-mastery-v1',
+    exportedAt: new Date().toISOString(),
+    student: {
+      firstName: s.firstName,
+      lastName: s.lastName,
+      fullName: s.fullName,
+      studentNo: s.studentNo,
+      section: s.section,
+      group: s.group,
+      email: s.email,
+      registeredAt: s.registeredAt,
+      lastActive: s.lastActive,
+    },
+    progress: APP.state.progress,
+    quizAttempts: APP.state.quizAttempts,
+    games: APP.state.games || {},
+    badges: APP.state.badges,
+    summary: {
+      completionPct: getProgressPercent(),
+      averageScore: averageScore(),
+      unitsCompleted: Object.keys(APP.state.progress).length,
+    },
+  };
+}
+
+function showHandoffModal() {
+  const record = buildStudentRecord();
+  const json = JSON.stringify(record, null, 2);
+  const base64 = btoa(unescape(encodeURIComponent(json)));
+  const shortCode = base64.slice(0, 1200);
+
+  const body = document.getElementById('handoffBody');
+  body.innerHTML = `
+    <div class="handoff-tip">
+      📸 <strong>Send this code or QR to your instructor.</strong> They will paste it into the Instructor Dashboard's import feature.
+    </div>
+
+    <h3>Option 1: Copy Code</h3>
+    <textarea id="handoffTextarea" class="handoff-code" readonly style="width:100%;height:140px;font-family:monospace;font-size:0.7rem;">${escapeHtml(base64)}</textarea>
+    <button class="btn btn-primary btn-sm mt-1" onclick="copyHandoffCode()">📋 Copy Code</button>
+
+    <h3 style="margin-top:1.5rem;">Option 2: QR Code</h3>
+    <div class="qr-container">
+      <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(shortCode)}" alt="QR Code" />
+      <p style="font-size:0.8rem;color:var(--gray);margin-top:0.5rem;">Screenshot this QR and send it to your instructor</p>
+    </div>
+
+    <h3>Option 3: Download File</h3>
+    <button class="btn btn-outline btn-sm mt-1" onclick="downloadMyData()">💾 Download JSON File</button>
+
+    <div style="margin-top:1.5rem;text-align:right;">
+      <button class="btn btn-outline" onclick="closeHandoff()">Close</button>
+    </div>
+  `;
+  document.getElementById('handoffModal').classList.add('show');
+}
+
+function copyHandoffCode() {
+  const el = document.getElementById('handoffTextarea');
+  el.select();
+  el.setSelectionRange(0, 99999);
+  try {
+    document.execCommand('copy');
+    toast('✅ Code copied to clipboard!', 'success');
+  } catch (e) {
+    toast('Press Ctrl+C to copy', 'error');
+  }
+}
+
+function closeHandoff() { document.getElementById('handoffModal').classList.remove('show'); }
+
+function downloadMyData() {
+  const record = buildStudentRecord();
+  const json = JSON.stringify(record, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `renal-mastery-${record.student.studentNo || 'student'}-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('✅ File downloaded.', 'success');
+}
+
+/* ---------- INTERACTIONS ---------- */
+function toggleAccordion(btn) {
+  const item = btn.parentElement;
+  item.classList.toggle('open');
+}
+function flashcard(front, back) {
+  return `<div class="flashcard" onclick="this.classList.toggle('flipped')">
+    <div class="flashcard-inner">
+      <div class="flashcard-front">${front}</div>
+      <div class="flashcard-back">${back}</div>
+    </div>
+  </div>`;
+}
+function initQuiz(unitId) {
+  const container = document.getElementById('quizBody-' + unitId);
+  if (!container) return;
+  const qs = unitId === 'exam' ? APP._examQ : QUIZZES[unitId];
+  container.innerHTML = qs.map((q, i) => `
+    <div class="quiz-question" data-q="${i}">
+      <p class="q-text">${i+1}. ${q.q}</p>
+      <div class="quiz-options">
+        ${q.options.map((o, j) => `<button class="quiz-option" data-q="${i}" data-o="${j}" onclick="selectOption(this)">${o}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  `).join('');
+}
+function selectOption(btn) {
+  const siblings = btn.parentElement.querySelectorAll('.quiz-option');
+  siblings.forEach(s => s.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function submitQuiz(unitId) {
+  const qs = unitId === 'exam' ? APP._examQ : QUIZZES[unitId];
+  if (!qs) return;
+  let correct = 0;
+  qs.forEach((q, i) => {
+    const questionEl = document.querySelector(`.quiz-question[data-q="${i}"]`);
+    const selected = questionEl.querySelector('.quiz-option.selected');
+    const feedback = questionEl.querySelector('.quiz-feedback');
+    if (selected) {
+      const choice = selected.textContent.trim();
+      const isCorrect = choice === q.answer;
+      if (isCorrect) correct++;
+      selected.classList.add(isCorrect ? 'correct' : 'incorrect');
+      feedback.className = 'quiz-feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+      feedback.innerHTML = isCorrect ? '✅ Correct!' : `❌ Incorrect. Correct answer: <strong>${q.answer}</strong>`;
+    } else {
+      feedback.className = 'quiz-feedback show incorrect';
+      feedback.innerHTML = `⚠️ No answer selected. Correct answer: <strong>${q.answer}</strong>`;
+    }
+  });
+  const pct = Math.round((correct/qs.length)*100);
+  const pass = pct >= 90;
+  const resultEl = document.getElementById('quizResult-' + unitId);
+  resultEl.innerHTML = `
+    <div class="callout ${pass ? 'callout-success' : 'callout-warning'}">
+      <strong>Score: ${correct}/${qs.length} (${pct}%)</strong><br>
+      ${pass ? '✅ Mastery achieved!' : '⚠️ You need 90% to master this unit. Review and try again.'}
+    </div>
+    <button class="btn btn-outline mt-1" onclick="retryQuiz('${unitId}')">🔄 Retry Quiz</button>
+  `;
+  if (pass && unitId !== 'exam') {
+    completeUnit(unitId, pct);
+    toast('✅ Unit mastered!', 'success');
+  }
+  if (pass && unitId === 'exam') {
+    if (!APP.state.quizAttempts.exam) APP.state.quizAttempts.exam = [];
+    APP.state.quizAttempts.exam.push(pct);
+    saveState();
+    if (APP.state.student) registerSavedSession(buildStudentRecord());
+    toast('🏆 Capstone Exam passed!', 'success');
+  }
+}
+function retryQuiz(unitId) {
+  if (unitId === 'exam') return renderExam(document.getElementById('mainContent'));
+  initQuiz(unitId);
+  document.getElementById('quizResult-' + unitId).innerHTML = '';
+}
+
+/* ---------- QUIZZES DATA ---------- */
+const QUIZZES = {
+  unit1: [
+    { q: 'What is the normal specific gravity range of urine?', options: ['1.000–1.005','1.010–1.025','1.030–1.040','1.050–1.060'], answer: '1.010–1.025' },
+    { q: 'Where are the kidneys located?', options: ['T5–T8, intraperitoneal','T12–L3, retroperitoneal','L4–L5, pelvic cavity','T1–T4, thoracic cavity'], answer: 'T12–L3, retroperitoneal' },
+    { q: 'What is the functional unit of the kidney?', options: ['Renal pelvis','Nephron','Glomerulus','Loop of Henle'], answer: 'Nephron' },
+    { q: 'Which structure filters blood in the nephron?', options: ['Bowman\'s capsule','Loop of Henle','Glomerulus','Collecting duct'], answer: 'Glomerulus' },
+    { q: 'Normal urine output per 24 hours is:', options: ['100–500 mL','500–800 mL','1,000–2,000 mL','2,500–3,000 mL'], answer: '1,000–2,000 mL' },
+    { q: 'The right kidney is slightly lower than the left because of:', options: ['Heart displacement','Liver displacement','Spleen displacement','Diaphragm displacement'], answer: 'Liver displacement' },
+    { q: 'What is the memory aid for nephron function?', options: ['Glomerulus Filters, Bowman\'s Collects, Loop Concentrates, Duct Delivers','Bowman\'s Filters, Glomerulus Collects, Duct Concentrates, Loop Delivers','Loop Filters, Duct Collects, Glomerulus Concentrates, Bowman\'s Delivers','Duct Filters, Loop Collects, Bowman\'s Concentrates, Glomerulus Delivers'], answer: 'Glomerulus Filters, Bowman\'s Collects, Loop Concentrates, Duct Delivers' },
+    { q: 'Which kidney function is responsible for RBC production?', options: ['Filtration','Erythropoietin production','Electrolyte balance','Acid-base balance'], answer: 'Erythropoietin production' },
+    { q: 'The bladder is normally:', options: ['Palpable','Nonpalpable and non-distended','Tender','Enlarged'], answer: 'Nonpalpable and non-distended' },
+    { q: 'A bruit over the renal arteries suggests:', options: ['Normal finding','Impaired blood flow to kidneys','Kidney stones','Bladder distention'], answer: 'Impaired blood flow to kidneys' },
+  ],
+  unit2: [
+    { q: 'Output 100–500 mL/24 hrs is called:', options: ['Polyuria','Oliguria','Anuria','Dysuria'], answer: 'Oliguria' },
+    { q: 'Output less than 50 mL/24 hrs is called:', options: ['Polyuria','Oliguria','Anuria','Dysuria'], answer: 'Anuria' },
+    { q: 'Which symptom is a red flag requiring immediate notification?', options: ['Nocturia','Hesitancy','Anuria','Frequency'], answer: 'Anuria' },
+    { q: 'Painless hematuria should raise suspicion for:', options: ['UTI','Neoplasm','Urolithiasis','Nephrotic syndrome'], answer: 'Neoplasm' },
+    { q: 'Which question is MOST important when assessing urine?', options: ['How often do you bathe?','What color is your urine?','Do you drink coffee?','How many pillows do you sleep with?'], answer: 'What color is your urine?' },
+    { q: 'A patient wakes multiple times at night to void. This is called:', options: ['Dysuria','Nocturia','Urgency','Hesitancy'], answer: 'Nocturia' },
+    { q: 'Which family history is most relevant to KUB assessment?', options: ['Asthma','Polycystic kidney disease','Peptic ulcer','Migraine'], answer: 'Polycystic kidney disease' },
+    { q: 'Difficulty starting the urine stream is called:', options: ['Dysuria','Hesitancy','Urgency','Frequency'], answer: 'Hesitancy' },
+    { q: 'The memory aid for oliguria and anuria is:', options: ['OLIGURIA = 100-500, ANURIA = <50 = EMERGENCY','OLIGURIA = <50, ANURIA = 100-500','OLIGURIA = 500-1000, ANURIA = 100-500','OLIGURIA = 1-100, ANURIA = <10'], answer: 'OLIGURIA = 100-500, ANURIA = <50 = EMERGENCY' },
+    { q: 'Severe flank pain with fever suggests:', options: ['UTI','Pyelonephritis','Nephrotic syndrome','Renal tumor'], answer: 'Pyelonephritis' },
+  ],
+  unit3: [
+    { q: 'Pallor on skin inspection suggests:', options: ['Dehydration','Anemia of chronic renal disease','Uremic pigmentation','Bleeding tendency'], answer: 'Anemia of chronic renal disease' },
+    { q: 'Yellow-gray skin suggests:', options: ['Uremic pigmentation','Anemia','Dehydration','Bleeding tendency'], answer: 'Uremic pigmentation' },
+    { q: 'Excoriations on skin suggest:', options: ['Bleeding tendency','Pruritus from uremia','Dehydration','Anemia'], answer: 'Pruritus from uremia' },
+    { q: 'Ammonia breath on mouth inspection suggests:', options: ['Normal finding','Uremia','Dehydration','UTI'], answer: 'Uremia' },
+    { q: 'Stomatitis on mouth inspection suggests:', options: ['Normal finding','Uremic inflammation','Dehydration','Infection'], answer: 'Uremic inflammation' },
+    { q: 'Generalized edema suggests:', options: ['Fluid retention','Dehydration','Normal finding','Malnutrition'], answer: 'Fluid retention' },
+    { q: 'Midline mass in the lower abdomen suggests:', options: ['Renal tumor','Urinary retention','PKD','Normal finding'], answer: 'Urinary retention' },
+    { q: 'Weight loss with muscle wasting suggests:', options: ['Edema','Renal failure','Normal aging','Obesity'], answer: 'Renal failure' },
+    { q: 'Which device is NOT typically inspected in KUB assessment?', options: ['Urethral catheter','Ileal conduit','Nephrostomy tube','Endotracheal tube'], answer: 'Endotracheal tube' },
+    { q: 'Poor skin turgor suggests:', options: ['Edema','Dehydration','Anemia','Uremia'], answer: 'Dehydration' },
+  ],
+  unit4: [
+    { q: 'What is the correct sequence of IPPA for KUB assessment?', options: ['Inspection → Palpation → Percussion → Auscultation','Inspection → Auscultation → Palpation → Percussion','Auscultation → Inspection → Palpation → Percussion','Palpation → Percussion → Inspection → Auscultation'], answer: 'Inspection → Auscultation → Palpation → Percussion' },
+    { q: 'A bruit over the renal arteries indicates:', options: ['Normal finding','Impaired blood flow to kidneys','Kidney stones','Bladder distention'], answer: 'Impaired blood flow to kidneys' },
+    { q: 'The memory aid for bruit is:', options: ['BRUIT = BLOOD FLOW TROUBLE','BRUIT = NORMAL FINDING','BRUIT = BLADDER TROUBLE','BRUIT = BOWEL TROUBLE'], answer: 'BRUIT = BLOOD FLOW TROUBLE' },
+    { q: 'A bruit over the renal arteries suggests:', options: ['Renal artery stenosis','Normal finding','Bladder distention','Kidney stones'], answer: 'Renal artery stenosis' },
+    { q: 'Where is the abdominal aorta auscultated?', options: ['Over the symphysis pubis','Mid-abdomen','Over the liver','Over the spleen'], answer: 'Mid-abdomen' },
+    { q: 'Why auscultate before palpation?', options: ['To avoid altering blood flow and bowel sounds','Because it is faster','To check for bruits first','To avoid patient discomfort'], answer: 'To avoid altering blood flow and bowel sounds' },
+    { q: 'A bruit is:', options: ['A grating sound','A whooshing sound','A popping sound','A musical sound'], answer: 'A whooshing sound' },
+    { q: 'A bruit over the abdominal aorta suggests:', options: ['Normal finding','Impaired blood flow','Kidney stones','Bladder distention'], answer: 'Impaired blood flow' },
+    { q: 'The correct order of KUB assessment is:', options: ['IAPP','IPPA','APIP','PAIP'], answer: 'IAPP' },
+    { q: 'Which finding is abnormal on auscultation?', options: ['No bruit','Bruit over renal arteries','Normal bowel sounds','Normal breath sounds'], answer: 'Bruit over renal arteries' },
+  ],
+  unit5: [
+    { q: 'What is the correct depth for light palpation?', options: ['0.5 cm','1–2 cm','3 cm','4 cm'], answer: '1–2 cm' },
+    { q: 'What is the correct depth for deep palpation?', options: ['0.5 cm','1–2 cm','3 cm','4 cm'], answer: '4 cm' },
+    { q: 'To palpate the left kidney, the nurse should:', options: ['Place left hand under left flank, elevate, ask patient to breathe deeply, palpate with right hand','Place right hand under left flank','Palpate directly over the umbilicus','Ask patient to stand'], answer: 'Place left hand under left flank, elevate, ask patient to breathe deeply, palpate with right hand' },
+    { q: 'A palpable bladder indicates:', options: ['Normal finding','Urinary retention','Kidney stones','Uremia'], answer: 'Urinary retention' },
+    { q: 'A palpable kidney indicates:', options: ['Normal finding','Enlarged kidney, tumor, or cyst','Dehydration','UTI'], answer: 'Enlarged kidney, tumor, or cyst' },
+    { q: 'Suprapubic palpation assesses:', options: ['Kidney size','Bladder distention','Liver size','Spleen size'], answer: 'Bladder distention' },
+    { q: 'Palpation should be performed:', options: ['Before auscultation','After auscultation','Before inspection','Before percussion'], answer: 'After auscultation' },
+    { q: 'CVA tenderness on palpation suggests:', options: ['Normal finding','Infection or inflammation','Dehydration','Uremia'], answer: 'Infection or inflammation' },
+    { q: 'Which is NOT a normal palpation finding?', options: ['No CVA tenderness','Nonpalpable kidney','Nonpalpable bladder','Palpable mass'], answer: 'Palpable mass' },
+    { q: 'During kidney palpation, you should ask the patient to:', options: ['Hold their breath','Take a deep breath','Cough','Lie on their side'], answer: 'Take a deep breath' },
+  ],
+  unit6: [
+    { q: 'CVA tenderness on percussion indicates:', options: ['Normal finding','Kidney infection or PKD','Bladder cancer','Urethral obstruction'], answer: 'Kidney infection or PKD' },
+    { q: 'The memory aid for CVA tenderness is:', options: ['CVA TENDERNESS = KIDNEY INFECTION','CVA TENDERNESS = NORMAL FINDING','CVA TENDERNESS = BLADDER INFECTION','CVA TENDERNESS = LIVER TROUBLE'], answer: 'CVA TENDERNESS = KIDNEY INFECTION' },
+    { q: 'Indirect CVA percussion involves:', options: ['Striking the CVA directly with a fist','Placing palm over CVA and striking with ulnar surface','Placing stethoscope over CVA','Pressing the CVA with fingertips'], answer: 'Placing palm over CVA and striking with ulnar surface' },
+    { q: 'Direct CVA percussion involves:', options: ['Striking the CVA directly with the ulnar surface of a fist','Placing palm over CVA and striking','Using a stethoscope','Pressing with fingertips'], answer: 'Striking the CVA directly with the ulnar surface of a fist' },
+    { q: 'Percussion above the symphysis pubis assesses:', options: ['Kidney size','Bladder distention','Liver size','Spleen size'], answer: 'Bladder distention' },
+    { q: 'A dull sound over the suprapubic area suggests:', options: ['Empty bladder','Full bladder','Normal finding','Kidney stones'], answer: 'Full bladder' },
+    { q: 'CVA tenderness suggests all of the following EXCEPT:', options: ['Kidney infection','Polycystic kidney disease','Pyelonephritis','Normal finding'], answer: 'Normal finding' },
+    { q: 'Percussion is performed:', options: ['Before auscultation','After palpation','Before inspection','Before auscultation'], answer: 'After palpation' },
+    { q: 'Fist percussion is used to assess:', options: ['Bladder size','CVA tenderness','Liver size','Spleen size'], answer: 'CVA tenderness' },
+    { q: 'Which finding is NORMAL on percussion?', options: ['CVA tenderness','No CVA tenderness','Dull sound over CVA','Pain on percussion'], answer: 'No CVA tenderness' },
+  ],
+  unit7: [
+    { q: 'What is the signature pattern of UTI?', options: ['Colicky flank pain + hematuria','Frequency + burning + cloudy urine','Proteinuria + edema','Painless hematuria + mass'], answer: 'Frequency + burning + cloudy urine' },
+    { q: 'What is the signature pattern of urolithiasis?', options: ['Frequency + burning','Colicky flank pain + hematuria','Proteinuria + waxy pallor','Bilateral palpable kidneys'], answer: 'Colicky flank pain + hematuria' },
+    { q: 'What is the signature pattern of PKD?', options: ['Painless hematuria + mass','Bilateral palpable kidneys + HTN + hematuria','Proteinuria + edema','Oliguria + azotemia'], answer: 'Bilateral palpable kidneys + HTN + hematuria' },
+    { q: 'What is the signature pattern of nephrotic syndrome?', options: ['Proteinuria + edema + waxy pallor','Hematuria + HTN','Frequency + burning','Colicky flank pain'], answer: 'Proteinuria + edema + waxy pallor' },
+    { q: 'A patient with severe HTN and progressive renal failure likely has:', options: ['UTI','Nephrosclerosis','Urolithiasis','Nephrotic syndrome'], answer: 'Nephrosclerosis' },
+    { q: 'Painless hematuria + palpable mass suggests:', options: ['UTI','Renal tumor','Nephrotic syndrome','ARF'], answer: 'Renal tumor' },
+    { q: 'Oliguric phase of ARF is characterized by:', options: ['↑ GFR, hypokalemia','↓ GFR, hyperkalemia, fluid overload, ↑ BUN/creatinine','Normal BUN','Polyuria'], answer: '↓ GFR, hyperkalemia, fluid overload, ↑ BUN/creatinine' },
+    { q: 'Stage 3 CRF requires:', options: ['No treatment','Dialysis','Antibiotics','Radiation'], answer: 'Dialysis' },
+    { q: 'Most common organism in UTI:', options: ['Staphylococcus','E. coli','Streptococcus','Pseudomonas'], answer: 'E. coli' },
+    { q: 'Kidney transplant rejection occurs:', options: ['Immediately after surgery to 48 hours','1 week after','1 month after','1 year after'], answer: 'Immediately after surgery to 48 hours' },
+  ],
+  unit8: [
+    { q: 'Priority intervention for anuria:', options: ['Encourage fluids','Notify provider immediately','Apply heat','Restrict fluids'], answer: 'Notify provider immediately' },
+    { q: 'Independent intervention for urolithiasis:', options: ['Administer antibiotics','Force fluids up to 3,000 mL/day','Prepare for lithotripsy','Administer diuretics'], answer: 'Force fluids up to 3,000 mL/day' },
+    { q: 'Post-transplant teaching includes:', options: ['Avoid all fluids','Avoid prolonged sitting and contact sports; use meds for life','Stop immunosuppressants after 1 year','Avoid hand hygiene'], answer: 'Avoid prolonged sitting and contact sports; use meds for life' },
+    { q: 'Independent intervention for PKD with cyst rupture:', options: ['Encourage ambulation','Bed rest','Force fluids','Administer diuretics'], answer: 'Bed rest' },
+    { q: 'After renal tumor surgery, the nurse should:', options: ['Irrigate nephrostomy tube','Monitor for hypotension, decreased urine output, and altered LOC','Ambulate immediately','Restrict all fluids'], answer: 'Monitor for hypotension, decreased urine output, and altered LOC' },
+    { q: 'Which finding after lithotripsy is common?', options: ['Anuria','Hematuria','Hyperkalemia','Sepsis'], answer: 'Hematuria' },
+    { q: 'Emergency renal red flag requiring rapid response:', options: ['Nocturia','Mild flank discomfort','Pulmonary edema','Hesitancy'], answer: 'Pulmonary edema' },
+    { q: 'UTI teaching includes:', options: ['Wipe front to back','Void every 2-3 hours','Void after intercourse','All of the above'], answer: 'All of the above' },
+    { q: 'A urine culture should be obtained:', options: ['After starting antibiotics','Before starting antibiotics','Only if fever is present','Only in the ICU'], answer: 'Before starting antibiotics' },
+    { q: 'The clinical pearl for renal interventions is to ask:', options: ['Does it improve urine output, fluid balance, kidney work, prevent deterioration, detect complications?','Does it look impressive?','Is it quick?','Is it cheap?'], answer: 'Does it improve urine output, fluid balance, kidney work, prevent deterioration, detect complications?' },
+  ],
+};
+
+/* ---------- DISEASES DATA ---------- */
+const DISEASES = [
+  { name:'Urinary Tract Infection (UTI)', patho:'Inflammation of the bladder from infection or obstruction of the urethra.', symptoms:'Frequency, urgency, dysuria, cloudy/foul urine, hematuria, fever', pattern:[['Inspection','Cloudy, dark, foul-smelling urine'],['Palpation','Suprapubic tenderness'],['Urine','Hematuria, positive C/S'],['Vital Signs','Fever, chills']], signature:'Frequency + Burning + Cloudy Urine = UTI' },
+  { name:'Urolithiasis', patho:'Formation of urinary stones; calculi formed in the ureters.', symptoms:'Severe colicky flank pain, hematuria, N/V', pattern:[['Inspection','Warm, flushed skin or pallor'],['Palpation','Tenderness on renal areas'],['Urine','Hematuria, decreased output'],['Labs','↑ BUN, creatinine, WBC, calcium, phosphorus, uric acid'],['KUB/IVP','Calculi or anatomic changes']], signature:'Colicky Flank Pain + Hematuria = Urolithiasis' },
+  { name:'Polycystic Kidney Disease (PKD)', patho:'Cystic formation and hypertrophy of the kidney → cystic rupture, infection, scar tissue → renal failure.', symptoms:'Flank/lumbar or abdominal pain, fever, UTIs, hematuria, proteinuria, HTN', pattern:[['Inspection','Abdominal distention'],['Palpation','Bilateral palpable masses, enlarged kidneys'],['Urine','Hematuria, proteinuria, pyuria'],['Vital Signs','HTN, fever']], signature:'Bilateral Palpable Kidneys + HTN + Hematuria = PKD' },
+  { name:'Nephrotic Syndrome', patho:'Protein wasting secondary to diffuse glomerular damage.', symptoms:'Proteinuria, edema, anemia, malaise, HTN, waxy pallor', pattern:[['Inspection','Generalized edema, waxy pallor'],['Urine','Proteinuria'],['Vital Signs','HTN'],['Labs','Anemia']], signature:'Proteinuria + Edema + Waxy Pallor = Nephrotic Syndrome' },
+  { name:'Nephrosclerosis', patho:'Sclerosis of small arteries & arterioles of the kidney → decreased blood flow → patchy necrosis.', symptoms:'Severe HTN, progressive renal failure', pattern:[['Vital Signs','Severe HTN'],['Labs','↑ BUN, creatinine'],['Urine','Proteinuria']], signature:'Severe HTN + Progressive Renal Failure = Nephrosclerosis' },
+  { name:'Renal Tumors', patho:'May be benign or malignant. Metastasizes to bone, lungs, liver, spleen.', symptoms:'Dull flank pain, palpable renal mass, painless hematuria', pattern:[['Palpation','Palpable renal mass'],['Urine','Painless hematuria'],['Pain','Dull flank pain']], signature:'Painless Hematuria + Palpable Mass = Renal Tumor' },
+  { name:'Acute Renal Failure (ARF)', patho:'Rapid decline in renal function → accumulation of nitrogenous wastes (azotemia).', symptoms:'Oliguria/anuria, azotemia, hyperkalemia, fluid overload', pattern:[['Oliguric','↓ GFR, hyperkalemia, fluid overload, ↑ BUN/creatinine'],['Diuretic','↑ GFR, hypokalemia, hypovolemia, gradual ↓ BUN/creatinine'],['Recovery','BUN stable & normal; recovery 1-2 years']], signature:'Rapid ↓ Renal Function + Azotemia = ARF' },
+  { name:'Chronic Renal Failure (CRF)', patho:'Progressive renal decline.', symptoms:'Progressive renal decline, dialysis required', pattern:[['Stage 1','Diminished renal reserve'],['Stage 2','Renal insufficiency'],['Stage 3','End-stage: dialysis required']], signature:'Progressive Renal Decline + Dialysis = CRF' },
+  { name:'Kidney Transplant', patho:'Implantation of a human kidney from a compatible donor into a recipient.', symptoms:'Post-transplant status, on immunosuppressive therapy', pattern:[['Complications','Graft rejection: fever, malaise, ↑ WBC, graft tenderness, acute HTN, anemia'],['Teaching','Avoid prolonged sitting, avoid contact sports, recognize rejection, use meds for life']], signature:'Post-Transplant + Graft Tenderness + Fever = Rejection', redflag:'Graft rejection occurs immediately after surgery to 48 hours' },
+];
+
+/* ---------- INTERVENTIONS DATA ---------- */
+const INTERVENTIONS = [
+  { title:'UTI', indicates:'Inflammation of bladder', interventions:['Force fluids up to 3,000 mL/day','Provide meticulous perineal care','Avoid alcohol','Provide heat to abdomen or sitz bath'], rationale:'Antibiotics eliminate organism; Pyridium relieves pain and alerts urine color', redflag:'Sepsis signs, persistent fever >48 hrs, flank pain' },
+  { title:'Urolithiasis', indicates:'Formation of urinary stones', interventions:['Force fluids up to 3,000 mL/day','Strain all urine','Turn and reposition immobilized clients','Administer analgesics'], rationale:'Fluids facilitate stone passage; strain detects stones', redflag:'Anuria, severe pain not relieved' },
+  { title:'Polycystic Kidney Disease', indicates:'Cystic kidney disease', interventions:['Monitor for gross hematuria (cyst rupture)','Increase sodium & water intake','Bed rest if cyst ruptured'], rationale:'Sodium loss occurs rather than retention', redflag:'Gross hematuria indicating rupture' },
+  { title:'Nephrotic Syndrome', indicates:'Protein wasting from glomerular damage', interventions:['Monitor I/O','Bed rest if edema present','Daily weights','Administer plasma expanders'], rationale:'Plasma expanders raise osmotic pressure', redflag:'Worsening edema, respiratory distress' },
+  { title:'Nephrosclerosis', indicates:'Sclerosis of renal arterioles', interventions:['Monitor BP','Monitor renal function','Aggressive antihypertensive therapy'], rationale:'BP control slows progression', redflag:'Malignant HTN (diastolic >130)' },
+  { title:'Renal Tumors', indicates:'Benign or malignant growth', interventions:['Observe bed linen for bleeding','Monitor abdomen for distention','Monitor for hypotension, decreased urine output, altered LOC','Do not irrigate or manipulate nephrostomy tube'], rationale:'Detects hemorrhage early', redflag:'Hemorrhage signs' },
+  { title:'Acute Renal Failure', indicates:'Rapid decline in renal function', interventions:['Monitor I/O','Daily weights','Assess electrolytes','Prepare for dialysis'], rationale:'Dialysis removes waste products', redflag:'Anuria, severe hyperkalemia' },
+  { title:'Chronic Renal Failure', indicates:'Progressive renal decline', interventions:['Monitor I/O','Daily weights','Diet education','Prepare for dialysis','Administer erythropoietin, antihypertensives'], rationale:'Dialysis maintains homeostasis', redflag:'Fluid overload, severe anemia' },
+  { title:'Kidney Transplant', indicates:'Post-transplant status', interventions:['Monitor for rejection signs','Monitor I/O','Assess graft site','Administer immunosuppressants','Monitor drug levels'], rationale:'Prevents rejection', redflag:'Graft rejection (fever, malaise, ↑ WBC, tenderness)' },
+  { title:'Emergency: Anuria', indicates:'<50 mL/24 hrs', interventions:['Notify provider immediately','Prepare for dialysis if ordered'], rationale:'Serious renal dysfunction requires immediate intervention', redflag:'ALWAYS an emergency' },
+  { title:'Emergency: Hyperkalemia', indicates:'Severe potassium elevation', interventions:['Emergency ECG','Notify provider','Prepare for treatment'], rationale:'Can cause fatal cardiac dysrhythmias', redflag:'Cardiac arrhythmias' },
+  { title:'Emergency: Pulmonary Edema', indicates:'Fluid overload', interventions:['Position High Fowler\'s','Oxygen therapy','Monitor I/O','Administer diuretics as ordered'], rationale:'Reduces venous return, improves oxygenation', redflag:'Threatens oxygenation — rapid response' },
+];
+
+/* ---------- INIT ---------- */
+function init() {
+  loadState();
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.addEventListener('click', () => navigate(n.dataset.view));
+  });
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+  document.getElementById('handoffModal').addEventListener('click', (e) => {
+    if (e.target.id === 'handoffModal') closeHandoff();
+  });
+  document.getElementById('logoutModal').addEventListener('click', (e) => {
+    if (e.target.id === 'logoutModal') closeLogoutModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeHandoff(); closeLogoutModal(); }
+  });
+
+  if (APP.state.student && APP.state.student.fullName) {
+    showApp();
+  } else {
+    document.getElementById('registrationScreen').style.display = 'flex';
+    document.getElementById('appContainer').style.display = 'none';
+    switchAuthTab('register');
+  }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js').catch(e => console.warn('SW failed', e));
+  }
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
