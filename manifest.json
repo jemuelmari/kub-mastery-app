@@ -1,7 +1,7 @@
 {
   "name": "Renal (KUB) Assessment Mastery",
   "short_name": "RenalMastery",
-  "description": "Renal (KUB) Health Assessment Mastery App for 3rd Year BS Nursing Students — NCM 101B Lab. Developed by JEMUEL C. MARI, MAN, RN, LPT — Tarlac State University, College of Science, Nursing Department.",
+  "description": "Renal (Kidney, Ureter, Bladder) Health Assessment Mastery App for 3rd Year BS Nursing Students — NCM 101B Lab. Developed by JEMUEL C. MARI, MAN, RN, LPT — Tarlac State University, College of Science, Nursing Department.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -35,7 +35,7 @@
     {
       "name": "Mastery Games",
       "short_name": "Games",
-      "description": "Play mastery games",
+      "description": "Play renal mastery games",
       "url": "./index.html#games",
       "icons": [{ "src": "icon.svg", "sizes": "any" }]
     },
