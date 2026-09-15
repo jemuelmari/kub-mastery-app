@@ -76,6 +76,7 @@
       font-size: 0.72rem; padding: 0.5rem 0.35rem;
     }
     table.gradebook thead th.sub { background: var(--secondary); font-size: 0.68rem; }
+    table.gradebook thead th.exam-header { background: #9C27B0; }
     table.gradebook tbody td.name-cell {
       text-align: left; font-weight: 600; white-space: nowrap;
       min-width: 180px; padding-left: 0.6rem;
@@ -96,6 +97,8 @@
     td.final-pass { background: #C8E6C9; color: #1B5E20; }
     td.final-warn { background: #FFE0B2; color: #E65100; }
     td.final-fail { background: #FFCDD2; color: #B71C1C; }
+    td.exam-pass { background: #C8E6C9; color: #1B5E20; font-weight: 700; }
+    td.exam-fail { background: #FFCDD2; color: #B71C1C; font-weight: 700; }
     .remarks-pass { color: var(--success); }
     .remarks-fail { color: var(--accent); }
     .legend {
@@ -112,6 +115,7 @@
     .swatch-warn { background: #FFE0B2; }
     .swatch-fail { background: #FFCDD2; }
     .swatch-empty { background: #FAFAFA; }
+    .swatch-exam { background: #E1BEE7; }
     .stats-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 0.75rem; margin-top: 1rem;
@@ -158,9 +162,10 @@
       table.gradebook th, table.gradebook td { padding: 0.2rem 0.15rem; border-color: #999; }
       table.gradebook thead th { background: #0D7377 !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       table.gradebook thead th.sub { background: #1E88E5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      td.score-pass, td.final-pass { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      table.gradebook thead th.exam-header { background: #9C27B0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      td.score-pass, td.final-pass, td.exam-pass { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       td.score-warn, td.final-warn { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      td.score-fail, td.final-fail { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      td.score-fail, td.final-fail, td.exam-fail { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
     @media (max-width: 768px) {
       body { padding: 0.75rem; }
@@ -182,10 +187,7 @@
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #E0E0E0;
     }
-    .modal-close {
-      background: none; border: none; font-size: 1.5rem; cursor: pointer;
-      color: var(--gray); line-height: 1;
-    }
+    .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray); line-height: 1; }
     .form-group { margin-bottom: 1rem; }
     .form-group label {
       display: block; font-weight: 600; margin-bottom: 0.3rem;
@@ -195,9 +197,6 @@
       width: 100%; padding: 0.55rem 0.75rem;
       border: 2px solid var(--border); border-radius: 8px;
       font-family: var(--font-body); font-size: 0.9rem;
-    }
-    .form-group input:focus, .form-group select:focus {
-      outline: none; border-color: var(--secondary);
     }
     .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; }
     .toast {
@@ -243,6 +242,11 @@
 <div class="toast" id="toast"></div>
 
 <script>
+/* ============================================================
+   RENAL (KUB) MASTERY GRADEBOOK — v1.0.0
+   Philippine Transmutation + Bloom's Breakdown + Integrity
+   ============================================================ */
+
 const GB = {
   instructorKey: 'renalMastery_instructor_v1',
   studentKey: 'renalMastery_v1',
@@ -259,19 +263,20 @@ const GB = {
       unitQuizWeight: 40,
       gamesWeight: 20,
       capstoneWeight: 20,
+      examPassingScore: 15,
     },
   },
 };
 
-const UNIT_KEYS = ['unit1','unit2','unit3','unit4','unit5','unit6','unit7','unit8'];
+const UNIT_KEYS = ['unit1','unit2','unit3','unit4','unit5','unit6','unit7'];
 const UNIT_NAMES = {
-  unit1: 'U1 Foundation', unit2: 'U2 Subjective', unit3: 'U3 Inspection',
-  unit4: 'U4 Auscultation', unit5: 'U5 Palpation', unit6: 'U6 Percussion',
-  unit7: 'U7 Disease Patterns', unit8: 'U8 Interventions',
+  unit1: 'U1 Normal Baseline', unit2: 'U2 Inspection', unit3: 'U3 Palpation',
+  unit4: 'U4 Percussion', unit5: 'U5 Auscultation', unit6: 'U6 Disease Patterns',
+  unit7: 'U7 Interventions',
 };
-const GAME_KEYS = ['blitz','tree','urine','redflag','matrix'];
+const GAME_KEYS = ['blitz','tree','sound','redflag','matrix'];
 const GAME_NAMES = {
-  blitz: 'Pattern Blitz', tree: 'Decision Tree', urine: 'Urine ID',
+  blitz: 'Pattern Blitz', tree: 'Decision Tree', sound: 'Urine Analysis',
   redflag: 'Red Flag', matrix: 'Matrix',
 };
 const EXAM_KEY = 'exam';
@@ -285,7 +290,6 @@ function loadData() {
       GB.state.settings = { ...GB.state.settings, ...(parsed.settings || {}) };
     }
   } catch (e) { console.warn('Load failed', e); }
-
   if (!GB.state.students.length) {
     try {
       const raw = localStorage.getItem(GB.studentKey);
@@ -293,28 +297,19 @@ function loadData() {
         const data = JSON.parse(raw);
         GB.state.students = [{
           id: 'local-1',
-          name: 'Current Student (local)',
-          studentNo: '',
-          section: '',
+          name: data.student?.fullName || 'Current Student (local)',
+          studentNo: data.student?.studentNo || '',
+          section: data.student?.section || '',
+          group: data.student?.group || '',
           progress: data.progress || {},
           quizAttempts: data.quizAttempts || {},
           games: data.games || {},
+          exam: data.exam || null,
           lastActive: new Date().toISOString(),
         }];
       }
-    } catch (e) { }
+    } catch (e) {}
   }
-}
-
-function saveInstructorSettings() {
-  try {
-    const raw = localStorage.getItem(GB.instructorKey);
-    let stored = {};
-    if (raw) stored = JSON.parse(raw);
-    stored.settings = { ...(stored.settings || {}), ...GB.state.settings };
-    stored.students = GB.state.students;
-    localStorage.setItem(GB.instructorKey, JSON.stringify(stored));
-  } catch (e) { console.warn('Save failed', e); }
 }
 
 function toast(msg, type = '') {
@@ -338,8 +333,7 @@ function downloadFile(content, filename, mime) {
   const a = document.createElement('a');
   a.href = url; a.download = filename;
   document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 function getUnitAttemptBest(s, unit) {
   const attempts = s.quizAttempts?.[unit];
@@ -352,6 +346,7 @@ function getGameBest(s, game) {
   return Math.max(...attempts);
 }
 function getExamScore(s) {
+  if (s.exam?.submitted) return s.exam.percentage;
   const attempts = s.quizAttempts?.[EXAM_KEY];
   if (!attempts || !attempts.length) return null;
   return Math.max(...attempts);
@@ -447,11 +442,10 @@ function render() {
   if (!students.length) {
     app.innerHTML = `
       <div class="toolbar">
-        <div class="toolbar-left"><h1>📊 Class Record — Gradebook</h1></div>
+        <div class="toolbar-left"><h1>📊 Class Record — Renal Mastery Gradebook</h1></div>
         <div class="toolbar-right">
           <button class="btn btn-outline btn-sm" onclick="openStudentApp()">🩺 Student App</button>
           <button class="btn btn-outline btn-sm" onclick="window.location.href='instructor-dashboard.html'">👨‍🏫 Dashboard</button>
-          <button class="btn btn-outline btn-sm" onclick="openInstructorModal()">✏️ Edit Instructor</button>
         </div>
       </div>
       <div class="empty-state">
@@ -465,6 +459,7 @@ function render() {
         <div class="dev-name">JEMUEL C. MARI, MAN, RN, LPT</div>
         <div>Clinical Instructor | Teacher II — Department of Education</div>
         <div><strong>Tarlac State University</strong> — College of Science — Nursing Department</div>
+        <div style="margin-top:0.5rem;font-size:0.72rem;">Version 1.0.0</div>
       </div>
     `;
     return;
@@ -478,6 +473,7 @@ function render() {
       ${renderTable()}
       ${renderLegend()}
       ${renderClassStats()}
+      ${renderExamStats()}
       ${renderSignatureBlock()}
     </div>
     <div class="no-print" style="text-align:center;color:var(--gray);font-size:0.8rem;margin-top:1rem;">
@@ -489,12 +485,10 @@ function render() {
 function renderToolbar() {
   return `
     <div class="toolbar no-print">
-      <div class="toolbar-left"><h1>📊 Class Record — Gradebook</h1></div>
+      <div class="toolbar-left"><h1>📊 Class Record — Renal Mastery Gradebook (v1.0.0)</h1></div>
       <div class="toolbar-right">
         <button class="btn btn-outline btn-sm" onclick="openStudentApp()">🩺 Student App</button>
         <button class="btn btn-outline btn-sm" onclick="window.location.href='instructor-dashboard.html'">👨‍🏫 Dashboard</button>
-        <button class="btn btn-outline btn-sm" onclick="openInstructorModal()">✏️ Edit Instructor</button>
-        <button class="btn btn-outline btn-sm" onclick="openCourseModal()">📚 Edit Course</button>
         <button class="btn btn-outline btn-sm" onclick="openWeightsModal()">⚖️ Weights</button>
         <button class="btn btn-secondary btn-sm" onclick="exportCSV()">📤 Export CSV</button>
         <button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ Print</button>
@@ -529,7 +523,7 @@ function renderSheetHeader() {
       <h1>${escapeHtml(s.courseName)}</h1>
       <p><strong>CLASS RECORD — RENAL (KUB) ASSESSMENT MASTERY</strong></p>
       <p>School Year ${escapeHtml(s.schoolYear)} &nbsp;|&nbsp; ${escapeHtml(s.semester)} &nbsp;|&nbsp; Instructor: ${escapeHtml(s.instructorName)}</p>
-      <p style="font-size:0.78rem;color:var(--gray);">Generated ${todayLong()}</p>
+      <p style="font-size:0.78rem;color:var(--gray);">Generated ${todayLong()} &nbsp;|&nbsp; App Version 1.0.0</p>
     </div>
   `;
 }
@@ -542,12 +536,13 @@ function renderTable() {
         <tr>
           <th rowspan="2" style="min-width:180px;">STUDENT NAME</th>
           <th rowspan="2" style="min-width:110px;">STUDENT NO.</th>
-          <th rowspan="2" style="min-width:80px;">SECTION</th>
+          <th rowspan="2" style="min-width:70px;">SECTION</th>
+          <th rowspan="2" style="min-width:70px;">GROUP</th>
           <th colspan="${UNIT_KEYS.length}">UNIT QUIZ SCORES (Best Attempt)</th>
-          <th rowspan="2" style="min-width:60px;">UNIT AVG</th>
-          <th colspan="${GAME_KEYS.length}">MASTERY GAMES (Best Attempt)</th>
-          <th rowspan="2" style="min-width:60px;">GAMES AVG</th>
-          <th rowspan="2" style="min-width:60px;">CAPSTONE<br>EXAM</th>
+          <th rowspan="2" style="min-width:60px;">UNIT<br>AVG</th>
+          <th colspan="${GAME_KEYS.length}">MASTERY GAMES</th>
+          <th rowspan="2" style="min-width:60px;">GAMES<br>AVG</th>
+          <th colspan="2" class="exam-header">CAPSTONE EXAM</th>
           <th rowspan="2" style="min-width:70px;">UNITS<br>COMPLETED</th>
           <th rowspan="2" style="min-width:70px;">WEIGHTED<br>RAW %</th>
           <th rowspan="2" style="min-width:70px;">FINAL<br>GRADE</th>
@@ -556,6 +551,8 @@ function renderTable() {
         <tr>
           ${UNIT_KEYS.map(u => `<th class="sub" style="min-width:52px;">${escapeHtml(UNIT_NAMES[u].split(' ')[0])}</th>`).join('')}
           ${GAME_KEYS.map(g => `<th class="sub" style="min-width:52px;">${escapeHtml(GAME_NAMES[g])}</th>`).join('')}
+          <th class="sub exam-header" style="min-width:52px;">Score</th>
+          <th class="sub exam-header" style="min-width:70px;">Result</th>
         </tr>
       </thead>
       <tbody>
@@ -572,7 +569,8 @@ function renderStudentRow(s, idx) {
   const gameScores = GAME_KEYS.map(g => getGameBest(s, g));
   const unitAvg = getUnitAverage(s);
   const gameAvg = getGameAverage(s);
-  const exam = getExamScore(s);
+  const examPct = getExamScore(s);
+  const exam = s.exam;
   const completion = getCompletionPercent(s);
   const rawFinal = computeWeightedFinal(s, w);
   const transmuted = transmute(rawFinal);
@@ -582,11 +580,15 @@ function renderStudentRow(s, idx) {
     <td class="name-cell">${escapeHtml(s.name)}</td>
     <td class="no-cell">${escapeHtml(s.studentNo || '—')}</td>
     <td class="no-cell" style="text-align:center;">${escapeHtml(s.section || '—')}</td>
+    <td class="no-cell" style="text-align:center;">${escapeHtml(s.group || '—')}</td>
     ${unitScores.map(v => `<td class="num ${scoreClass(v, w.masteryThreshold)}">${cell(v)}</td>`).join('')}
     <td class="num final ${scoreClass(unitAvg, w.masteryThreshold)}">${cell(unitAvg)}</td>
     ${gameScores.map(v => `<td class="num ${scoreClass(v, 90)}">${cell(v)}</td>`).join('')}
     <td class="num final ${scoreClass(gameAvg, 90)}">${cell(gameAvg)}</td>
-    <td class="num ${scoreClass(exam, w.masteryThreshold)}">${cell(exam)}</td>
+    <td class="num ${scoreClass(examPct, 90)}">${examPct !== null ? (exam ? `${exam.score}/${exam.total}<br><small>${examPct}%</small>` : examPct + '%') : '—'}</td>
+    <td class="num ${exam ? (exam.passed ? 'exam-pass' : 'exam-fail') : 'score-empty'}">
+      ${exam?.submitted ? (exam.passed ? '✅ PASS' : '❌ FAIL') : 'Not taken'}
+    </td>
     <td class="num">${completion}%</td>
     <td class="num final">${rawFinal !== null ? rawFinal : '—'}</td>
     <td class="num final ${finalGradeClass(transmuted)}">${formatGrade(transmuted)}</td>
@@ -612,14 +614,17 @@ function renderClassAverageRow() {
   const completionAvg = avg(students.map(s => getCompletionPercent(s)));
   const rawAvg = avg(students.map(s => computeWeightedFinal(s, w)));
   const transmutedAvg = avg(students.map(s => transmute(computeWeightedFinal(s, w))));
+  const examPassCount = students.filter(s => s.exam?.passed).length;
+  const examTakenCount = students.filter(s => s.exam?.submitted).length;
 
   return `<tr style="background:#E0F2F1;font-weight:700;border-top:2px solid var(--primary);">
-    <td class="name-cell" colspan="3" style="text-align:right;padding-right:0.75rem;">CLASS AVERAGE →</td>
+    <td class="name-cell" colspan="4" style="text-align:right;padding-right:0.75rem;">CLASS AVERAGE →</td>
     ${unitAvgs.map(v => `<td class="num">${v ?? '—'}</td>`).join('')}
     <td class="num final">${unitAvgOfAvgs ?? '—'}</td>
     ${gameAvgs.map(v => `<td class="num">${v ?? '—'}</td>`).join('')}
     <td class="num final">${gameAvgOfAvgs ?? '—'}</td>
-    <td class="num">${examAvg ?? '—'}</td>
+    <td class="num">${examAvg !== null ? examAvg + '%' : '—'}<br><small>${examPassCount}/${examTakenCount} passed</small></td>
+    <td class="num">${examTakenCount ? Math.round((examPassCount/examTakenCount)*100) + '%' : '—'}</td>
     <td class="num">${completionAvg ?? '—'}%</td>
     <td class="num final">${rawAvg ?? '—'}</td>
     <td class="num final">${transmutedAvg !== null ? formatGrade(transmutedAvg) : '—'}</td>
@@ -635,6 +640,7 @@ function renderLegend() {
       <div class="legend-item"><span class="legend-swatch swatch-warn"></span> 75–${w.masteryThreshold - 1}% — Passing</div>
       <div class="legend-item"><span class="legend-swatch swatch-fail"></span> &lt;75% — Failing</div>
       <div class="legend-item"><span class="legend-swatch swatch-empty"></span> No data</div>
+      <div class="legend-item"><span class="legend-swatch swatch-exam"></span> Capstone Exam (15/30 passing = 50% = 3.0)</div>
       <div class="legend-item" style="margin-left:auto;"><strong>Transmutation:</strong> 97+ → 1.00 | 94 → 1.25 | 91 → 1.50 | 88 → 1.75 | 85 → 2.00 | 82 → 2.25 | 79 → 2.50 | 76 → 2.75 | 75 → 3.00 | &lt;75 → 5.00</div>
     </div>
   `;
@@ -670,6 +676,33 @@ function renderClassStats() {
   `;
 }
 
+function renderExamStats() {
+  const students = GB.state.students;
+  const takers = students.filter(s => s.exam?.submitted);
+  const passed = takers.filter(s => s.exam.passed).length;
+  const failed = takers.length - passed;
+  const passRate = takers.length ? Math.round((passed / takers.length) * 100) : 0;
+  const avgScore = takers.length
+    ? Math.round(takers.reduce((sum, s) => sum + s.exam.percentage, 0) / takers.length)
+    : 0;
+  const flagged = takers.filter(s => {
+    const i = s.exam.integrity || {};
+    const total = (i.focusLosses?.length || 0) + (i.copyAttempts || 0) + (i.rightClicks || 0) + (i.printAttempts || 0);
+    return total >= 3;
+  }).length;
+
+  return `
+    <div class="stats-grid no-print">
+      <div class="stat-box"><div class="stat-value">${takers.length}/${students.length}</div><div class="stat-label">Exams Taken</div></div>
+      <div class="stat-box pass"><div class="stat-value">${passed}</div><div class="stat-label">Exam Passed</div></div>
+      <div class="stat-box fail"><div class="stat-value">${failed}</div><div class="stat-label">Exam Failed</div></div>
+      <div class="stat-box"><div class="stat-value">${passRate}%</div><div class="stat-label">Exam Pass Rate</div></div>
+      <div class="stat-box"><div class="stat-value">${avgScore}%</div><div class="stat-label">Avg Exam Score</div></div>
+      <div class="stat-box ${flagged > 0 ? 'fail' : ''}"><div class="stat-value">${flagged}</div><div class="stat-label">Integrity Flagged</div></div>
+    </div>
+  `;
+}
+
 function renderSignatureBlock() {
   const s = GB.state.settings;
   return `
@@ -678,7 +711,7 @@ function renderSignatureBlock() {
       <div class="dev-name">JEMUEL C. MARI, MAN, RN, LPT</div>
       <div>Clinical Instructor | Teacher II — Department of Education</div>
       <div><strong>Tarlac State University</strong> — College of Science — Nursing Department</div>
-      <div style="margin-top:0.5rem;font-size:0.72rem;">© ${new Date().getFullYear()} — All Rights Reserved</div>
+      <div style="margin-top:0.5rem;font-size:0.72rem;">Version 1.0.0 — © ${new Date().getFullYear()} — All Rights Reserved</div>
     </div>
     <div class="signature-block">
       <div>
@@ -702,91 +735,39 @@ function exportCSV() {
   const w = GB.state.settings;
   if (!students.length) return toast('No data to export.', 'warning');
   const headers = [
-    'Student Name','Student No.','Section',
+    'Student Name','Student No.','Section','Group',
     ...UNIT_KEYS.map(u => UNIT_NAMES[u]),
     'Unit Avg',
     ...GAME_KEYS.map(g => GAME_NAMES[g]),
     'Games Avg',
-    'Capstone Exam','Units Completed %','Weighted Raw %','Final Grade','Remarks'
+    'ExamID','ExamScore','ExamTotal','ExamPercentage','ExamResult','ExamDate',
+    'Units Completed %','Weighted Raw %','Final Grade','Remarks',
+    'IntegrityFocusLoss','IntegrityCopy','IntegrityRightClick','IntegrityPrint','IntegrityTotal'
   ];
   const rows = students.map(s => {
     const unitScores = UNIT_KEYS.map(u => getUnitAttemptBest(s, u) ?? '');
     const gameScores = GAME_KEYS.map(g => getGameBest(s, g) ?? '');
     const unitAvg = getUnitAverage(s) ?? '';
     const gameAvg = getGameAverage(s) ?? '';
-    const exam = getExamScore(s) ?? '';
+    const exam = s.exam;
     const completion = getCompletionPercent(s);
     const raw = computeWeightedFinal(s, w) ?? '';
     const g = transmute(raw);
+    const i = exam?.integrity || {};
+    const intTotal = (i.focusLosses?.length || 0) + (i.copyAttempts || 0) + (i.rightClicks || 0) + (i.printAttempts || 0);
     return [
-      s.name, s.studentNo || '', s.section || '',
+      s.name, s.studentNo || '', s.section || '', s.group || '',
       ...unitScores, unitAvg, ...gameScores, gameAvg,
-      exam, completion + '%', raw, formatGrade(g), getRemarks(g)
+      exam?.examId || '', exam?.score || '', exam?.total || '', exam?.percentage || '',
+      exam?.submitted ? (exam.passed ? 'PASSED' : 'FAILED') : 'NOT TAKEN',
+      exam?.takenAt || '',
+      completion + '%', raw, formatGrade(g), getRemarks(g),
+      i.focusLosses?.length || 0, i.copyAttempts || 0, i.rightClicks || 0, i.printAttempts || 0, intTotal
     ];
   });
   const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
   downloadFile(csv, `class-record-${new Date().toISOString().slice(0,10)}.csv`, 'text/csv');
   toast('CSV exported successfully.', 'success');
-}
-
-function openInstructorModal() {
-  const s = GB.state.settings;
-  document.getElementById('modalTitle').textContent = '✏️ Edit Instructor Information';
-  document.getElementById('modalBody').innerHTML = `
-    <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1rem;">
-      Change the Clinical Instructor name that appears on the class record and signature block.
-    </p>
-    <div class="form-group">
-      <label>Clinical Instructor Name</label>
-      <input type="text" id="editInstructorName" value="${escapeHtml(s.instructorName)}" placeholder="JEMUEL C. MARI, MAN, RN, LPT" />
-      <p style="font-size:0.75rem;color:var(--gray);margin-top:0.35rem;">Include credentials (e.g., MAN, RN, LPT)</p>
-    </div>
-    <div class="form-group">
-      <label>Course Name</label>
-      <input type="text" id="editCourseName" value="${escapeHtml(s.courseName)}" placeholder="NCM 101B Lab — Renal (KUB) Assessment" />
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>School Year</label>
-        <input type="text" id="editSchoolYear" value="${escapeHtml(s.schoolYear)}" placeholder="2025–2026" />
-      </div>
-      <div class="form-group">
-        <label>Semester</label>
-        <input type="text" id="editSemester" value="${escapeHtml(s.semester)}" placeholder="1st Semester" />
-      </div>
-    </div>
-    <div class="flex gap-1" style="margin-top:1rem;">
-      <button class="btn btn-primary" onclick="saveInstructorSettingsFromModal()">💾 Save Changes</button>
-      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-    </div>
-  `;
-  document.getElementById('modalOverlay').classList.add('show');
-}
-
-function openCourseModal() {
-  openInstructorModal();
-}
-
-function saveInstructorSettingsFromModal() {
-  const name = document.getElementById('editInstructorName').value.trim();
-  const course = document.getElementById('editCourseName').value.trim();
-  const sy = document.getElementById('editSchoolYear').value.trim();
-  const sem = document.getElementById('editSemester').value.trim();
-
-  if (!name) {
-    toast('Instructor name cannot be empty.', 'error');
-    return;
-  }
-
-  GB.state.settings.instructorName = name;
-  GB.state.settings.courseName = course || GB.state.settings.courseName;
-  GB.state.settings.schoolYear = sy || GB.state.settings.schoolYear;
-  GB.state.settings.semester = sem || GB.state.settings.semester;
-
-  saveInstructorSettings();
-  closeModal();
-  toast('✅ Instructor information updated.', 'success');
-  render();
 }
 
 function openWeightsModal() {
@@ -832,7 +813,6 @@ function saveWeights() {
   GB.state.settings.unitQuizWeight = parseInt(document.getElementById('w_unitavg').value, 10) || 0;
   GB.state.settings.gamesWeight = parseInt(document.getElementById('w_games').value, 10) || 0;
   GB.state.settings.capstoneWeight = parseInt(document.getElementById('w_capstone').value, 10) || 0;
-  saveInstructorSettings();
   closeModal();
   toast('Weights saved.', 'success');
   render();
