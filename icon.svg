@@ -1,15 +1,62 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0D7377"/>
       <stop offset="100%" stop-color="#1E88E5"/>
     </linearGradient>
+    <linearGradient id="kidneyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E0F2F1"/>
+    </linearGradient>
   </defs>
-  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
-  <g fill="#FFFFFF">
-    <path d="M180 130 C130 130 100 180 100 240 C100 310 140 370 200 370 C230 370 245 350 245 320 C245 290 225 270 225 240 C225 200 240 180 240 160 C240 140 220 130 180 130 Z" opacity="0.95"/>
-    <path d="M332 130 C382 130 412 180 412 240 C412 310 372 370 312 370 C282 370 267 350 267 320 C267 290 287 270 287 240 C287 200 272 180 272 160 C272 140 292 130 332 130 Z" opacity="0.95"/>
-    <path d="M225 370 C225 420 240 450 256 460 C272 450 287 420 287 370" stroke="#FFFFFF" stroke-width="10" fill="none" opacity="0.9"/>
-    <ellipse cx="256" cy="470" rx="40" ry="20" fill="#FFFFFF" opacity="0.9"/>
-  </g>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- Left Kidney -->
+  <path d="M 155 130
+           C 110 130, 85 195, 95 265
+           C 105 335, 145 385, 185 385
+           C 205 385, 218 360, 218 325
+           L 218 195
+           C 218 155, 190 130, 155 130 Z"
+        fill="url(#kidneyGrad)"
+        stroke="#0B5C5F"
+        stroke-width="6"
+        stroke-linejoin="round"/>
+
+  <!-- Right Kidney -->
+  <path d="M 357 130
+           C 402 130, 427 195, 417 265
+           C 407 335, 367 385, 327 385
+           C 307 385, 294 360, 294 325
+           L 294 195
+           C 294 155, 322 130, 357 130 Z"
+        fill="url(#kidneyGrad)"
+        stroke="#0B5C5F"
+        stroke-width="6"
+        stroke-linejoin="round"/>
+
+  <!-- Left Ureter -->
+  <path d="M 185 385 Q 205 430, 235 468"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="9"
+        stroke-linecap="round"/>
+
+  <!-- Right Ureter -->
+  <path d="M 327 385 Q 307 430, 277 468"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="9"
+        stroke-linecap="round"/>
+
+  <!-- Bladder -->
+  <ellipse cx="256" cy="478" rx="66" ry="30"
+           fill="url(#kidneyGrad)"
+           stroke="#0B5C5F"
+           stroke-width="6"/>
+
+  <!-- Medical Cross -->
+  <rect x="242" y="220" width="28" height="72" rx="4" fill="#E53935"/>
+  <rect x="220" y="242" width="72" height="28" rx="4" fill="#E53935"/>
 </svg>
