@@ -1,3 +1,8 @@
+/* =====================================================================
+   Renal (KUB) Assessment Mastery — Service Worker
+   Version: 1.0.0
+   ===================================================================== */
+
 const CACHE_NAME = 'renal-mastery-v1.0.0';
 const RUNTIME_CACHE = 'renal-mastery-runtime-v1.0.0';
 
@@ -9,6 +14,7 @@ const PRECACHE_ASSETS = [
   './icon.svg',
 ];
 
+/* INSTALL */
 self.addEventListener('install', (event) => {
   console.log('[SW] Installing...');
   event.waitUntil(
@@ -19,6 +25,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
+/* ACTIVATE */
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activating...');
   event.waitUntil(
@@ -32,11 +39,13 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+/* FETCH */
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
   if (request.method !== 'GET') return;
 
+  // Cross-origin (CDN) — runtime cache
   if (url.origin !== self.location.origin) {
     event.respondWith(
       fetch(request)
@@ -52,6 +61,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Same-origin — cache-first with background update
   event.respondWith(
     caches.match(request)
       .then((cached) => {
