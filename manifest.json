@@ -42,7 +42,7 @@
     {
       "name": "Capstone Exam",
       "short_name": "Exam",
-      "description": "Take the capstone exam",
+      "description": "Take the 30-item PNLE-aligned capstone exam",
       "url": "./index.html#exam",
       "icons": [{ "src": "icon.svg", "sizes": "any" }]
     },
