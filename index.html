@@ -1300,10 +1300,36 @@ function closeLogoutModal() {
 }
 function performLogout(action) {
   closeLogoutModal();
+
   if (action === 'clear') {
+    /* Full wipe — remove everything for this student */
     localStorage.removeItem(STORAGE_KEY);
+    /* Also remove from all-students list */
+    if (state.student) {
+      var key = state.student.studentNo || state.student.email;
+      var raw = localStorage.getItem(ALL_STUDENTS_KEY);
+      if (raw) {
+        try {
+          var all = JSON.parse(raw);
+          delete all[key];
+          localStorage.setItem(ALL_STUDENTS_KEY, JSON.stringify(all));
+        } catch (e) {}
+      }
+    }
+  } else {
+    /* Keep data — just mark session as inactive */
+    state.sessionActive = false;
+    saveState();
   }
-  location.reload();
+
+  /* Send user back to auth screen immediately without waiting for reload */
+  document.getElementById('appContainer').classList.add('hidden');
+  document.getElementById('authScreen').classList.remove('hidden');
+  switchAuthTab('login');
+  renderSavedStudents();
+
+  /* Optional: reload after a brief moment to fully reset */
+  setTimeout(function(){ location.reload(); }, 100);
 }
 
 /* ---------- 30-ITEM PNLE EXAM ---------- */
