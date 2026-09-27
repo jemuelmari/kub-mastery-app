@@ -6,8 +6,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0D7377",
-  "theme_color": "#0D7377",
+  "background_color": "#FAFAF7",
+  "theme_color": "#F9A825",
   "lang": "en",
   "dir": "ltr",
   "categories": ["education", "medical", "health"],
@@ -44,6 +44,20 @@
       "short_name": "Exam",
       "description": "Take the capstone exam",
       "url": "./index.html#exam",
+      "icons": [{ "src": "icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Instructor Dashboard",
+      "short_name": "Instructor",
+      "description": "Open the instructor dashboard",
+      "url": "./instructor-dashboard.html",
+      "icons": [{ "src": "icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Gradebook",
+      "short_name": "Grades",
+      "description": "Open the class record gradebook",
+      "url": "./gradebook.html",
       "icons": [{ "src": "icon.svg", "sizes": "any" }]
     }
   ]
