@@ -663,18 +663,17 @@ function submitRegistration(e) {
     registeredAt: new Date().toISOString()
   };
 
-  state.student = student;
+    state.student = student;
   state.progress = {};
   state.quizAttempts = {};
   state.games = {};
   state.exam = null;
   state.integrityFlags = 0;
+  state.sessionActive = true;   /* ← NEW */
 
   saveToAllStudents(student, {});
   saveState();
   enterApp();
-  toast('✅ Welcome, ' + fn + '!', 'success');
-}
 
 function saveToAllStudents(student, extra) {
   var raw = localStorage.getItem(ALL_STUDENTS_KEY);
