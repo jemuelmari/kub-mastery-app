@@ -119,7 +119,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // --- CASE C: Same-origin assets (CSS/JS/images) ---
+  // --- CASE C: Same-origin assets ---
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) {
