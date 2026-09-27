@@ -555,20 +555,22 @@ function init() {
   if (saved) {
     try {
       var data = JSON.parse(saved);
-      if (data.student && data.student.fullName) {
+      /* Only auto-restore if user actively logged in previously.
+         If sessionActive is false, we treat it as "logged out". */
+      if (data.sessionActive && data.student && data.student.fullName) {
         state.student = data.student;
         state.progress = data.progress || {};
         state.quizAttempts = data.quizAttempts || {};
         state.games = data.games || {};
         state.exam = data.exam || null;
         state.integrityFlags = data.integrityFlags || 0;
+        state.sessionActive = true;
         enterApp();
         return;
       }
     } catch (e) { console.warn('Load failed', e); }
   }
   renderSavedStudents();
-}
 
 function saveState() {
   try {
