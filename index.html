@@ -580,7 +580,8 @@ function saveState() {
       quizAttempts: state.quizAttempts,
       games: state.games,
       exam: state.exam,
-      integrityFlags: state.integrityFlags
+      integrityFlags: state.integrityFlags,
+      sessionActive: state.sessionActive   /* ← NEW */
     }));
   } catch (e) { console.warn('Save failed', e); }
 }
