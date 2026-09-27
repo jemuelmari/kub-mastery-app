@@ -620,6 +620,7 @@ function loadSavedStudent(key) {
   state.games = s.games || {};
   state.exam = s.exam || null;
   state.integrityFlags = s.integrityFlags || 0;
+  state.sessionActive = true;   /* ← NEW */
   saveState();
   enterApp();
 }
