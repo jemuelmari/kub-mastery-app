@@ -17,11 +17,9 @@
   --success:#43A047;--success-light:#E8F5E9;
   --warning:#FB8C00;--warning-light:#FFF3E0;
   --purple:#6A1B9A;--purple-light:#F3E5F5;
-  --teal:#00897B;--teal-light:#E0F2F1;
-  --dark:#1A1D29;--dark-2:#2A2F3D;--dark-3:#3C4255;
+  --dark:#1A1D29;--dark-2:#2A2F3D;
   --light:#FAFAF7;--white:#FFFFFF;--gray:#6E7385;--gray-light:#E8E9ED;--border:#D1D3D9;
-  --radius-xs:6px;--radius-sm:10px;--radius:16px;--radius-lg:24px;--radius-xl:32px;
-  --shadow-xs:0 1px 2px rgba(26,29,41,.04);
+  --radius:16px;--radius-lg:24px;--radius-xl:32px;
   --shadow-sm:0 2px 8px rgba(26,29,41,.06);
   --shadow:0 8px 24px rgba(26,29,41,.08);
   --shadow-lg:0 20px 48px rgba(26,29,41,.12);
@@ -40,9 +38,10 @@ h1{font-size:1.85rem;font-weight:800}h2{font-size:1.4rem;font-weight:700}h3{font
 p{margin-bottom:.6rem}button{font-family:inherit;cursor:pointer}input,select,textarea{font-family:inherit}
 a{color:var(--secondary);text-decoration:none}
 .hidden{display:none!important}
-.text-center{text-align:center}.mt-1{margin-top:.5rem}.mt-2{margin-top:1rem}.flex{display:flex}.gap-1{gap:.5rem}.items-center{align-items:center}.flex-wrap{flex-wrap:wrap}
+.text-center{text-align:center}.mt-1{margin-top:.5rem}.mt-2{margin-top:1rem}
+.flex{display:flex}.gap-1{gap:.5rem}.items-center{align-items:center}.flex-wrap{flex-wrap:wrap}.justify-center{justify-content:center}
 
-/* ---------- AUTH ---------- */
+/* AUTH */
 .auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(135deg,#1A1D29 0%,#2A2F3D 50%,#1A237E 100%);position:relative;overflow:hidden}
 .auth-screen::before{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,168,37,.25) 0%,transparent 60%);pointer-events:none}
 .auth-screen::after{content:'';position:absolute;bottom:-20%;left:-10%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(26,35,126,.3) 0%,transparent 60%);pointer-events:none}
@@ -77,7 +76,7 @@ a{color:var(--secondary);text-decoration:none}
 .empty-saved{text-align:center;padding:2.5rem 1.5rem;color:var(--gray);font-size:.9rem;background:var(--light);border-radius:14px;margin-bottom:1rem}
 .empty-saved .icon{font-size:3rem;display:block;margin-bottom:.75rem}
 
-/* ---------- APP SHELL ---------- */
+/* APP SHELL */
 .app-container{display:flex;min-height:100vh}
 .sidebar{width:var(--sidebar-w);background:linear-gradient(180deg,var(--dark) 0%,var(--dark-2) 45%,var(--secondary-dark) 100%);color:var(--white);padding:1.5rem 1rem;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100;transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,.1)}
 .sidebar::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--primary),var(--primary-dark),var(--secondary));opacity:.9}
@@ -120,7 +119,7 @@ a{color:var(--secondary);text-decoration:none}
   h1{font-size:1.5rem}h2{font-size:1.2rem}
 }
 
-/* ---------- HERO ---------- */
+/* HERO */
 .hero{background:linear-gradient(135deg,var(--secondary-dark) 0%,var(--secondary) 50%,var(--primary-dark) 100%);border-radius:var(--radius-xl);padding:2.25rem;color:var(--white);margin-bottom:1.5rem;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(249,168,37,.4) 0%,transparent 65%);pointer-events:none}
 .hero::after{content:'';position:absolute;bottom:-30%;left:-5%;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);pointer-events:none}
@@ -132,14 +131,14 @@ a{color:var(--secondary);text-decoration:none}
 .hero-stat .stat-value{font-family:var(--font-head);font-weight:800;font-size:1.55rem;line-height:1;color:var(--primary)}
 .hero-stat .stat-label{font-size:.7rem;opacity:.85;margin-top:.3rem;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
 
-/* ---------- CARDS ---------- */
+/* CARDS */
 .card{background:var(--white);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm);border:1px solid rgba(0,0,0,.04);margin-bottom:1.25rem;transition:all .25s}
 .card:hover{box-shadow:var(--shadow)}
 .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
 .card-title{font-size:1.05rem;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:.5rem}
 .card-subtitle{font-size:.82rem;color:var(--gray);margin-top:.2rem}
 
-/* ---------- BUTTONS ---------- */
+/* BUTTONS */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.4rem;border-radius:12px;border:none;font-family:var(--font-head);font-weight:600;font-size:.88rem;transition:all .2s;text-decoration:none;white-space:nowrap;position:relative;overflow:hidden}
 .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--white);box-shadow:var(--shadow-amber)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(249,168,37,.45)}
@@ -149,13 +148,12 @@ a{color:var(--secondary);text-decoration:none}
 .btn-success:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(67,160,71,.4)}
 .btn-outline{background:var(--white);color:var(--primary-dark);border:2px solid var(--primary-light)}
 .btn-outline:hover{background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
-.btn-danger{background:var(--accent);color:var(--white)}
 .btn-sm{padding:.5rem .9rem;font-size:.8rem;border-radius:10px}
 .btn-lg{padding:.9rem 1.75rem;font-size:.95rem;border-radius:14px}
 .btn-block{width:100%}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
 
-/* ---------- PROGRESS RING ---------- */
+/* PROGRESS RING */
 .progress-ring-wrap{display:flex;align-items:center;gap:2rem;padding:.5rem 0;flex-wrap:wrap}
 .progress-ring{position:relative;width:140px;height:140px;flex-shrink:0}
 .progress-ring svg{transform:rotate(-90deg);width:100%;height:100%}
@@ -168,7 +166,7 @@ a{color:var(--secondary);text-decoration:none}
 .progress-details .progress-info{display:flex;gap:1.25rem;flex-wrap:wrap;font-size:.82rem;color:var(--gray);margin-top:.5rem}
 .progress-details .progress-info strong{color:var(--primary-dark);font-family:var(--font-head);font-weight:700}
 
-/* ---------- UNIT GRID ---------- */
+/* UNIT GRID */
 .unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-bottom:1.5rem}
 .unit-card{background:var(--white);border-radius:var(--radius);padding:1.35rem;border:1px solid rgba(0,0,0,.04);box-shadow:var(--shadow-sm);cursor:pointer;transition:all .28s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;display:flex;flex-direction:column}
 .unit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--secondary))}
@@ -184,16 +182,7 @@ a{color:var(--secondary);text-decoration:none}
 .status-progress{background:var(--warning)}
 .status-complete{background:var(--success)}
 
-/* ---------- FLASHCARDS ---------- */
-.flashcard-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin:1rem 0}
-.flashcard{perspective:1000px;height:150px;cursor:pointer}
-.flashcard-inner{position:relative;width:100%;height:100%;transition:transform .65s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d}
-.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
-.flashcard-front,.flashcard-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:1rem;text-align:center;font-size:.88rem;box-shadow:var(--shadow-sm);line-height:1.5}
-.flashcard-front{background:var(--white);border:2px solid var(--primary-light);font-weight:600;color:var(--dark)}
-.flashcard-back{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--white);transform:rotateY(180deg);font-weight:500}
-
-/* ---------- QUIZ ---------- */
+/* QUIZ */
 .quiz-question{margin-bottom:1.75rem;padding:1.25rem;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid rgba(0,0,0,.04)}
 .quiz-question .q-num{display:inline-block;background:var(--primary-light);color:var(--primary-dark);padding:.15rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;margin-bottom:.6rem;letter-spacing:.5px}
 .quiz-question .q-text{font-weight:600;margin-bottom:.9rem;font-size:.95rem;line-height:1.55}
@@ -210,7 +199,7 @@ a{color:var(--secondary);text-decoration:none}
 .quiz-feedback.incorrect{background:var(--accent-light);border-left:4px solid var(--accent)}
 .quiz-feedback strong{font-family:var(--font-head)}
 
-/* ---------- EXAM ---------- */
+/* EXAM */
 .exam-hero{background:linear-gradient(135deg,var(--purple) 0%,#4A148C 100%);border-radius:var(--radius-lg);padding:2rem;color:var(--white);margin-bottom:1.5rem;position:relative;overflow:hidden}
 .exam-hero::before{content:'';position:absolute;top:-40%;right:-10%;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,168,37,.3) 0%,transparent 60%);pointer-events:none}
 .exam-hero.locked{background:linear-gradient(135deg,var(--gray) 0%,#4A5568 100%)}
@@ -220,7 +209,7 @@ a{color:var(--secondary);text-decoration:none}
 .exam-hero p{font-size:.88rem;opacity:.9;margin-bottom:1.1rem;position:relative;z-index:1}
 .exam-hero .btn{position:relative;z-index:1}
 
-/* ---------- CERTIFICATE ---------- */
+/* CERTIFICATE */
 .certificate{background:linear-gradient(135deg,#FFFDF5 0%,#FFF8E1 50%,#FFFDF5 100%);border:8px double var(--primary);border-radius:var(--radius-lg);padding:3rem 2rem;text-align:center;max-width:760px;margin:1rem auto;position:relative;overflow:hidden}
 .certificate::before{content:'🏆';position:absolute;font-size:14rem;opacity:.04;top:50%;left:50%;transform:translate(-50%,-50%)}
 .certificate h2{color:var(--primary-dark);font-size:1.6rem;font-weight:800;margin-bottom:.5rem;position:relative;z-index:1;letter-spacing:-.02em}
@@ -234,7 +223,7 @@ a{color:var(--secondary);text-decoration:none}
 .certificate .sig-line strong{display:block;font-family:var(--font-head);font-weight:700}
 .certificate .sig-line small{color:var(--gray);font-size:.72rem}
 
-/* ---------- BADGES ---------- */
+/* BADGES */
 .badge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.75rem;margin:1rem 0}
 .badge-tile{background:var(--light);border-radius:14px;padding:1rem .75rem;text-align:center;border:2px solid transparent;transition:all .25s}
 .badge-tile.unlocked{background:linear-gradient(135deg,var(--success-light),#C8E6C9);border-color:var(--success);transform:scale(1)}
@@ -243,7 +232,7 @@ a{color:var(--secondary);text-decoration:none}
 .badge-icon{font-size:2rem;display:block}
 .badge-name{font-size:.72rem;font-weight:700;margin-top:.4rem;font-family:var(--font-head);color:var(--dark)}
 
-/* ---------- STAT TILES ---------- */
+/* STAT TILES */
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:1.25rem}
 .stat-tile{background:var(--white);border-radius:var(--radius);padding:1.15rem;border:1px solid rgba(0,0,0,.04);box-shadow:var(--shadow-sm);transition:all .25s}
 .stat-tile:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
@@ -255,7 +244,7 @@ a{color:var(--secondary);text-decoration:none}
 .stat-tile .stat-value{font-family:var(--font-head);font-weight:800;font-size:1.7rem;color:var(--dark);line-height:1}
 .stat-tile .stat-label{font-size:.75rem;color:var(--gray);margin-top:.3rem;font-weight:500}
 
-/* ---------- CALLOUTS ---------- */
+/* CALLOUTS */
 .callout{padding:1rem 1.25rem;border-radius:12px;margin:1rem 0;border-left:4px solid;font-size:.88rem;line-height:1.65}
 .callout-warning{background:var(--warning-light);border-color:var(--warning)}
 .callout-danger{background:var(--accent-light);border-color:var(--accent)}
@@ -263,7 +252,7 @@ a{color:var(--secondary);text-decoration:none}
 .callout-info{background:var(--secondary-light);border-color:var(--secondary)}
 .callout strong{font-family:var(--font-head);font-weight:700}
 
-/* ---------- TABLE ---------- */
+/* TABLE */
 .table-wrap{overflow-x:auto;margin:1rem 0;border-radius:12px;box-shadow:var(--shadow-sm)}
 table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--white)}
 th{background:linear-gradient(135deg,var(--secondary),var(--secondary-dark));color:var(--white);padding:.75rem;text-align:left;font-family:var(--font-head);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
@@ -272,7 +261,7 @@ tr:last-child td{border-bottom:none}
 tr:nth-child(even){background:#FAFBFC}
 tr:hover{background:var(--primary-light)}
 
-/* ---------- MODAL ---------- */
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,20,30,.7);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem;backdrop-filter:blur(6px)}
 .modal-overlay.show{display:flex;animation:fadeIn .2s ease}
 .modal{background:var(--white);border-radius:var(--radius-lg);max-width:600px;width:100%;max-height:90vh;overflow-y:auto;animation:scaleIn .3s cubic-bezier(.4,0,.2,1);box-shadow:0 32px 80px rgba(0,0,0,.4)}
@@ -289,26 +278,19 @@ tr:hover{background:var(--primary-light)}
 .modal-btn .opt-desc{font-size:.75rem;color:var(--gray);line-height:1.4}
 .btn-cancel{background:transparent;color:var(--gray);border:none;padding:.75rem;margin-top:.5rem;font-family:var(--font-head);font-weight:600;font-size:.88rem;width:100%}
 
-/* ---------- TOAST ---------- */
+/* TOAST */
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translate(-50%,200%);background:var(--dark);color:var(--white);padding:1rem 1.5rem;border-radius:14px;box-shadow:var(--shadow-lg);z-index:9999;transition:transform .35s cubic-bezier(.4,0,.2,1);max-width:400px;font-size:.88rem;font-weight:500;display:flex;align-items:center;gap:.65rem}
 .toast.show{transform:translate(-50%,0)}
 .toast.success{background:linear-gradient(135deg,var(--success),#2E7D32)}
 .toast.error{background:linear-gradient(135deg,var(--accent),#C62828)}
 .toast.warning{background:linear-gradient(135deg,var(--warning),#E65100)}
 
-/* ---------- LOADER ---------- */
+/* LOADER */
 .loader{display:flex;align-items:center;justify-content:center;padding:4rem;flex-direction:column;gap:1rem;color:var(--gray)}
 .spinner{width:44px;height:44px;border:4px solid var(--gray-light);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes scaleIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-
-/* ---------- FLASH MESSAGE ---------- */
-.flash-msg{position:fixed;top:1.5rem;left:50%;transform:translate(-50%,-150%);background:var(--dark);color:var(--white);padding:.9rem 1.5rem;border-radius:12px;box-shadow:var(--shadow-lg);z-index:9998;transition:transform .35s ease;font-size:.88rem;font-weight:600}
-.flash-msg.show{transform:translate(-50%,0)}
-.flash-msg.success{background:var(--success)}
-.flash-msg.error{background:var(--accent)}
 </style>
 </head>
 <body>
@@ -323,8 +305,8 @@ tr:hover{background:var(--primary-light)}
       <span class="auth-version">Version 3.1.0</span>
     </div>
     <div class="auth-tabs" id="authTabs">
-      <button class="auth-tab active" data-tab="register" onclick="switchAuthTab('register')">📝 Register</button>
-      <button class="auth-tab" data-tab="login" onclick="switchAuthTab('login')">🔓 Login</button>
+      <button type="button" class="auth-tab active" data-tab="register" onclick="switchAuthTab('register')">📝 Register</button>
+      <button type="button" class="auth-tab" data-tab="login" onclick="switchAuthTab('login')">🔓 Login</button>
     </div>
     <div class="form-error" id="authError"></div>
     <form id="registerForm" onsubmit="submitRegistration(event)">
@@ -339,7 +321,16 @@ tr:hover{background:var(--primary-light)}
       <div class="form-row">
         <div class="form-group">
           <label>School Year *</label>
-          <select id="reg_schoolYear" required></select>
+          <select id="reg_schoolYear" required>
+            <option value="2025-2026" selected>2025-2026</option>
+            <option value="2026-2027">2026-2027</option>
+            <option value="2027-2028">2027-2028</option>
+            <option value="2028-2029">2028-2029</option>
+            <option value="2029-2030">2029-2030</option>
+            <option value="2030-2031">2030-2031</option>
+            <option value="2031-2032">2031-2032</option>
+            <option value="2032-2033">2032-2033</option>
+          </select>
         </div>
         <div class="form-group">
           <label>Semester *</label>
@@ -510,21 +501,16 @@ tr:hover{background:var(--primary-light)}
 <script>
 /* ============================================================
    RENAL (KUB) ASSESSMENT MASTERY — v3.1.0
-   Complete PWA with 8 units, 5 games, 30-item exam
    ============================================================ */
 
 var BACKEND_URL = 'https://script.google.com/macros/s/AKfycbyM9Ysp09afI-UPaTPA-OnIpzJ7h8vSR0XhI2z7mptx_FLcasGxPBXGThLBqqASjj-D/exec';
 var APP_VERSION = '3.1.0';
-
 var SCHOOL_YEARS = ['2025-2026','2026-2027','2027-2028','2028-2029','2029-2030','2030-2031','2031-2032','2032-2033'];
-var SEMESTERS = ['1st Semester','2nd Semester'];
 var STORAGE_KEY = 'renalMastery_v1';
 var ALL_STUDENTS_KEY = 'renalMastery_allStudents';
-
 var UNIT_KEYS = ['unit1','unit2','unit3','unit4','unit5','unit6','unit7','unit8'];
 var GAME_KEYS = ['blitz','tree','urine','redflag','matrix'];
 
-/* ---------- STATE ---------- */
 var state = {
   student: null,
   progress: {},
@@ -536,27 +522,29 @@ var state = {
   examTimerId: null,
   integrityFlags: 0,
   currentView: 'home',
-  sessionActive: false   /* ← NEW: tracks if user is actively logged in */
+  sessionActive: false
 };
 
 /* ---------- INIT ---------- */
 function init() {
-  // Populate school years
-  var sySel = document.getElementById('reg_schoolYear');
-  SCHOOL_YEARS.forEach(function(sy){
-    var opt = document.createElement('option');
-    opt.value = sy; opt.textContent = sy;
-    if (sy === '2025-2026') opt.selected = true;
-    sySel.appendChild(opt);
-  });
+  // Populate school years (defensive)
+  try {
+    var sySel = document.getElementById('reg_schoolYear');
+    if (sySel && sySel.options.length === 0) {
+      SCHOOL_YEARS.forEach(function(sy){
+        var opt = document.createElement('option');
+        opt.value = sy; opt.textContent = sy;
+        if (sy === '2025-2026') opt.selected = true;
+        sySel.appendChild(opt);
+      });
+    }
+  } catch (e) { console.warn('SY populate failed', e); }
 
-  // Try to load existing student
+  // Load session
   var saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     try {
       var data = JSON.parse(saved);
-      /* Only auto-restore if user actively logged in previously.
-         If sessionActive is false, we treat it as "logged out". */
       if (data.sessionActive && data.student && data.student.fullName) {
         state.student = data.student;
         state.progress = data.progress || {};
@@ -571,6 +559,7 @@ function init() {
     } catch (e) { console.warn('Load failed', e); }
   }
   renderSavedStudents();
+}
 
 function saveState() {
   try {
@@ -581,15 +570,17 @@ function saveState() {
       games: state.games,
       exam: state.exam,
       integrityFlags: state.integrityFlags,
-      sessionActive: state.sessionActive   /* ← NEW */
+      sessionActive: state.sessionActive
     }));
   } catch (e) { console.warn('Save failed', e); }
 }
 
 function renderSavedStudents() {
   var area = document.getElementById('savedStudentsArea');
+  if (!area) return;
   var raw = localStorage.getItem(ALL_STUDENTS_KEY);
-  var all = raw ? JSON.parse(raw) : {};
+  var all = {};
+  try { all = raw ? JSON.parse(raw) : {}; } catch (e) { all = {}; }
   var keys = Object.keys(all);
   if (!keys.length) {
     area.innerHTML = '<div class="empty-saved"><div class="icon">📋</div>No saved students on this device yet.<br>Register above to begin!</div>';
@@ -597,13 +588,17 @@ function renderSavedStudents() {
   }
   area.innerHTML = keys.map(function(k){
     var s = all[k];
-    var pct = s.progress ? Math.round((Object.keys(s.progress).filter(function(u){return s.progress[u].completed;}).length / 8) * 100) : 0;
-    var initials = (s.fullName || '?').split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
-    return '<button class="saved-card" onclick="loadSavedStudent(\'' + k + '\')">' +
+    var pct = 0;
+    if (s.progress) {
+      var done = Object.keys(s.progress).filter(function(u){ return s.progress[u] && s.progress[u].completed; }).length;
+      pct = Math.round((done / 8) * 100);
+    }
+    var initials = (s.fullName || '?').split(' ').map(function(w){ return w[0] || ''; }).slice(0,2).join('').toUpperCase();
+    return '<button type="button" class="saved-card" onclick="loadSavedStudent(\'' + k + '\')">' +
       '<div class="avatar">' + initials + '</div>' +
       '<div class="saved-info">' +
-        '<div class="saved-name">' + escapeHtml(s.fullName) + '</div>' +
-        '<div class="saved-meta">' + escapeHtml(s.studentNo) + ' · ' + escapeHtml(s.section) + '</div>' +
+        '<div class="saved-name">' + escapeHtml(s.fullName || 'Unnamed') + '</div>' +
+        '<div class="saved-meta">' + escapeHtml(s.studentNo || '') + ' · ' + escapeHtml(s.section || '') + '</div>' +
       '</div>' +
       '<div class="saved-progress">' + pct + '%<small>done</small></div>' +
     '</button>';
@@ -611,31 +606,45 @@ function renderSavedStudents() {
 }
 
 function loadSavedStudent(key) {
-  var raw = localStorage.getItem(ALL_STUDENTS_KEY);
-  var all = raw ? JSON.parse(raw) : {};
-  var s = all[key];
-  if (!s) return;
-  state.student = s;
-  state.progress = s.progress || {};
-  state.quizAttempts = s.quizAttempts || {};
-  state.games = s.games || {};
-  state.exam = s.exam || null;
-  state.integrityFlags = s.integrityFlags || 0;
-  state.sessionActive = true;   /* ← NEW */
-  saveState();
-  enterApp();
+  try {
+    var raw = localStorage.getItem(ALL_STUDENTS_KEY);
+    var all = raw ? JSON.parse(raw) : {};
+    var s = all[key];
+    if (!s) { toast('Student data not found', 'error'); return; }
+    state.student = s;
+    state.progress = s.progress || {};
+    state.quizAttempts = s.quizAttempts || {};
+    state.games = s.games || {};
+    state.exam = s.exam || null;
+    state.integrityFlags = s.integrityFlags || 0;
+    state.sessionActive = true;
+    saveState();
+    enterApp();
+  } catch (e) {
+    toast('Failed to load student: ' + e.message, 'error');
+  }
 }
 
 function switchAuthTab(tab) {
-  document.querySelectorAll('.auth-tab').forEach(function(t){ t.classList.toggle('active', t.dataset.tab === tab); });
-  document.getElementById('registerForm').classList.toggle('hidden', tab !== 'register');
-  document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
-  document.getElementById('authError').classList.remove('show');
-  if (tab === 'login') renderSavedStudents();
+  try {
+    document.querySelectorAll('.auth-tab').forEach(function(t){
+      t.classList.toggle('active', t.dataset.tab === tab);
+    });
+    var regForm = document.getElementById('registerForm');
+    var logForm = document.getElementById('loginForm');
+    var errEl = document.getElementById('authError');
+    if (regForm) regForm.classList.toggle('hidden', tab !== 'register');
+    if (logForm) logForm.classList.toggle('hidden', tab !== 'login');
+    if (errEl) errEl.classList.remove('show');
+    if (tab === 'login') renderSavedStudents();
+  } catch (err) {
+    console.error('Tab switch error:', err);
+  }
 }
 
 function showAuthError(msg) {
   var el = document.getElementById('authError');
+  if (!el) return;
   el.textContent = msg;
   el.classList.add('show');
 }
@@ -665,29 +674,33 @@ function submitRegistration(e) {
     registeredAt: new Date().toISOString()
   };
 
-    state.student = student;
+  state.student = student;
   state.progress = {};
   state.quizAttempts = {};
   state.games = {};
   state.exam = null;
   state.integrityFlags = 0;
-  state.sessionActive = true;   /* ← NEW */
+  state.sessionActive = true;
 
   saveToAllStudents(student, {});
   saveState();
   enterApp();
+  toast('✅ Welcome, ' + fn + '!', 'success');
+}
 
 function saveToAllStudents(student, extra) {
-  var raw = localStorage.getItem(ALL_STUDENTS_KEY);
-  var all = raw ? JSON.parse(raw) : {};
-  var key = student.studentNo || student.email;
-  all[key] = Object.assign({}, student, extra || {
-    progress: state.progress,
-    quizAttempts: state.quizAttempts,
-    games: state.games,
-    exam: state.exam
-  });
-  localStorage.setItem(ALL_STUDENTS_KEY, JSON.stringify(all));
+  try {
+    var raw = localStorage.getItem(ALL_STUDENTS_KEY);
+    var all = raw ? JSON.parse(raw) : {};
+    var key = student.studentNo || student.email;
+    all[key] = Object.assign({}, student, extra || {
+      progress: state.progress,
+      quizAttempts: state.quizAttempts,
+      games: state.games,
+      exam: state.exam
+    });
+    localStorage.setItem(ALL_STUDENTS_KEY, JSON.stringify(all));
+  } catch (e) { console.warn('Save all students failed', e); }
 }
 
 function enterApp() {
@@ -700,19 +713,19 @@ function enterApp() {
 function updateSidebarChip() {
   var s = state.student;
   if (!s) return;
-  var initials = (s.fullName || '?').split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
-  document.getElementById('chipAvatar').textContent = initials;
-  document.getElementById('chipName').textContent = s.fullName;
-  document.getElementById('chipMeta').innerHTML =
-    escapeHtml(s.studentNo) + ' · ' + escapeHtml(s.section) + '<br>' +
-    escapeHtml(s.group) + ' · ' + escapeHtml(s.schoolYear);
+  var initials = (s.fullName || '?').split(' ').map(function(w){ return w[0] || ''; }).slice(0,2).join('').toUpperCase();
+  var a = document.getElementById('chipAvatar');
+  var n = document.getElementById('chipName');
+  var m = document.getElementById('chipMeta');
+  if (a) a.textContent = initials;
+  if (n) n.textContent = s.fullName;
+  if (m) m.innerHTML = escapeHtml(s.studentNo) + ' · ' + escapeHtml(s.section) + '<br>' + escapeHtml(s.group) + ' · ' + escapeHtml(s.schoolYear);
 }
 
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
 }
 
-/* ---------- UTILITIES ---------- */
 function escapeHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
     return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
@@ -720,6 +733,7 @@ function escapeHtml(s) {
 }
 function toast(msg, type) {
   var el = document.getElementById('toast');
+  if (!el) return;
   el.textContent = msg;
   el.className = 'toast show ' + (type || '');
   clearTimeout(el._t);
@@ -746,7 +760,7 @@ function showView(view) {
   if (document.getElementById('sidebar').classList.contains('open')) toggleSidebar();
 }
 
-/* ---------- HOME DASHBOARD ---------- */
+/* ---------- HOME ---------- */
 function renderHome() {
   var s = state.student;
   var unitsDone = UNIT_KEYS.filter(function(u){ return state.progress[u] && state.progress[u].completed; }).length;
@@ -861,11 +875,10 @@ function getGameAverage() {
   return Math.round(scores.reduce(function(a,b){return a+b;},0) / scores.length);
 }
 
-/* ---------- UNIT CONTENT ---------- */
+/* ---------- UNIT ---------- */
 function renderUnit(unitKey) {
   var content = getUnitContent(unitKey);
   if (!content) return '<div class="card"><h2>Unit not found</h2></div>';
-  var p = state.progress[unitKey] || {};
   return '<div class="hero" style="background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 100%);">' +
     '<div class="hero-content">' +
     '<div class="hero-greeting">' + content.num + '</div>' +
@@ -879,6 +892,8 @@ function renderUnit(unitKey) {
     '</div>';
 }
 
+var unitQuizState = {};
+
 function renderQuiz(unitKey, questions) {
   return questions.map(function(q, i){
     return '<div class="quiz-question">' +
@@ -886,7 +901,7 @@ function renderQuiz(unitKey, questions) {
       '<div class="q-text">' + escapeHtml(q.q) + '</div>' +
       '<div class="quiz-options">' +
         q.options.map(function(opt, j){
-          return '<button class="quiz-option" onclick="answerQuiz(\'' + unitKey + '\',' + i + ',' + j + ',this)">' +
+          return '<button type="button" class="quiz-option" onclick="answerQuiz(\'' + unitKey + '\',' + i + ',' + j + ',this)">' +
             String.fromCharCode(65+j) + '. ' + escapeHtml(opt) +
           '</button>';
         }).join('') +
@@ -896,8 +911,6 @@ function renderQuiz(unitKey, questions) {
   }).join('') +
   '<button class="btn btn-primary btn-block btn-lg" onclick="finishQuiz(\'' + unitKey + '\',' + questions.length + ')">✅ Submit Unit Quiz</button>';
 }
-
-var unitQuizState = {};
 
 function answerQuiz(unitKey, qIdx, optIdx, btn) {
   if (!unitQuizState[unitKey]) unitQuizState[unitKey] = {};
@@ -915,8 +928,9 @@ function finishQuiz(unitKey, total) {
   content.quiz.forEach(function(q, i){
     var chosen = answers[i];
     var fb = document.getElementById('qfb_' + unitKey + '_' + i);
+    if (!fb) return;
     var opts = fb.parentElement.querySelectorAll('.quiz-option');
-    opts.forEach(function(o, j){ o.disabled = true; });
+    opts.forEach(function(o){ o.disabled = true; });
     if (chosen !== undefined) {
       if (chosen === q.answer) {
         correct++;
@@ -940,9 +954,7 @@ function finishQuiz(unitKey, total) {
   state.quizAttempts[unitKey].push(pct);
   state.progress[unitKey] = { completed: pct >= 75, score: Math.max(pct, (state.progress[unitKey] && state.progress[unitKey].score) || 0), completedAt: new Date().toISOString() };
   saveState();
-  saveToAllStudents(state.student, {
-    progress: state.progress, quizAttempts: state.quizAttempts, games: state.games, exam: state.exam
-  });
+  saveToAllStudents(state.student, { progress: state.progress, quizAttempts: state.quizAttempts, games: state.games, exam: state.exam });
   updateSidebarChip();
   toast('You scored ' + correct + '/' + total + ' (' + pct + '%)', pct >= 75 ? 'success' : 'warning');
 }
@@ -975,12 +987,12 @@ function startGame(key) {
   var main = document.getElementById('mainContent');
   var titles = { blitz:'Pattern Blitz', tree:'Decision Tree', urine:'Urine ID', redflag:'Red Flag Simulator', matrix:'Matrix Challenge' };
   var pairs = getGamePairs(key);
-  if (!pairs.length) { toast('This game is being prepared. Check back soon!', 'info'); return; }
+  if (!pairs.length) { toast('This game is being prepared. Check back soon!', 'warning'); return; }
   main.innerHTML = '<div class="hero" style="background:linear-gradient(135deg,var(--secondary-dark),var(--secondary));">' +
     '<div class="hero-content"><div class="hero-greeting">🎮 Game in Progress</div><h1>' + titles[key] + '</h1>' +
     '<p class="hero-subtitle">Match each item on the left with the correct answer on the right.</p></div></div>' +
-    '<div class="card" id="gameCard"><div class="loader"><div class="spinner"></div><div>Loading game…</div></div></div>';
-  setTimeout(function(){ renderGameRound(key, pairs, 0, 0); }, 300);
+    '<div class="card" id="gameCard"></div>';
+  renderGameRound(key, pairs, 0, 0);
 }
 
 function getGamePairs(key) {
@@ -1051,7 +1063,7 @@ function renderGameRound(key, pairs, current, score) {
     return;
   }
   var pair = pairs[current];
-  var shuffled = pairs.map(function(p,i){ return { text: p.a, correct: i === current }; }).sort(function(){ return Math.random() - 0.5; });
+  var shuffled = pairs.map(function(p, i){ return { text: p.a, correct: i === current }; }).sort(function(){ return Math.random() - 0.5; });
   document.getElementById('gameCard').innerHTML =
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;font-size:.85rem;color:var(--gray);font-weight:600;">' +
       '<span>Question ' + (current+1) + ' of ' + pairs.length + '</span>' +
@@ -1062,7 +1074,7 @@ function renderGameRound(key, pairs, current, score) {
     '</div>' +
     '<div style="display:grid;gap:.6rem;">' +
       shuffled.map(function(opt){
-        return '<button class="quiz-option" onclick="answerGame(\'' + key + '\',' + current + ',' + score + ',' + opt.correct + ',this)">' + escapeHtml(opt.text) + '</button>';
+        return '<button type="button" class="quiz-option" onclick="answerGame(\'' + key + '\',' + current + ',' + score + ',' + opt.correct + ',this)">' + escapeHtml(opt.text) + '</button>';
       }).join('') +
     '</div>';
 }
@@ -1079,9 +1091,6 @@ function answerGame(key, current, score, isCorrect, btn) {
     }, 700);
   } else {
     btn.classList.add('incorrect');
-    all.forEach(function(b){
-      if (b.onclick && b.onclick.toString().indexOf('true') >= 0) b.classList.add('correct');
-    });
     toast('❌ Not quite.', 'error');
     setTimeout(function(){
       var pairs = getGamePairs(key);
@@ -1139,13 +1148,12 @@ function renderExamQuestions() {
         '<span class="q-num">Q' + (i+1) + '</span>' +
         '<div class="q-text">' + escapeHtml(q.q) + '</div>' +
         '<div class="quiz-options">' + q.options.map(function(opt, j){
-          return '<button class="quiz-option" onclick="answerExam(' + i + ',' + j + ',this)">' + String.fromCharCode(65+j) + '. ' + escapeHtml(opt) + '</button>';
+          return '<button type="button" class="quiz-option" onclick="answerExam(' + i + ',' + j + ',this)">' + String.fromCharCode(65+j) + '. ' + escapeHtml(opt) + '</button>';
         }).join('') + '</div>' +
       '</div>';
     }).join('') +
     '<button class="btn btn-primary btn-block btn-lg" onclick="submitExam()">✅ Submit Exam</button></div>';
 
-  // Timer
   state.examTimerId = setInterval(function(){
     var elapsed = Math.floor((Date.now() - state.examStartedAt) / 1000);
     var remaining = 60 * 60 - elapsed;
@@ -1156,7 +1164,6 @@ function renderExamQuestions() {
     if (el) el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
   }, 1000);
 
-  // Integrity monitoring
   document.addEventListener('visibilitychange', function(){
     if (document.hidden && state.examStartedAt) {
       state.integrityFlags++;
@@ -1190,7 +1197,7 @@ function submitExam() {
   };
   saveState();
   saveToAllStudents(state.student, { progress: state.progress, quizAttempts: state.quizAttempts, games: state.games, exam: state.exam });
-  toast(correct >= 15 ? '🎉 Exam Passed!' : '📚 Exam complete. Review and retake next term.', correct >= 15 ? 'success' : 'warning');
+  toast(correct >= 15 ? '🎉 Exam Passed!' : '📚 Exam complete.', correct >= 15 ? 'success' : 'warning');
   setTimeout(function(){ showView('exam'); }, 1200);
 }
 
@@ -1220,16 +1227,18 @@ function renderCertificate() {
     '<div class="text-center mt-2"><button class="btn btn-primary btn-lg" onclick="window.print()">🖨️ Print Certificate</button></div>';
 }
 
-/* ---------- HANDOFF / SUBMIT PROGRESS ---------- */
+/* ---------- HANDOFF ---------- */
 function renderHandoff() {
   var unitsDone = UNIT_KEYS.filter(function(u){return state.progress[u] && state.progress[u].completed;}).length;
+  var quizA = getQuizAverage();
+  var gameA = getGameAverage();
   return '<div class="hero" style="background:linear-gradient(135deg,var(--primary-dark),var(--primary));">' +
     '<div class="hero-content"><div class="hero-greeting">Submit Progress</div><h1>📤 Send to Instructor</h1>' +
     '<p class="hero-subtitle">Your progress will be uploaded to your instructor\'s gradebook.</p></div></div>' +
     '<div class="card"><div class="stat-grid">' +
       '<div class="stat-tile"><div class="stat-icon green">📚</div><div class="stat-value">' + unitsDone + '/8</div><div class="stat-label">Units Done</div></div>' +
-      '<div class="stat-tile"><div class="stat-icon blue">📊</div><div class="stat-value">' + (getQuizAverage() || '—') + (getQuizAverage() !== null ? '%' : '') + '</div><div class="stat-label">Quiz Avg</div></div>' +
-      '<div class="stat-tile"><div class="stat-icon purple">🎮</div><div class="stat-value">' + (getGameAverage() || '—') + (getGameAverage() !== null ? '%' : '') + '</div><div class="stat-label">Games Avg</div></div>' +
+      '<div class="stat-tile"><div class="stat-icon blue">📊</div><div class="stat-value">' + (quizA !== null ? quizA + '%' : '—') + '</div><div class="stat-label">Quiz Avg</div></div>' +
+      '<div class="stat-tile"><div class="stat-icon purple">🎮</div><div class="stat-value">' + (gameA !== null ? gameA + '%' : '—') + '</div><div class="stat-label">Games Avg</div></div>' +
       '<div class="stat-tile"><div class="stat-icon orange">📝</div><div class="stat-value">' + (state.exam && state.exam.submitted ? state.exam.percentage + '%' : '—') + '</div><div class="stat-label">Exam</div></div>' +
     '</div>' +
     '<button class="btn btn-primary btn-lg btn-block mt-2" onclick="submitProgress()">📤 Submit Now</button>' +
@@ -1302,73 +1311,72 @@ function performLogout(action) {
   closeLogoutModal();
 
   if (action === 'clear') {
-    /* Full wipe — remove everything for this student */
     localStorage.removeItem(STORAGE_KEY);
-    /* Also remove from all-students list */
     if (state.student) {
       var key = state.student.studentNo || state.student.email;
-      var raw = localStorage.getItem(ALL_STUDENTS_KEY);
-      if (raw) {
-        try {
-          var all = JSON.parse(raw);
-          delete all[key];
-          localStorage.setItem(ALL_STUDENTS_KEY, JSON.stringify(all));
-        } catch (e) {}
-      }
+      try {
+        var raw = localStorage.getItem(ALL_STUDENTS_KEY);
+        var all = raw ? JSON.parse(raw) : {};
+        delete all[key];
+        localStorage.setItem(ALL_STUDENTS_KEY, JSON.stringify(all));
+      } catch (e) {}
     }
   } else {
-    /* Keep data — just mark session as inactive */
     state.sessionActive = false;
     saveState();
   }
 
-  /* Send user back to auth screen immediately without waiting for reload */
+  state.student = null;
+  state.progress = {};
+  state.quizAttempts = {};
+  state.games = {};
+  state.exam = null;
+  state.sessionActive = false;
+
   document.getElementById('appContainer').classList.add('hidden');
   document.getElementById('authScreen').classList.remove('hidden');
   switchAuthTab('login');
   renderSavedStudents();
-
-  /* Optional: reload after a brief moment to fully reset */
-  setTimeout(function(){ location.reload(); }, 100);
+  toast(action === 'clear' ? '🗑️ All data cleared' : '👋 Logged out — data kept', 'success');
 }
 
-/* ---------- 30-ITEM PNLE EXAM ---------- */
+/* ---------- 30-ITEM EXAM ---------- */
 function getExamQuestions() {
   return [
     { q:'A 45-year-old patient presents with dysuria, urinary frequency, urgency, and cloudy foul-smelling urine. Which assessment finding is MOST consistent with the suspected condition?', options:['Suprapubic tenderness','Peripheral edema','CVA tenderness with high fever','Waxy pallor of the skin'], answer:0, rationale:'UTI typically presents with suprapubic tenderness; CVA tenderness with fever suggests upper UTI/pyelonephritis.' },
     { q:'A patient reports passing a kidney stone and describes severe, cramping pain radiating from the flank to the groin. This pain pattern is characteristic of which condition?', options:['Nephrotic syndrome','Urolithiasis','Chronic renal failure','Nephrosclerosis'], answer:1, rationale:'Urolithiasis classically presents as severe colicky pain radiating from flank to groin due to ureteral obstruction.' },
-    { q:'Which urine characteristic is MOST concerning for renal tumor?', options:['Cloudy, foul-smelling urine','Bright red urine with dysuria','Painless hematuria','Dark rusty urine with fever'], answer:2, rationale:'Painless hematuria is a classic early sign of renal neoplasm; other urinary cancers should be ruled out.' },
-    { q:'A patient with polycystic kidney disease is at risk for cyst rupture. Which finding requires IMMEDIATE intervention?', options:['Mild flank discomfort','Gross hematuria','Occasional nocturia','Proteinuria 1+'], answer:1, rationale:'Gross hematuria in PKD indicates cyst rupture — requires immediate nursing action and provider notification.' },
-    { q:'Which combination of findings is MOST consistent with nephrotic syndrome?', options:['Hematuria + Hypertension + Oliguria','Proteinuria + Edema + Waxy pallor','Painless hematuria + Palpable mass','Bruit + Hypertension + Edema'], answer:1, rationale:'Nephrotic syndrome is defined by proteinuria, edema, and hypoalbuminemia resulting in waxy pallor.' },
-    { q:'Which assessment finding is MOST concerning in a post-kidney-transplant patient?', options:['Mild incisional discomfort','Fever with graft tenderness and rising creatinine','Clear yellow urine output','Mild fatigue'], answer:1, rationale:'Fever, graft tenderness, and rising creatinine indicate graft rejection — requires immediate transplant team notification.' },
-    { q:'A patient has CVA tenderness, fever, chills, and flank pain. Which condition is MOST likely?', options:['Simple cystitis','Pyelonephritis','Nephrotic syndrome','Renal artery stenosis'], answer:1, rationale:'CVA tenderness + fever + chills = upper UTI/pyelonephritis — requires systemic antibiotics.' },
+    { q:'Which urine characteristic is MOST concerning for renal tumor?', options:['Cloudy, foul-smelling urine','Bright red urine with dysuria','Painless hematuria','Dark rusty urine with fever'], answer:2, rationale:'Painless hematuria is a classic early sign of renal neoplasm.' },
+    { q:'A patient with polycystic kidney disease is at risk for cyst rupture. Which finding requires IMMEDIATE intervention?', options:['Mild flank discomfort','Gross hematuria','Occasional nocturia','Proteinuria 1+'], answer:1, rationale:'Gross hematuria in PKD indicates cyst rupture — requires immediate nursing action.' },
+    { q:'Which combination of findings is MOST consistent with nephrotic syndrome?', options:['Hematuria + Hypertension + Oliguria','Proteinuria + Edema + Waxy pallor','Painless hematuria + Palpable mass','Bruit + Hypertension + Edema'], answer:1, rationale:'Nephrotic syndrome is defined by proteinuria, edema, and hypoalbuminemia.' },
+    { q:'Which assessment finding is MOST concerning in a post-kidney-transplant patient?', options:['Mild incisional discomfort','Fever with graft tenderness and rising creatinine','Clear yellow urine output','Mild fatigue'], answer:1, rationale:'Fever, graft tenderness, and rising creatinine indicate graft rejection.' },
+    { q:'A patient has CVA tenderness, fever, chills, and flank pain. Which condition is MOST likely?', options:['Simple cystitis','Pyelonephritis','Nephrotic syndrome','Renal artery stenosis'], answer:1, rationale:'CVA tenderness + fever + chills = upper UTI/pyelonephritis.' },
     { q:'A bruit is auscultated over the renal artery. This finding MOST likely indicates:', options:['Normal finding','Renal artery stenosis','Nephrotic syndrome','Acute renal failure'], answer:1, rationale:'Bruit over renal artery indicates turbulent blood flow — hallmark of renal artery stenosis.' },
-    { q:'A patient with a 24-hour urine output of 300 mL is experiencing:', options:['Polyuria','Oliguria','Anuria','Normal output'], answer:1, rationale:'Oliguria = 100–500 mL/24 hr; anuria < 50 mL; polyuria > 2,500 mL.' },
-    { q:'Which finding would prompt the MOST urgent nursing action?', options:['Nocturia twice nightly','Anuria for 12 hours','Specific gravity of 1.020','Urine output 1,500 mL/day'], answer:1, rationale:'Anuria (< 50 mL/24 hr) is always a medical emergency requiring immediate intervention.' },
-    { q:'A patient reports painless hematuria. This finding is MOST concerning for:', options:['UTI','Urolithiasis','Renal tumor','Nephrotic syndrome'], answer:2, rationale:'Painless hematuria is a red flag for renal neoplasm — should prompt urologic evaluation.' },
-    { q:'Which of the following is NOT part of the normal renal baseline?', options:['Urine clear to light yellow','Output 1,000–2,000 mL/day','Specific gravity 1.010–1.025','Palpable kidney'], answer:3, rationale:'A palpable kidney is ABNORMAL — normal kidneys are nonpalpable.' },
-    { q:'The nurse performs fist percussion over the CVA. This technique assesses for:', options:['Bladder distention','Kidney inflammation','Renal artery stenosis','Urethral obstruction'], answer:1, rationale:'CVA tenderness elicited by fist percussion indicates kidney inflammation or infection.' },
-    { q:'Which intervention is PRIORITY for a patient with urolithiasis?', options:['Restrict fluids to 1,000 mL/day','Force fluids to 3,000 mL/day','Administer diuretics','Encourage bed rest'], answer:1, rationale:'Forcing fluids up to 3,000 mL/day facilitates stone passage and prevents stasis.' },
-    { q:'A patient with UTI is prescribed Pyridium. What should the nurse teach?', options:['Expect clear urine','Urine will turn orange or blue-green','Increase vitamin C','Decrease fluid intake'], answer:1, rationale:'Pyridium (phenazopyridine) causes orange/blue-green urine discoloration — patient education is essential.' },
-    { q:'Which finding is MOST concerning in a patient with acute renal failure?', options:['Serum potassium 5.8 mEq/L','Urine output 800 mL/day','BUN 22 mg/dL','Specific gravity 1.015'], answer:0, rationale:'Hyperkalemia (> 5.5 mEq/L) is a life-threatening complication of ARF requiring immediate intervention.' },
-    { q:'A patient with chronic renal failure reports fatigue and pallor. Which medication should the nurse anticipate?', options:['Furosemide','Erythropoietin','Digoxin','Insulin'], answer:1, rationale:'CRF causes anemia due to reduced erythropoietin production — replacement is indicated.' },
-    { q:'During kidney palpation, the nurse notes the left kidney is palpable. This finding MOST likely indicates:', options:['Normal variant','Renal enlargement or tumor','Dehydration','Urinary tract infection'], answer:1, rationale:'Palpable kidney is abnormal in adults — think hydronephrosis, PKD, or tumor.' },
-    { q:'A patient with nephrotic syndrome is prescribed plasma expanders. What is the rationale?', options:['Reduce hypertension','Increase osmotic pressure and reduce edema','Improve renal blood flow','Prevent infection'], answer:1, rationale:'Plasma expanders raise oncotic pressure, drawing fluid back into vasculature, reducing edema.' },
-    { q:'Which finding suggests upper urinary tract bleeding?', options:['Bright red urine','Dark, rusty-colored urine','Cloudy, foul-smelling urine','Colorless urine'], answer:1, rationale:'Dark rusty-colored urine indicates bleeding from the upper tract (kidneys/ureters).' },
-    { q:'The nurse is preparing a patient for an IVP. Which instruction is MOST important?', options:['Eat a full breakfast','Withhold food and fluids after midnight','Increase fluid intake','Delay morning medications'], answer:1, rationale:'NPO after midnight prevents aspiration risk and ensures optimal contrast imaging.' },
-    { q:'A patient reports nocturia, polyuria, and nocturia. These findings are consistent with which stage of chronic renal failure?', options:['Stage 1 — Diminished renal reserve','Stage 2 — Renal insufficiency','Stage 3 — End-stage renal disease','Stage 0 — Normal function'], answer:0, rationale:'Stage 1 CRF manifests with nocturia and polyuria due to decreased urine concentrating ability.' },
-    { q:'Which condition requires strict fluid restriction?', options:['Urolithiasis with adequate output','Acute renal failure with oliguria','Simple cystitis','Nephrotic syndrome with mild edema'], answer:1, rationale:'Oliguric ARF requires fluid restriction to prevent fluid overload and pulmonary edema.' },
-    { q:'A patient is diagnosed with renal artery stenosis. Which assessment finding is expected?', options:['No bruit on auscultation','Bruit over renal artery','CVA tenderness','Painless hematuria'], answer:1, rationale:'Renal artery stenosis produces a bruit — turbulent flow through narrowed artery.' },
-    { q:'The nurse observes that the bed linen under a patient post-nephrectomy is stained with blood. What is the PRIORITY nursing action?', options:['Document and continue monitoring','Assess vital signs and notify surgeon','Change the linen','Apply pressure dressing'], answer:1, rationale:'Bleeding after nephrectomy could indicate hemorrhage — assess VS, LOC, and notify surgeon immediately.' },
+    { q:'A patient with a 24-hour urine output of 300 mL is experiencing:', options:['Polyuria','Oliguria','Anuria','Normal output'], answer:1, rationale:'Oliguria = 100–500 mL/24 hr.' },
+    { q:'Which finding would prompt the MOST urgent nursing action?', options:['Nocturia twice nightly','Anuria for 12 hours','Specific gravity of 1.020','Urine output 1,500 mL/day'], answer:1, rationale:'Anuria (< 50 mL/24 hr) is always a medical emergency.' },
+    { q:'A patient reports painless hematuria. This finding is MOST concerning for:', options:['UTI','Urolithiasis','Renal tumor','Nephrotic syndrome'], answer:2, rationale:'Painless hematuria is a red flag for renal neoplasm.' },
+    { q:'Which of the following is NOT part of the normal renal baseline?', options:['Urine clear to light yellow','Output 1,000–2,000 mL/day','Specific gravity 1.010–1.025','Palpable kidney'], answer:3, rationale:'A palpable kidney is ABNORMAL.' },
+    { q:'The nurse performs fist percussion over the CVA. This technique assesses for:', options:['Bladder distention','Kidney inflammation','Renal artery stenosis','Urethral obstruction'], answer:1, rationale:'CVA tenderness elicited by fist percussion indicates kidney inflammation.' },
+    { q:'Which intervention is PRIORITY for a patient with urolithiasis?', options:['Restrict fluids to 1,000 mL/day','Force fluids to 3,000 mL/day','Administer diuretics','Encourage bed rest'], answer:1, rationale:'Forcing fluids up to 3,000 mL/day facilitates stone passage.' },
+    { q:'A patient with UTI is prescribed Pyridium. What should the nurse teach?', options:['Expect clear urine','Urine will turn orange or blue-green','Increase vitamin C','Decrease fluid intake'], answer:1, rationale:'Pyridium causes orange/blue-green urine discoloration — patient education essential.' },
+    { q:'Which finding is MOST concerning in a patient with acute renal failure?', options:['Serum potassium 5.8 mEq/L','Urine output 800 mL/day','BUN 22 mg/dL','Specific gravity 1.015'], answer:0, rationale:'Hyperkalemia (> 5.5 mEq/L) is life-threatening in ARF.' },
+    { q:'A patient with chronic renal failure reports fatigue and pallor. Which medication should the nurse anticipate?', options:['Furosemide','Erythropoietin','Digoxin','Insulin'], answer:1, rationale:'CRF causes anemia due to reduced erythropoietin production.' },
+    { q:'During kidney palpation, the nurse notes the left kidney is palpable. This finding MOST likely indicates:', options:['Normal variant','Renal enlargement or tumor','Dehydration','Urinary tract infection'], answer:1, rationale:'Palpable kidney is abnormal in adults.' },
+    { q:'A patient with nephrotic syndrome is prescribed plasma expanders. What is the rationale?', options:['Reduce hypertension','Increase osmotic pressure and reduce edema','Improve renal blood flow','Prevent infection'], answer:1, rationale:'Plasma expanders raise oncotic pressure, reducing edema.' },
+    { q:'Which finding suggests upper urinary tract bleeding?', options:['Bright red urine','Dark, rusty-colored urine','Cloudy, foul-smelling urine','Colorless urine'], answer:1, rationale:'Dark rusty-colored urine indicates bleeding from the upper tract.' },
+    { q:'The nurse is preparing a patient for an IVP. Which instruction is MOST important?', options:['Eat a full breakfast','Withhold food and fluids after midnight','Increase fluid intake','Delay morning medications'], answer:1, rationale:'NPO after midnight prevents aspiration and ensures optimal contrast imaging.' },
+    { q:'A patient reports nocturia, polyuria, and nocturia. These findings are consistent with which stage of chronic renal failure?', options:['Stage 1 — Diminished renal reserve','Stage 2 — Renal insufficiency','Stage 3 — End-stage renal disease','Stage 0 — Normal function'], answer:0, rationale:'Stage 1 CRF manifests with nocturia and polyuria.' },
+    { q:'Which condition requires strict fluid restriction?', options:['Urolithiasis with adequate output','Acute renal failure with oliguria','Simple cystitis','Nephrotic syndrome with mild edema'], answer:1, rationale:'Oliguric ARF requires fluid restriction to prevent fluid overload.' },
+    { q:'A patient is diagnosed with renal artery stenosis. Which assessment finding is expected?', options:['No bruit on auscultation','Bruit over renal artery','CVA tenderness','Painless hematuria'], answer:1, rationale:'Renal artery stenosis produces a bruit.' },
+    { q:'The nurse observes that the bed linen under a patient post-nephrectomy is stained with blood. What is the PRIORITY nursing action?', options:['Document and continue monitoring','Assess vital signs and notify surgeon','Change the linen','Apply pressure dressing'], answer:1, rationale:'Bleeding post-nephrectomy could indicate hemorrhage.' },
     { q:'Which assessment finding is a RED FLAG requiring immediate escalation?', options:['Nocturia once nightly','Anuria for 8 hours','Urine specific gravity 1.015','Occasional dysuria'], answer:1, rationale:'Anuria is a medical emergency requiring immediate provider notification.' },
-    { q:'A patient with a kidney transplant asks how long immunosuppressive therapy is needed. The nurse should reply:', options:['6 months','1 year','5 years','Lifelong'], answer:3, rationale:'Immunosuppressive therapy after transplant is lifelong to prevent rejection.' },
-    { q:'Which is the PRIORITY intervention for a patient with nephrotic syndrome and edema?', options:['Encourage ambulation','Monitor daily weights','Restrict protein','Provide heating pad'], answer:1, rationale:'Daily weights detect fluid retention and guide diuretic therapy — a priority nursing intervention.' },
-    { q:'The nurse is teaching a patient about preventing UTI recurrence. Which instruction is MOST important?', options:['Wipe back to front','Void every 6–8 hours','Wipe front to back and void every 2–3 hours','Limit fluid intake'], answer:2, rationale:'Front-to-back wiping and frequent voiding prevent bacterial colonization and stasis.' },
-    { q:'A patient presents with hypertension, pallor, fatigue, proteinuria, and hematuria. Which condition is MOST likely?', options:['Urolithiasis','Nephrosclerosis','Acute cystitis','Nephrotic syndrome'], answer:1, rationale:'Nephrosclerosis presents with hypertension, pallor, fatigue, proteinuria, and hematuria — vascular changes in renal arterioles.' }
+    { q:'A patient with a kidney transplant asks how long immunosuppressive therapy is needed. The nurse should reply:', options:['6 months','1 year','5 years','Lifelong'], answer:3, rationale:'Immunosuppressive therapy after transplant is lifelong.' },
+    { q:'Which is the PRIORITY intervention for a patient with nephrotic syndrome and edema?', options:['Encourage ambulation','Monitor daily weights','Restrict protein','Provide heating pad'], answer:1, rationale:'Daily weights detect fluid retention and guide diuretic therapy.' },
+    { q:'The nurse is teaching a patient about preventing UTI recurrence. Which instruction is MOST important?', options:['Wipe back to front','Void every 6–8 hours','Wipe front to back and void every 2–3 hours','Limit fluid intake'], answer:2, rationale:'Front-to-back wiping and frequent voiding prevent bacterial colonization.' },
+    { q:'A patient presents with hypertension, pallor, fatigue, proteinuria, and hematuria. Which condition is MOST likely?', options:['Urolithiasis','Nephrosclerosis','Acute cystitis','Nephrotic syndrome'], answer:1, rationale:'Nephrosclerosis presents with hypertension, pallor, fatigue, proteinuria, and hematuria.' }
   ];
 }
 
-/* ---------- UNIT CONTENT DATA ---------- */
+/* ---------- UNIT CONTENT ---------- */
 function getUnitContent(key) {
   var units = {
     unit1: {
@@ -1394,9 +1402,9 @@ function getUnitContent(key) {
       quiz: [
         { q:'Which of the following is a NORMAL urine output range per 24 hours?', options:['500–800 mL','1,000–2,000 mL','2,500–3,500 mL','100–500 mL'], answer:1, rationale:'Normal adult urine output is 1,000–2,000 mL per 24 hours.' },
         { q:'Normal specific gravity of urine is:', options:['1.000–1.005','1.010–1.025','1.030–1.040','1.045–1.060'], answer:1, rationale:'Normal urine specific gravity is 1.010–1.025.' },
-        { q:'In a normal renal assessment, the kidneys are:', options:['Easily palpable','Nonpalpable','Slightly enlarged','Tender to percussion'], answer:1, rationale:'Normal kidneys are NOT palpable; palpable kidneys suggest enlargement or pathology.' },
+        { q:'In a normal renal assessment, the kidneys are:', options:['Easily palpable','Nonpalpable','Slightly enlarged','Tender to percussion'], answer:1, rationale:'Normal kidneys are NOT palpable.' },
         { q:'Normal abdominal contour in renal assessment is:', options:['Distended','Flat with no midline mass','Bulging at flanks','Asymmetric'], answer:1, rationale:'Normal abdominal contour is flat, without midline mass or distention.' },
-        { q:'Absence of bruit over renal arteries is:', options:['Abnormal','Normal','Requires follow-up','Suggests stenosis'], answer:1, rationale:'No bruit is the NORMAL finding; bruit suggests turbulent flow (stenosis).' }
+        { q:'Absence of bruit over renal arteries is:', options:['Abnormal','Normal','Requires follow-up','Suggests stenosis'], answer:1, rationale:'No bruit is the NORMAL finding.' }
       ]
     },
     unit2: {
@@ -1457,9 +1465,9 @@ function getUnitContent(key) {
           ['Condom Catheter', 'Skin integrity, fit']
         ]),
       quiz: [
-        { q:'Ammonia breath in a patient with renal disease indicates:', options:['Normal finding','Uremic fetor','Dehydration','Hyperkalemia'], answer:1, rationale:'Ammonia breath = uremic fetor, a sign of renal failure.' },
+        { q:'Ammonia breath in a patient with renal disease indicates:', options:['Normal finding','Uremic fetor','Dehydration','Hyperkalemia'], answer:1, rationale:'Ammonia breath = uremic fetor.' },
         { q:'Excoriations on the skin of a renal patient are MOST likely due to:', options:['Allergic reaction','Uremic pruritus','Fungal infection','Poor hygiene'], answer:1, rationale:'Uremic pruritus causes intense itching and scratching.' },
-        { q:'Yellow-gray skin discoloration is characteristic of:', options:['Anemia','Chronic renal failure (uremic pigmentation)','Acute renal failure','Dehydration'], answer:1, rationale:'Uremic pigmentation = yellow-gray skin in chronic renal failure.' },
+        { q:'Yellow-gray skin discoloration is characteristic of:', options:['Anemia','Chronic renal failure (uremic pigmentation)','Acute renal failure','Dehydration'], answer:1, rationale:'Uremic pigmentation = yellow-gray skin.' },
         { q:'Bladder distention on inspection suggests:', options:['Normal finding','Urinary retention','Polyuria','Dehydration'], answer:1, rationale:'Bladder distention = urinary retention.' },
         { q:'A palpable abdominal mass in the flank region MOST likely indicates:', options:['Normal bowel','Enlarged kidney or tumor','Muscle spasm','Bloating'], answer:1, rationale:'Abdominal mass in renal area = PKD, tumor, or hydronephrosis.' }
       ]
@@ -1507,8 +1515,8 @@ function getUnitContent(key) {
         '<div class="callout callout-warning"><strong>🧠 Memory Aid:</strong> CVA Tenderness = Kidney Infection. Palpable Kidney = Enlargement.</div>',
       quiz: [
         { q:'CVA tenderness on palpation suggests:', options:['Normal finding','Kidney infection','Bladder distention','Constipation'], answer:1, rationale:'CVA tenderness = kidney infection/inflammation.' },
-        { q:'A palpable kidney in an adult MOST likely indicates:', options:['Normal variant','Enlargement or pathology','Dehydration','Obesity'], answer:1, rationale:'Palpable kidney in adults = abnormal (tumor, PKD, hydronephrosis).' },
-        { q:'Light palpation uses how much depth?', options:['1–2 cm','4 cm','6 cm','8 cm'], answer:0, rationale:'Light palpation = 1–2 cm depth; deep palpation = 4 cm.' },
+        { q:'A palpable kidney in an adult MOST likely indicates:', options:['Normal variant','Enlargement or pathology','Dehydration','Obesity'], answer:1, rationale:'Palpable kidney in adults = abnormal.' },
+        { q:'Light palpation uses how much depth?', options:['1–2 cm','4 cm','6 cm','8 cm'], answer:0, rationale:'Light palpation = 1–2 cm depth.' },
         { q:'Guarding during palpation indicates:', options:['Normal muscle tone','Voluntary or involuntary muscle tension','Healthy abdomen','Nerve damage'], answer:1, rationale:'Guarding = muscle tension, often from pain or inflammation.' },
         { q:'Palpating a distended bladder MOST likely indicates:', options:['Normal finding','Urinary retention','Polyuria','Nephrotic syndrome'], answer:1, rationale:'Palpable distended bladder = urinary retention.' }
       ]
@@ -1529,38 +1537,33 @@ function getUnitContent(key) {
         ]) +
         '<div class="callout callout-warning"><strong>🧠 Memory Aid:</strong> DULL over Bladder = Distention. CVA TENDERNESS = Infection.</div>',
       quiz: [
-        { q:'Dullness on percussion above the symphysis pubis indicates:', options:['Normal finding','Distended bladder','Kidney stone','Urethral stricture'], answer:1, rationale:'Dullness over bladder = distention (urine-filled).' },
-        { q:'CVA tenderness on percussion suggests:', options:['Normal finding','Kidney infection','Constipation','Bladder distention'], answer:1, rationale:'CVA tenderness = kidney infection (pyelonephritis, PKD).' },
-        { q:'Percussion technique for CVA involves:', options:['Flat hand striking','Fist percussion over the CVA','Stethoscope placement','Needle insertion'], answer:1, rationale:'Fist percussion over the CVA elicits tenderness if kidney inflammation exists.' },
-        { q:'Resonance on percussion above the symphysis pubis is:', options:['Abnormal','Normal','Sign of retention','Sign of infection'], answer:1, rationale:'Resonance = normal; dullness = distended bladder.' },
+        { q:'Dullness on percussion above the symphysis pubis indicates:', options:['Normal finding','Distended bladder','Kidney stone','Urethral stricture'], answer:1, rationale:'Dullness over bladder = distention.' },
+        { q:'CVA tenderness on percussion suggests:', options:['Normal finding','Kidney infection','Constipation','Bladder distention'], answer:1, rationale:'CVA tenderness = kidney infection.' },
+        { q:'Percussion technique for CVA involves:', options:['Flat hand striking','Fist percussion over the CVA','Stethoscope placement','Needle insertion'], answer:1, rationale:'Fist percussion over the CVA elicits tenderness.' },
+        { q:'Resonance on percussion above the symphysis pubis is:', options:['Abnormal','Normal','Sign of retention','Sign of infection'], answer:1, rationale:'Resonance = normal.' },
         { q:'CVA tenderness with fever MOST likely indicates:', options:['Simple cystitis','Pyelonephritis','Renal tumor','Nephrotic syndrome'], answer:1, rationale:'CVA tenderness + fever = upper UTI/pyelonephritis.' }
       ]
     },
     unit7: {
       num: 'Unit 7', title: 'Disease Patterns', subtitle: '9 renal conditions with signature patterns',
       body: '<p>Recognize abnormal patterns by correlating findings across all assessment methods.</p>' +
-        '<h3>1. Urinary Tract Infection (UTI)</h3>' +
-        '<div class="callout callout-info"><strong>Signature:</strong> Frequency + Urgency + Dysuria + Cloudy Urine = UTI</div>' +
-        '<h3>2. Urolithiasis</h3>' +
-        '<div class="callout callout-info"><strong>Signature:</strong> Severe Colicky Flank Pain + Hematuria + Passage of Stone = Urolithiasis</div>' +
-        '<h3>3. Polycystic Kidney Disease</h3>' +
-        '<div class="callout callout-info"><strong>Signature:</strong> Flank Pain + Palpable Abdominal Masses + Hematuria + Hypertension = PKD</div>' +
-        '<h3>4. Renal Tumor</h3>' +
-        '<div class="callout callout-info"><strong>Signature:</strong> Painless Hematuria + Palpable Renal Mass + Dull Flank Pain = Renal Tumor</div>' +
-        '<h3>5. Nephrotic Syndrome</h3>' +
-        '<div class="callout callout-info"><strong>Signature:</strong> Proteinuria + Edema + Waxy Pallor = Nephrotic Syndrome</div>' +
-        '<h3>6. Nephrosclerosis</h3>' +
-        '<div class="callout callout-info"><strong>Signature:</strong> Hypertension + Renal Failure + Patchy Necrosis = Nephrosclerosis</div>' +
-        '<h3>7. Acute Renal Failure</h3>' +
-        '<div class="callout callout-info"><strong>Signature:</strong> Oliguria + Elevated BUN & Creatinine + Hyperkalemia = ARF</div>' +
-        '<h3>8. Chronic Renal Failure</h3>' +
-        '<div class="callout callout-info"><strong>Signature:</strong> Progressive Renal Decline + Azotemia + Fluid & Electrolyte Imbalance = CRF</div>' +
-        '<h3>9. Kidney Transplant Rejection</h3>' +
-        '<div class="callout callout-info"><strong>Signature:</strong> Fever + Graft Tenderness + Elevated WBC = Graft Rejection</div>' +
-        '<h3>Master Differential Diagnosis Matrix</h3>' +
+        '<h3>Signature Patterns</h3>' +
+        renderTable([
+          ['Condition', 'Signature Pattern'],
+          ['UTI', 'Frequency + Urgency + Dysuria + Cloudy Urine'],
+          ['Urolithiasis', 'Severe Colicky Flank Pain + Hematuria + Stone Passage'],
+          ['Polycystic Kidney Disease', 'Flank Pain + Palpable Masses + Hematuria + HTN'],
+          ['Renal Tumor', 'Painless Hematuria + Palpable Renal Mass + Dull Flank Pain'],
+          ['Nephrotic Syndrome', 'Proteinuria + Edema + Waxy Pallor'],
+          ['Nephrosclerosis', 'Hypertension + Renal Failure + Patchy Necrosis'],
+          ['Acute Renal Failure', 'Oliguria + Elevated BUN/Cr + Hyperkalemia'],
+          ['Chronic Renal Failure', 'Progressive Decline + Azotemia + Fluid Imbalance'],
+          ['Kidney Transplant Rejection', 'Fever + Graft Tenderness + Elevated WBC']
+        ]) +
+        '<h3>Differential Diagnosis Matrix</h3>' +
         renderTable([
           ['Condition','Urine Color','Output','CVA Tenderness','Palpation','Key Identifier'],
-          ['Normal','Clear/light yellow','1,000–2,000 mL','No','Nonpalpable','Healthy'],
+          ['Normal','Clear/light','1,000–2,000 mL','No','Nonpalpable','Healthy'],
           ['UTI','Cloudy, dark, foul','Frequency/urgency','May be present','Suprapubic tenderness','Dysuria + Frequency'],
           ['Urolithiasis','Hematuria','Decreased','Present','Tenderness on renal areas','Colicky Flank Pain + Stone'],
           ['PKD','Hematuria','Variable','Present','Enlarged kidney, masses','Palpable Masses + HTN'],
@@ -1571,11 +1574,11 @@ function getUnitContent(key) {
           ['CRF','Variable','Variable','No','Edema','Progressive Decline + Azotemia']
         ]),
       quiz: [
-        { q:'A patient has dysuria, frequency, urgency, and cloudy urine. What is the MOST likely diagnosis?', options:['Urolithiasis','UTI','Nephrotic syndrome','Renal tumor'], answer:1, rationale:'Dysuria + Frequency + Cloudy Urine = UTI signature pattern.' },
+        { q:'A patient has dysuria, frequency, urgency, and cloudy urine. What is the MOST likely diagnosis?', options:['Urolithiasis','UTI','Nephrotic syndrome','Renal tumor'], answer:1, rationale:'Dysuria + Frequency + Cloudy Urine = UTI.' },
         { q:'Severe colicky flank pain with hematuria and stone passage MOST likely indicates:', options:['UTI','Urolithiasis','PKD','ARF'], answer:1, rationale:'Colicky pain + Hematuria + Stone = Urolithiasis.' },
         { q:'A patient has proteinuria, edema, and waxy pallor. The nurse suspects:', options:['Nephrotic syndrome','UTI','Nephrosclerosis','Renal tumor'], answer:0, rationale:'Proteinuria + Edema + Waxy Pallor = Nephrotic Syndrome.' },
-        { q:'Painless hematuria with a palpable renal mass MOST likely indicates:', options:['UTI','Urolithiasis','Renal tumor','Nephrotic syndrome'], answer:2, rationale:'Painless hematuria + mass = renal tumor until proven otherwise.' },
-        { q:'Oliguria + elevated BUN/Cr + hyperkalemia MOST likely indicates:', options:['Chronic renal failure','Acute renal failure','Nephrotic syndrome','UTI'], answer:1, rationale:'Oliguria + ↑BUN/Cr + Hyperkalemia = ARF signature.' }
+        { q:'Painless hematuria with a palpable renal mass MOST likely indicates:', options:['UTI','Urolithiasis','Renal tumor','Nephrotic syndrome'], answer:2, rationale:'Painless hematuria + mass = renal tumor.' },
+        { q:'Oliguria + elevated BUN/Cr + hyperkalemia MOST likely indicates:', options:['Chronic renal failure','Acute renal failure','Nephrotic syndrome','UTI'], answer:1, rationale:'Oliguria + ↑BUN/Cr + Hyperkalemia = ARF.' }
       ]
     },
     unit8: {
@@ -1604,11 +1607,11 @@ function getUnitContent(key) {
           ['Graft Rejection Signs','Notify transplant team immediately']
         ]),
       quiz: [
-        { q:'How much fluid should a UTI patient be encouraged to drink daily?', options:['500 mL','1,000 mL','2,000 mL','3,000 mL'], answer:3, rationale:'Force fluids up to 3,000 mL/day to flush bacteria.' },
-        { q:'What is the PRIORITY nursing intervention for a patient with urolithiasis?', options:['Restrict fluids','Strain all urine','Administer diuretics','Encourage bed rest'], answer:1, rationale:'Strain all urine to monitor stone passage and composition.' },
+        { q:'How much fluid should a UTI patient be encouraged to drink daily?', options:['500 mL','1,000 mL','2,000 mL','3,000 mL'], answer:3, rationale:'Force fluids up to 3,000 mL/day.' },
+        { q:'What is the PRIORITY nursing intervention for a patient with urolithiasis?', options:['Restrict fluids','Strain all urine','Administer diuretics','Encourage bed rest'], answer:1, rationale:'Strain all urine to monitor stone passage.' },
         { q:'A post-nephrectomy patient should be monitored for:', options:['Hyperkalemia','Bleeding (observe bed linen)','Urinary retention','Constipation'], answer:1, rationale:'Hemorrhage is a key risk post-nephrectomy.' },
-        { q:'Immunosuppressive therapy after kidney transplant is required for:', options:['6 months','1 year','5 years','Lifelong'], answer:3, rationale:'Immunosuppression is LIFELONG to prevent rejection.' },
-        { q:'In ARF with oliguria, which is the PRIORITY intervention?', options:['Force fluids','Fluid restriction','Encourage ambulation','Administer potassium'], answer:1, rationale:'Fluid restriction prevents overload; potassium is contraindicated in hyperkalemia.' }
+        { q:'Immunosuppressive therapy after kidney transplant is required for:', options:['6 months','1 year','5 years','Lifelong'], answer:3, rationale:'Immunosuppression is LIFELONG.' },
+        { q:'In ARF with oliguria, which is the PRIORITY intervention?', options:['Force fluids','Fluid restriction','Encourage ambulation','Administer potassium'], answer:1, rationale:'Fluid restriction prevents overload.' }
       ]
     }
   };
@@ -1629,7 +1632,16 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js').catch(function(err){ console.warn('SW registration failed:', err); });
   });
 }
-init();
+
+/* Safe init — wrapped in try/catch */
+try {
+  init();
+} catch (err) {
+  console.error('Init failed:', err);
+  // Fallback: make sure auth screen is shown
+  document.getElementById('authScreen').classList.remove('hidden');
+  document.getElementById('appContainer').classList.add('hidden');
+}
 </script>
 </body>
 </html>
